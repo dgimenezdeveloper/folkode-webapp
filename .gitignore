@@ -1,0 +1,84 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# ==================== DEPENDENCIES ====================
+node_modules/
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# ==================== BUILD & OUTPUT ====================
+/.next/
+/out/
+/build/
+/dist/
+*.tsbuildinfo
+
+# ==================== TESTING ====================
+/coverage/
+.nyc_output/
+*.lcov
+
+# ==================== DATABASE ====================
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+prisma/*.db
+prisma/*.db-journal
+
+# ==================== PRISMA GENERATED ====================
+/prisma/generated/
+/src/generated/
+
+# ==================== ENVIRONMENT ====================
+.env
+.env.*
+!.env.example
+
+# ==================== IDE & EDITOR ====================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ==================== OS FILES ====================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ==================== LOGS ====================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ==================== SECURITY ====================
+*.pem
+*.key
+*.crt
+*.p12
+
+# ==================== VERCEL ====================
+.vercel
+
+# ==================== MISC ====================
+*.local
+.turbo/
+.cache/
+.temp/
+.tmp/
+
+# ==================== TYPESCRIPT ====================
+next-env.d.ts
