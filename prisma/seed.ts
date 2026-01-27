@@ -1,19 +1,9 @@
 import { PrismaClient, ProjectCategory, ProjectStatus, TransactionType, Role } from './generated/prisma/client.js'
-import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3'
+import { PrismaPg } from '@prisma/adapter-pg'
 import bcrypt from 'bcryptjs'
 import 'dotenv/config'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 
-// Resolve the database path (same as .env DATABASE_URL)
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const projectRoot = path.resolve(__dirname, '..')
-const dbPath = path.join(projectRoot, 'prisma', 'dev.db')
-
-const adapter = new PrismaBetterSqlite3({
-  url: dbPath,
-})
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })
 const prisma = new PrismaClient({ adapter })
 
 async function main() {
