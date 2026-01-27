@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'motion/react'
-import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa'
+import { FaGithub, FaLinkedin, FaTwitter, FaGlobe } from 'react-icons/fa'
 import { ChevronLeft, ChevronRight, GitBranch } from 'lucide-react'
 import { link } from 'fs'
 
@@ -307,7 +307,7 @@ export default function Team() {
                   
                   {/* Social links */}
                   {(member.github || member.linkedin || member.portfolio) && (
-                    <div className="flex justify-center gap-4 pt-4 border-t border-[var(--color-border)]">
+                    <div className="flex justify-center gap-4 pt-4 border-t border-[var(--color-border)] spacing">
                       {member.github && (
                         <a
                           href={member.github}
@@ -339,7 +339,7 @@ export default function Team() {
                           className="p-3.5 rounded-xl bg-[var(--color-surface)] hover:bg-[var(--color-border)] border-2 border-[var(--color-border)] hover:border-[var(--color-primary)] transition-all shadow-md hover:shadow-lg group"
                           aria-label="Portafolio"
                         >
-                          <GitBranch size={24} className="text-[var(--color-text-secondary)] group-hover:text-[var(--color-primary)] transition-colors" />
+                          <FaGlobe size={24} className="text-[var(--color-text-secondary)] group-hover:text-[var(--color-primary)] transition-colors" />
                         </a>
                       )}
                     </div>
