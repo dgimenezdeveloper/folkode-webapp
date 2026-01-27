@@ -247,7 +247,7 @@ export default function Projects() {
   }, [activeCategory])
 
   return (
-    <section id="proyectos" className="section bg-[var(--color-surface)] relative overflow-hidden">
+    <section id="proyectos" className="relative flex flex-col items-center justify-center px-4 py-8 md:px-8 lg:px-16">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 right-0 w-1/2 h-1/2 bg-[radial-gradient(circle_at_100%_50%,rgba(134,168,105,0.05),transparent_50%)]" />
@@ -281,16 +281,12 @@ export default function Projects() {
             <motion.button
               key={cat.value}
               onClick={() => setActiveCategory(cat.value)}
-              className={`
-                px-5 py-2.5 rounded-full text-sm font-semibold transition-all shadow-md
-                ${activeCategory === cat.value 
-                  ? 'bg-[var(--color-primary)] text-[var(--color-text-dark)] shadow-lg' 
-                  : 'bg-[var(--color-background)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] border-2 border-[var(--color-border)] hover:border-[var(--color-primary)]/50'
-                }
-              `}
+              className={`btn-gradient py-2 px-4 rounded-3xl transition-all ${
+                activeCategory === cat.value ? 'shadow-lg' : ''
+              }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              style={{width:'100px', height:'50px'}}
+              style={{width: '130px', height: '50px'}}
             >
               {cat.label}
             </motion.button>
@@ -300,7 +296,7 @@ export default function Projects() {
         {/* Projects grid */}
         <motion.div 
           layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project, index) => (
