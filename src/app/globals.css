@@ -139,8 +139,10 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 { font-size: clamp(2.5rem, 5vw, 6.25rem); } /* 100px max */
 h2 { font-size: clamp(2rem, 4vw, 4.375rem); } /* 70px max */
-h3 { font-size: clamp(1.5rem, 3vw, 3.125rem); margin: 1rem 0; } /* 50px max */
+h3 { font-size: clamp(1.5rem, 3vw, 3.125rem); margin: 2rem 2rem; } /* 50px max */
 h4 { font-size: clamp(1.25rem, 2.5vw, 2rem); } /* 32px max */
+
+span {margin: 0.15rem 2.15rem; padding-top: 3rem}
 
 p {
   color: var(--color-text-secondary);

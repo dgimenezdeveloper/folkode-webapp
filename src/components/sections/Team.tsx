@@ -41,7 +41,7 @@ const teamMembers = [
   },
   {
     id: '6',
-    name: 'Fede Paal',
+    name: 'Federico Paál',
     role: 'Full Stack Developer',
     bio: 'Apasionado por la innovación tecnológica.',
     image: '/fede.webp',
