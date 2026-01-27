@@ -82,18 +82,25 @@ export default function Testimonials() {
 
   const currentTestimonial = testimonials[currentIndex]
 
+  // Transición horizontal tipo slider
   const variants = {
     enter: (direction: number) => ({
-      x: direction > 0 ? 100 : -100,
+      x: direction > 0 ? 300 : -300,
       opacity: 0,
+      position: 'absolute',
+      zIndex: 0,
     }),
     center: {
       x: 0,
       opacity: 1,
+      position: 'relative',
+      zIndex: 1,
     },
     exit: (direction: number) => ({
-      x: direction < 0 ? 100 : -100,
+      x: direction > 0 ? -300 : 300,
       opacity: 0,
+      position: 'absolute',
+      zIndex: 0,
     }),
   }
 
