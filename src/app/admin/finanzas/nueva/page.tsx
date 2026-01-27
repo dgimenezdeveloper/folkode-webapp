@@ -106,8 +106,8 @@ export default function NewTransactionPage() {
         {/* Type Selection */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Tipo de transacción</h2>
-          <div className="grid grid-cols-2 gap-4">
-            <label className={`relative flex flex-col items-center p-4 border-2 rounded-xl cursor-pointer transition-colors ${
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <label className={`relative flex flex-col items-center p-4 border-2 rounded-xl cursor-pointer transition-colors truncate ${
               transactionType === 'INCOME' 
                 ? 'border-green-500 bg-green-50' 
                 : 'border-gray-200 hover:border-gray-300'
@@ -130,7 +130,7 @@ export default function NewTransactionPage() {
               <span className={`font-medium ${
                 transactionType === 'INCOME' ? 'text-green-700' : 'text-gray-700'
               }`}>Ingreso</span>
-              <span className="text-sm text-gray-500 mt-1">Dinero que entra</span>
+              <span className="text-sm text-gray-500 mt-1 truncate">Dinero que entra</span>
             </label>
 
             <label className={`relative flex flex-col items-center p-4 border-2 rounded-xl cursor-pointer transition-colors ${
@@ -156,7 +156,7 @@ export default function NewTransactionPage() {
               <span className={`font-medium ${
                 transactionType === 'EXPENSE' ? 'text-red-700' : 'text-gray-700'
               }`}>Gasto</span>
-              <span className="text-sm text-gray-500 mt-1">Dinero que sale</span>
+              <span className="text-sm text-gray-500 mt-1 truncate">Dinero que sale</span>
             </label>
           </div>
         </div>
