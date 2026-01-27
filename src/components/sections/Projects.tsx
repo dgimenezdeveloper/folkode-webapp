@@ -247,7 +247,7 @@ export default function Projects() {
   }, [activeCategory])
 
   return (
-    <section id="proyectos" className="relative flex flex-col items-center justify-center px-4 py-8 md:px-8 lg:px-16">
+    <section id="proyectos" className="spacing relative flex flex-col items-center justify-center px-4 py-8 md:px-8 lg:px-16">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 right-0 w-1/2 h-1/2 bg-[radial-gradient(circle_at_100%_50%,rgba(134,168,105,0.05),transparent_50%)]" />
@@ -392,7 +392,7 @@ function ProjectCard({
         
         {/* Category badge */}
         <div className="absolute top-4 left-4 z-10">
-          <span className="px-4 py-1.5 text-xs font-semibold rounded-full glass border border-white/20 backdrop-blur-md">
+          <span className={`btn-gradient px-4 py-1.5 text-xs font-semibold rounded-full shadow-lg`}> 
             {categories.find(c => c.value === project.category)?.label}
           </span>
         </div>
@@ -411,26 +411,26 @@ function ProjectCard({
       </div>
 
       {/* Content */}
-      <div className="p-6 flex flex-col gap-3 flex-1">
+      <div className="spacing p-6 flex flex-col gap-3 flex-1">
         <h3 className="font-bold text-xl md:text-2xl text-[var(--color-text-primary)] group-hover:text-[var(--color-primary)] transition-colors">
           {project.title}
         </h3>
-        <p className="text-base text-[var(--color-text-secondary)] leading-relaxed line-clamp-2 flex-1">
+        <p className="text-base text-[var(--color-text-secondary)] leading-relaxed flex-1">
           {project.shortDesc}
         </p>
         
         {/* Technologies */}
-        <div className="flex flex-wrap gap-2 mt-2 pt-3 border-t border-[var(--color-border)]">
+        <div className="flex-wrap gap-2 mt-2 pt-3 border-t border-[var(--color-border)] spacing flex">
           {project.technologies.slice(0, 3).map((tech) => (
             <span 
               key={tech}
-              className="px-3 py-1.5 text-xs font-medium rounded-lg bg-[var(--color-surface)] text-[var(--color-text-secondary)] border border-[var(--color-border)] shadow-sm"
+              className="btn-gradient px-3 py-1.5 text-xs font-medium rounded-lg shadow-lg"
             >
               {tech}
             </span>
           ))}
           {project.technologies.length > 3 && (
-            <span className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-[var(--color-primary)]/10 text-[var(--color-primary)] border border-[var(--color-primary)]/20 shadow-sm">
+            <span className="btn-gradient px-3 py-1.5 text-xs font-semibold rounded-lg shadow-lg">
               +{project.technologies.length - 3} más
             </span>
           )}
