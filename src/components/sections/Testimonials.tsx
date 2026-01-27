@@ -131,14 +131,14 @@ export default function Testimonials() {
 
         {/* Testimonial carousel */}
         <div className="relative max-w-4xl mx-auto flex flex-col items-center justify-center w-full">
-          {/* Quote icon */}
-          <div className="absolute -top-8 left-1/2 -translate-x-1/2 z-10">
-            <div className="flex items-center justify-center gap-3">
-              <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-accent)] flex items-center justify-center shadow-xl shadow-[var(--color-primary)]/30">
+          {/* Quote icon decorativo, mejor alineado y separado */}
+          <div className="absolute -top-16 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
+            <div className="flex items-center justify-center gap-4">
+              <Star className="w-6 h-6 text-yellow-400 fill-yellow-400 drop-shadow-lg" />
+              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-accent)] flex items-center justify-center shadow-xl shadow-[var(--color-primary)]/30 border-4 border-[var(--color-background)]">
                 <Quote className="w-8 h-8 text-white" />
               </div>
-              <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+              <Star className="w-6 h-6 text-yellow-400 fill-yellow-400 drop-shadow-lg" />
             </div>
           </div>
 
