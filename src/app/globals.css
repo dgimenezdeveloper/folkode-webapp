@@ -1,28 +1,33 @@
 @import "tailwindcss";
+/* @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap'); */
 
 /* ==================== FOLKODE COLOR PALETTE ==================== */
 :root {
-  /* Primary Colors */
-  --color-primary: #025159;
-  --color-primary-hover: #5e8d6b;
-  --color-secondary: #01454F;
-  --color-secondary-hover: #86A869;
+  /* Primary Colors - Nueva paleta de folkode-glow-up */
+  --moss-green: #a3b18a;
+  --petrol-blue: #003d5b;
+  --deep-black: #000000;
+  
+  --color-primary: #a3b18a;
+  --color-primary-hover: #588157;
+  --color-secondary: #003d5b;
+  --color-secondary-hover: #598392;
   --color-tertiary: #496332;
   --color-tertiary-hover: #56743C;
-  --color-accent: #3383b7;
-  --color-accent-hover: #2563eb;
+  --color-accent: #a3b18a;
+  --color-accent-hover: #588157;
 
   /* Backgrounds (Dark Mode) */
-  --color-background: #01454F;
+  --color-background: #000000;
   --color-surface: #161b22;
   --color-surface-secondary: #21262d;
 
   /* Text Colors */
-  --color-text-primary: #e6edf3;
+  --color-text-primary: #ffffff;
   --color-text-secondary: #8b949e;
   --color-text-tertiary: #6e7681;
   --color-text-inverse: #ffffff;
-  --color-text-dark: #0d1117;
+  --color-text-dark: #000000;
 
   /* Borders */
   --color-border: #21262d;
@@ -35,7 +40,7 @@
   --color-info: #58a6ff;
 
   /* Fonts */
-  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-geist-mono), monospace;
 
   /* Shadows */
@@ -43,7 +48,7 @@
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --shadow-glow: 0 0 20px rgba(134, 168, 105, 0.3);
+  --shadow-glow: 0 0 20px rgba(163, 177, 138, 0.3);
 }
 
 
@@ -54,73 +59,108 @@
   margin: 0;
 }
 
-/* ==================== UTILITY CLASSES ==================== */
-.center-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.hero-padding {
-  padding: 2rem 1rem;
-}
-
-.hero-margin {
-  margin: 2rem 0;
-}
-
-.spacing {
-  margin: 1.5rem !important;
-}
-
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background: var(--color-background);
-  color: var(--color-text-primary);
-  font-family: var(--font-sans);
-  line-height: 1.6;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--deep-black);
+  color: #ffffff;
+  overflow-x: hidden;
+  margin: 0;
+  min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-span {
-  color: var(--color-accent);
-  font-weight: 600;
-  padding: 0.75rem;
-  margin: 0 0.25rem;
+/* ==================== REVEAL ANIMATION ==================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==================== MESH GRADIENT ==================== */
+.mesh-gradient {
+  background-image: 
+    radial-gradient(at 0% 0%, var(--petrol-blue) 0, transparent 40%), 
+    radial-gradient(at 100% 0%, #1a1a1a 0, transparent 50%),
+    radial-gradient(at 50% 100%, #344e41 0, transparent 50%);
+  background-attachment: fixed;
+}
+
+/* ==================== GLASSMORPHISM ==================== */
+.glass {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ==================== SCROLLBAR ==================== */
+::-webkit-scrollbar { 
+  width: 6px; 
+}
+
+::-webkit-scrollbar-track { 
+  background: var(--deep-black); 
+}
+
+::-webkit-scrollbar-thumb { 
+  background: var(--moss-green); 
+  border-radius: 10px; 
+}
+
+/* ==================== SELECTION ==================== */
+::selection {
+  background: var(--moss-green);
+  color: var(--deep-black);
 }
 
 /* ==================== TYPOGRAPHY ==================== */
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
-  line-height: 1.2;
+  font-weight: 800;
+  line-height: 1.1;
   color: var(--color-text-primary);
+  letter-spacing: -0.02em;
 }
 
-h1 { font-size: clamp(2.5rem, 5vw, 4rem); }
-h2 { font-size: clamp(2rem, 4vw, 3rem); }
-h3 { font-size: clamp(1.5rem, 3vw, 2rem); margin: 1rem 1rem; }
-h4 { font-size: clamp(1.25rem, 2.5vw, 1.5rem); }
+h1 { font-size: clamp(2.5rem, 5vw, 6.25rem); } /* 100px max */
+h2 { font-size: clamp(2rem, 4vw, 4.375rem); } /* 70px max */
+h3 { font-size: clamp(1.5rem, 3vw, 3.125rem); margin: 1rem 0; } /* 50px max */
+h4 { font-size: clamp(1.25rem, 2.5vw, 2rem); } /* 32px max */
 
 p {
   color: var(--color-text-secondary);
-  padding: 10px 0;
-  margin: 10px 8px;
+  line-height: 1.7;
+  font-weight: 400;
 }
 
 a {
-  color: var(--color-accent);
+  color: var(--moss-green);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 a:hover {
-  color: var(--color-accent-hover);
+  color: var(--color-primary-hover);
+}
+
+/* ==================== TEXT GLOW ==================== */
+.text-glow-green {
+  text-shadow: 0 0 40px rgba(163, 177, 138, 0.5);
 }
 
 /* ==================== GRADIENTS ==================== */
@@ -164,19 +204,30 @@ a:hover {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  font-weight: 600;
-  font-size: 0.875rem;
-  border-radius: 9999px;
+  padding: 1.25rem 2.5rem;
+  font-weight: 700;
+  font-size: 1.125rem;
+  border-radius: 1rem;
   transition: all 0.3s ease;
   cursor: pointer;
   border: none;
   outline: none;
 }
 
+.btn-brand {
+  background: linear-gradient(135deg, var(--moss-green), #588157);
+  box-shadow: 0 10px 30px -10px rgba(163, 177, 138, 0.5);
+  color: white;
+}
+
+.btn-brand:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px -10px rgba(163, 177, 138, 0.7);
+}
+
 .btn-primary {
-  background: var(--color-primary);
-  color: var(--color-text-dark);
+  background: var(--moss-green);
+  color: white;
 }
 
 .btn-primary:hover {
@@ -188,24 +239,22 @@ a:hover {
 .btn-secondary {
   background: transparent;
   color: var(--color-text-primary);
-  border: 1px solid var(--color-border-subtle);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .btn-secondary:hover {
-  background: var(--color-surface);
-  border-color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--moss-green);
 }
 
 .btn-gradient {
-  background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-primary) 100%);
+  background: linear-gradient(90deg, var(--moss-green) 0%, var(--petrol-blue) 100%);
   color: var(--color-text-inverse);
 }
 
 .btn-gradient:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(51, 131, 183, 0.3);
-  background: linear-gradient(90deg, var(--color-accent-hover) 0%, var(--color-primary-hover) 100%);
-  color: var(--color-text-inverse);
+  box-shadow: 0 10px 30px rgba(163, 177, 138, 0.3);
 }
 
 /* ==================== CARDS ==================== */
@@ -216,6 +265,11 @@ a:hover {
   padding: 2rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   margin: 2rem;
+}
+
+.spacing {
+  margin: 3rem !important;
+  padding: 1rem !important;
 }
 
 .card:hover {
@@ -307,6 +361,15 @@ a:hover {
 }
 
 /* ==================== ANIMATIONS ==================== */
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-scroll {
+  animation: scroll 50s linear infinite;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -345,8 +408,8 @@ a:hover {
 }
 
 @keyframes glow {
-  0%, 100% { box-shadow: 0 0 5px var(--color-primary); }
-  50% { box-shadow: 0 0 20px var(--color-primary), 0 0 30px var(--color-primary); }
+  0%, 100% { box-shadow: 0 0 5px var(--moss-green); }
+  50% { box-shadow: 0 0 20px var(--moss-green), 0 0 30px var(--moss-green); }
 }
 
 /* Infinite Marquee Animation */

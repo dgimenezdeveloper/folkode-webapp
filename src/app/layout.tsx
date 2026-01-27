@@ -100,7 +100,7 @@ export default function RootLayout({
   return (
     <html lang="es" className="dark">
       <body
-        className={`${inter.variable} ${montserrat.variable} font-sans antialiased`}
+        className={`${inter.variable} ${montserrat.variable} font-sans antialiased min-h-screen mesh-gradient selection:bg-[#a3b18a] selection:text-black`}
       >
         {children}
       </body>
