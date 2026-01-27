@@ -142,7 +142,7 @@ h2 { font-size: clamp(2rem, 4vw, 4.375rem); } /* 70px max */
 h3 { font-size: clamp(1.5rem, 3vw, 3.125rem); margin: 2rem 2rem; } /* 50px max */
 h4 { font-size: clamp(1.25rem, 2.5vw, 2rem); } /* 32px max */
 
-span {margin: 0.15rem 2.15rem; padding-top: 3rem}
+span {width: 130px; height: 40px;}
 
 p {
   color: var(--color-text-secondary);
@@ -216,6 +216,7 @@ a:hover {
   outline: none;
 }
 
+
 .btn-brand {
   background: linear-gradient(135deg, var(--moss-green), #588157);
   box-shadow: 0 10px 30px -10px rgba(163, 177, 138, 0.5);
@@ -267,6 +268,12 @@ a:hover {
   padding: 2rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   margin: 2rem;
+}
+
+.spancard {
+  margin: 3rem !important;
+  padding: 1rem !important;
+  width: 100px;
 }
 
 .spacing {

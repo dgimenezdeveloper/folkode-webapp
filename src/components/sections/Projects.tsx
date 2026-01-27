@@ -422,25 +422,25 @@ function ProjectCard({
 
       {/* Content */}
       <div className="spacing p-6 flex flex-col gap-3 flex-1">
-        <h3 className="font-bold text-xl md:text-2xl text-[var(--color-text-primary)] group-hover:text-[var(--color-primary)] transition-colors">
+        <h4 className="font-bold text-xl md:text-2xl text-[var(--color-text-primary)] group-hover:text-[var(--color-primary)] transition-colors">
           {project.title}
-        </h3>
+        </h4>
         <p className="text-base text-[var(--color-text-secondary)] leading-relaxed flex-1">
           {project.shortDesc}
         </p>
         
         {/* Technologies */}
-        <div className="flex-wrap gap-2 mt-2 pt-3 border-t border-[var(--color-border)] spacing flex">
+        <div className="flex flex-nowrap justify-center items-center gap-2 mt-2 pt-3 border-t border-[var(--color-border)] spacing">
           {project.technologies.slice(0, 3).map((tech) => (
-            <span 
+            <span
               key={tech}
-              className="btn-gradient px-3 py-1.5 text-xs font-medium rounded-lg shadow-lg"
+              className="btn-gradient min-w-[90px] px-3 py-1.5 text-xs font-medium rounded-lg shadow-lg flex items-center justify-center text-center"
             >
               {tech}
             </span>
           ))}
           {project.technologies.length > 3 && (
-            <span className="btn-gradient px-3 py-1.5 text-xs font-semibold rounded-lg shadow-lg">
+            <span className="btn-gradient min-w-[90px] px-3 py-1.5 text-xs font-semibold rounded-lg shadow-lg flex items-center justify-center text-center">
               +{project.technologies.length - 3} más
             </span>
           )}
@@ -568,7 +568,7 @@ function ProjectModal({
               {project.technologies.map((tech) => (
                 <span
                   key={tech}
-                  className="btn btn-gradient px-6 py-3 text-sm font-semibold shadow-lg transition-all"
+                  className="btn btn-gradient px-6 py-3 text-sm font-semibold shadow-lg transition-all text-center"
                 >
                   {tech}
                 </span>

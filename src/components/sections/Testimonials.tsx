@@ -98,9 +98,7 @@ export default function Testimonials() {
   }
 
   return (
-    <section id="testimonios" className="section relative overflow-hidden flex flex-col items-center justify-center min-h-screen">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-background)] via-[var(--color-surface)] to-[var(--color-background)]" />
+    <section id="testimonios" className="section bg-[var(--color-surface)] relative overflow-hidden flex flex-col items-center justify-center min-h-screen">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-[radial-gradient(circle_at_100%_0%,rgba(51,131,183,0.04),transparent_50%)]" />
