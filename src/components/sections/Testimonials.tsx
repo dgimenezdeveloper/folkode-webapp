@@ -202,7 +202,7 @@ export default function Testimonials() {
           </div>
 
           {/* Navigation - Outside the card */}
-          <div className="flex justify-center items-center gap-8 mt-12">
+          <div className="flex justify-center items-center gap-8 testimonial-nav-spacing">
             <motion.button
               onClick={prevTestimonial}
               className="p-3 rounded-full bg-[var(--color-background)] hover:bg-[var(--color-surface-secondary)] border-2 border-[var(--color-border)] hover:border-[var(--color-primary)]/50 transition-all duration-300"
