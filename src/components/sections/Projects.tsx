@@ -402,7 +402,7 @@ function ProjectCard({
         
         {/* Category badge */}
         <div className="absolute top-4 left-4 z-10">
-          <span className={`btn-gradient px-4 py-1.5 text-xs font-semibold rounded-full shadow-lg`}> 
+          <span className={` btn-gradient px-4 py-1.5 text-xs font-semibold rounded-full shadow-lg`}> 
             {categories.find(c => c.value === project.category)?.label}
           </span>
         </div>
@@ -486,7 +486,7 @@ function ProjectModal({
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 z-20 p-3 rounded-full bg-[var(--color-surface)] hover:bg-[var(--color-border)] transition-all shadow-lg hover:scale-110"
+          className=" absolute top-5 right-5 z-20 p-3 rounded-full bg-[var(--color-surface)] hover:bg-[var(--color-border)] transition-all shadow-lg hover:scale-110"
           aria-label="Cerrar modal"
         >
           <X size={22} className="text-[var(--color-text-primary)]" />
@@ -517,16 +517,16 @@ function ProjectModal({
         </div>
 
         {/* Content */}
-        <div className="p-8">
-          <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
+        <div className="p-8 ">
+          <div className="flex flex-wrap items-start justify-between gap-4 mb-6 modal-avatar">
             <div className="flex-1">
-              <span className="px-4 py-1.5 text-xs font-semibold rounded-full bg-[var(--color-primary)]/15 text-[var(--color-primary)] border border-[var(--color-primary)]/30 mb-4 inline-block">
+              <span className=" px-4 py-1.5 text-xs font-semibold rounded-full bg-[var(--color-accent)]/15 text-[var(--color-primary)] border border-[var(--color-primary)]/30 mb-4 inline-block btn btn-gradient px-6 py-3 text-sm font-semibold shadow-lg transition-all">
                 {categories.find(c => c.value === project.category)?.label}
               </span>
-              <h2 className="text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] mb-3">
+              <h2 className="spacing text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] mb-3">
                 {project.title}
               </h2>
-              <p className="text-lg text-[var(--color-text-secondary)] leading-relaxed">
+              <p className="spacing text-lg text-[var(--color-text-secondary)] leading-relaxed">
                 {project.shortDesc}
               </p>
             </div>
@@ -538,7 +538,7 @@ function ProjectModal({
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn btn-gradient text-sm px-6 py-3 font-semibold shadow-lg"
+                  className="spacing btn btn-gradient text-sm px-6 py-3 font-semibold shadow-lg"
                 >
                   <ExternalLink size={18} />
                   Ver sitio en vivo
@@ -559,16 +559,16 @@ function ProjectModal({
           </div>
 
           {/* Technologies */}
-          <div className="mt-8 pt-6 border-t border-[var(--color-border)]">
-            <h4 className="text-base font-bold text-[var(--color-text-primary)] mb-4 flex items-center gap-2">
+          <div className="spacing mt-8 pt-6 border-t border-[var(--color-border)]">
+            <h4 className="modal-avatar text-base font-bold text-[var(--color-text-primary)] mb-4 flex items-center gap-2">
               <Code size={20} className="text-[var(--color-primary)]" />
               Tecnologías utilizadas
             </h4>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3 modal-avatar">
               {project.technologies.map((tech) => (
-                <span 
+                <span
                   key={tech}
-                  className="px-4 py-2 text-sm font-medium rounded-xl bg-[var(--color-surface)] text-[var(--color-text-secondary)] border-2 border-[var(--color-border)] hover:border-[var(--color-primary)]/50 transition-colors shadow-sm"
+                  className="btn btn-gradient px-6 py-3 text-sm font-semibold shadow-lg transition-all"
                 >
                   {tech}
                 </span>
