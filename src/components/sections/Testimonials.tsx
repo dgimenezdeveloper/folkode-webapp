@@ -98,14 +98,14 @@ export default function Testimonials() {
   }
 
   return (
-    <section id="testimonios" className="section bg-[var(--color-surface)] relative overflow-hidden">
+    <section id="testimonios" className="section bg-[var(--color-surface)] relative overflow-hidden flex flex-col items-center justify-center min-h-screen">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-[radial-gradient(circle_at_100%_0%,rgba(51,131,183,0.04),transparent_50%)]" />
         <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-[radial-gradient(circle_at_0%_100%,rgba(134,168,105,0.04),transparent_50%)]" />
       </div>
 
-      <div className="container mx-auto relative z-10">
+      <div className="container mx-auto relative z-10 flex flex-col items-center justify-center">
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -123,7 +123,7 @@ export default function Testimonials() {
         </motion.div>
 
         {/* Testimonial carousel */}
-        <div className="relative max-w-4xl mx-auto">
+        <div className="relative max-w-4xl mx-auto flex flex-col items-center justify-center w-full">
           {/* Quote icon */}
           <div className="absolute -top-8 left-1/2 -translate-x-1/2 z-10">
             <div className="flex items-center justify-center gap-3">
@@ -136,7 +136,7 @@ export default function Testimonials() {
           </div>
 
           {/* Testimonial card - Fixed height container */}
-          <div className="rounded-3xl p-10 md:p-16 pt-16 min-h-[420px] md:min-h-[380px] flex flex-col bg-[var(--color-background)] border-2 border-[var(--color-border)] shadow-2xl shadow-black/10">
+          <div className="rounded-3xl p-10 md:p-16 pt-16 min-h-[420px] md:min-h-[380px] flex flex-col bg-[var(--color-background)] border-2 border-[var(--color-border)] shadow-2xl shadow-black/10 items-center justify-center w-full">
             <AnimatePresence mode="sync" custom={direction} initial={false}>
               <motion.div
                 key={currentIndex}
