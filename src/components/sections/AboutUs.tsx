@@ -216,7 +216,7 @@ export default function AboutUs() {
 								whileInView={{ opacity: 1, scale: 1 }}
 								viewport={{ once: true }}
 								transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-								className="flex flex-col items-center text-center gap-4 p-6 rounded-2xl bg-[var(--color-primary)] border-2 border-[var(--color-border)] shadow-md hover:border-[var(--color-primary)]/50 hover:shadow-xl transition-all duration-300 group"
+								className="flex flex-col items-center text-center gap-4 p-6 rounded-2xl bg-[var(--color-surface)] border-2 border-[var(--color-border)] shadow-md hover:border-[var(--color-primary)]/50 hover:shadow-xl transition-all duration-300 group"
 							>
 								<div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-[var(--color-primary)]/15 flex items-center justify-center group-hover:scale-110 transition-transform">
 									<feature.icon className="w-8 h-8 text-[var(--color-primary-hover)]" />

@@ -133,7 +133,7 @@ export default function Footer() {
                     onClick={(e) => handleNavClick(e, link.href)}
                     className="text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors flex items-center gap-3 group text-base"
                   >
-                    <span className="w-2 h-2 rounded-full bg-[var(--color-primary)] group-hover:scale-150 transition-transform" />
+                    <p className="w-2 h-2 rounded-full bg-[var(--color-primary)] group-hover:scale-150 transition-transform" />
                     {link.label}
                   </a>
                 </li>
@@ -155,7 +155,7 @@ export default function Footer() {
               {services.map((service) => (
                 <li key={service}>
                   <span className="text-[var(--color-text-secondary)] flex items-center gap-3 text-base">
-                    <span className="w-2 h-2 rounded-full bg-[var(--color-accent)]" />
+                    <p className="w-2 h-2 rounded-full bg-[var(--color-accent)]" />
                     {service}
                   </span>
                 </li>
@@ -236,7 +236,7 @@ export default function Footer() {
           <p className="text-[var(--color-text-secondary)] text-sm">
             © {currentYear} Folkode. Todos los derechos reservados.
           </p>
-          <div className="flex gap-6 text-sm">
+          <div className="flex gap-6 text-sm spacing">
             <Link href="#" className="text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors">
               Políticas de privacidad
             </Link>
@@ -245,7 +245,7 @@ export default function Footer() {
             </Link>
           </div>
           <p className="text-[var(--color-text-secondary)] text-sm flex items-center gap-2">
-            Diseñado con <span className="text-red-500">❤️</span> por <span className="text-[var(--color-primary)] font-bold">Folkode</span>
+             <span className="text-red-500">Diseñado con ❤️ por Folkode</span>
           </p>
         </motion.div>
       </div>

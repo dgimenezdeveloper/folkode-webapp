@@ -1,5 +1,7 @@
 'use client'
 
+
+import { motion } from "motion/react"
 import { ChevronRight, Sparkles, User, Building2, Factory } from 'lucide-react'
 
 export default function Hero() {
@@ -10,7 +12,12 @@ export default function Hero() {
       <div className="absolute bottom-[20%] right-[-5%] w-[500px] h-[500px] bg-[#003d5b]/20 rounded-full blur-[150px] -z-10" />
       
       <div className="max-w-7xl mx-auto px-6 relative w-full">
-        <div className="flex flex-col items-center text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
+          className="flex flex-col items-center text-center"
+        >
           <div className="spacing inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass border-[#a3b18a]/20 text-[10px] font-extrabold tracking-[0.3em] text-[#a3b18a] mb-8 uppercase">
             <Sparkles className="w-3 h-3" />
             Software Factory • Hecho en Argentina
@@ -84,7 +91,7 @@ export default function Hero() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )
