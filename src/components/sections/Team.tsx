@@ -52,7 +52,7 @@ const teamMembers = [
   },
   {
     id: '5',
-    name: 'Agustin Ovejero',
+    name: 'Agus Ovejero',
     role: 'Frontend Developer',
     bio: 'Creador de interfaces intuitivas y accesibles.',
     image: '/Ovejero.webp',
@@ -91,6 +91,13 @@ const teamMembers = [
     role: 'Backend Developer',
     bio: 'Experto en seguridad y autenticación.',
     image: '/Facu.webp',
+  },
+  {
+    id: '12',
+    name: 'Facu Dallera',
+    role: 'Frontend Developer',
+    bio: 'Creador de soluciones visuales',
+    image: '/dashi.webp',
   },
 ]
 
