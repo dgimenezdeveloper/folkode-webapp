@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'motion/react'
 import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, GitBranch } from 'lucide-react'
 import { link } from 'fs'
 
 // Helper to generate avatar placeholder
@@ -26,6 +26,8 @@ const teamMembers = [
     role: 'Backend Developer',
     bio: 'Especialista en arquitectura de software y bases de datos.',
     image: '/celi.webp',
+    github: 'https://github.com/CelinaJP',
+    linkedin: 'https://www.linkedin.com/in/celina-pereyra-2b4b6219b/',
   },
   {
     id: '3',
@@ -35,6 +37,7 @@ const teamMembers = [
     image: '/Daro.webp',
     github: 'https://github.com/dgimenezdeveloper',
     linkedin: 'https://www.linkedin.com/in/daseg/',
+    portfolio: 'https://portafolio-daseg.vercel.app/',
   },
   {
     id: '6',
@@ -42,6 +45,9 @@ const teamMembers = [
     role: 'Full Stack Developer',
     bio: 'Apasionado por la innovación tecnológica.',
     image: '/fede.webp',
+    github: 'https://github.com/FedericoPaal',
+    linkedin: 'https://linkedin.com/in/federico-paal',
+  
   },
   {
     id: '4',
@@ -49,6 +55,7 @@ const teamMembers = [
     role: 'Full Stack Developer',
     bio: 'Enfocado en crear soluciones escalables y mantenibles.',
     image: '/gabrielsosa.webp',
+    github: 'https://github.com/OGabrielSosa',
   },
   {
     id: '5',
@@ -56,6 +63,8 @@ const teamMembers = [
     role: 'Frontend Developer',
     bio: 'Creador de interfaces intuitivas y accesibles.',
     image: '/Ovejero.webp',
+    github: 'https://github.com/agustin-ovejero',
+    linkedin: 'https://www.linkedin.com/in/agustin-ovejero-2a0439344/',
   },
   {
     id: '7',
@@ -63,6 +72,8 @@ const teamMembers = [
     role: 'Backend Developer',
     bio: 'Especialista en optimización y rendimiento.',
     image: '/mauri.webp',
+    github: 'https://github.com/MauricioBarreras',
+    linkedin: 'https://www.linkedin.com/in/mauricio-barreras-235b8128a/',
   },
   {
     id: '8',
@@ -70,6 +81,7 @@ const teamMembers = [
     role: 'UX/UI Designer',
     bio: 'Diseñador centrado en la experiencia del usuario.',
     image: '/sasha.webp',
+    github: 'https://github.com/SashaPorchia',
   },
   {
     id: '9',
@@ -77,6 +89,8 @@ const teamMembers = [
     role: 'Full Stack Developer',
     bio: 'Desarrollador con visión integral de proyectos.',
     image: '/nahue.webp',
+    github: 'https://github.com/Nahuel-Dalesio',
+    linkedin: 'https://ar.linkedin.com/in/nahuel-dalesio-183498213',
   },
   {
     id: '10',
@@ -84,6 +98,8 @@ const teamMembers = [
     role: 'Frontend Developer',
     bio: 'Especialista en animaciones y microinteracciones.',
     image: '/Mai.webp',
+    github: 'https://github.com/maiavalos',
+    linkedin: 'https://www.linkedin.com/in/maia-avalos-a37098345/',
   },
   {
     id: '11',
@@ -91,6 +107,7 @@ const teamMembers = [
     role: 'Backend Developer',
     bio: 'Experto en seguridad y autenticación.',
     image: '/Facu.webp',
+    github: 'https://github.com/',
   },
   {
     id: '12',
@@ -98,6 +115,7 @@ const teamMembers = [
     role: 'Frontend Developer',
     bio: 'Creador de soluciones visuales',
     image: '/dashi.webp',
+    github: 'https://github.com/facudalle-dev',
   },
 ]
 
@@ -269,7 +287,7 @@ export default function Team() {
                 
                 <div className="text-center">
                   {/* Avatar */}
-                  <div className="relative w-40 h-40 mx-auto mb-6 rounded-full overflow-hidden border-4 border-[var(--color-primary)] shadow-xl">
+                  <div className="modal-avatar relative w-40 h-40 mx-auto mb-6 rounded-full overflow-hidden border-4 border-[var(--color-primary)] shadow-xl">
                     <TeamMemberImage
                       src={member.image}
                       name={member.name}
@@ -288,7 +306,7 @@ export default function Team() {
                   </p>
                   
                   {/* Social links */}
-                  {(member.github || member.linkedin) && (
+                  {(member.github || member.linkedin || member.portfolio) && (
                     <div className="flex justify-center gap-4 pt-4 border-t border-[var(--color-border)]">
                       {member.github && (
                         <a
@@ -297,6 +315,7 @@ export default function Team() {
                           rel="noopener noreferrer"
                           className="p-3.5 rounded-xl bg-[var(--color-surface)] hover:bg-[var(--color-border)] border-2 border-[var(--color-border)] hover:border-[var(--color-primary)] transition-all shadow-md hover:shadow-lg group"
                           aria-label="GitHub"
+                          
                         >
                           <FaGithub size={24} className="text-[var(--color-text-secondary)] group-hover:text-[var(--color-primary)] transition-colors" />
                         </a>
@@ -310,6 +329,17 @@ export default function Team() {
                           aria-label="LinkedIn"
                         >
                           <FaLinkedin size={24} className="text-[var(--color-text-secondary)] group-hover:text-[var(--color-primary)] transition-colors" />
+                        </a>
+                      )}
+                      {member.portfolio && (
+                        <a
+                          href={member.portfolio}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-3.5 rounded-xl bg-[var(--color-surface)] hover:bg-[var(--color-border)] border-2 border-[var(--color-border)] hover:border-[var(--color-primary)] transition-all shadow-md hover:shadow-lg group"
+                          aria-label="Portafolio"
+                        >
+                          <GitBranch size={24} className="text-[var(--color-text-secondary)] group-hover:text-[var(--color-primary)] transition-colors" />
                         </a>
                       )}
                     </div>

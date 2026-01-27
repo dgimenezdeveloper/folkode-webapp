@@ -497,3 +497,12 @@ a:hover {
 .swiper-button-prev::after {
   font-size: 1.5rem !important;
 }
+
+/* Centrar imagen del avatar en el modal */
+.modal-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto;
+  
+}
