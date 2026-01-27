@@ -85,7 +85,9 @@ export default function Contact() {
   }
 
   return (
-    <section id="contacto" className="section bg-[var(--color-surface)] relative overflow-hidden">
+    <section id="contacto" className="section relative overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-background)] via-[var(--color-surface)] to-[var(--color-background)]" />
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-[radial-gradient(circle_at_100%_0%,rgba(134,168,105,0.08),transparent_50%)]" />

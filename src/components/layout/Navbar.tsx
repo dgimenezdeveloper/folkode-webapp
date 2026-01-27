@@ -82,7 +82,7 @@ export default function Navbar() {
           >
             {!logoError ? (
               <div className="flex items-center gap-3">
-                <div className="relative w-[56px] h-[56px] md:w-[64px] md:h-[64px]">
+                <div className="relative w-[100px] h-[56px] md:w-[64px] md:h-[64px]">
                   <Image
                     src="/folkode-oscuro-no-bg.webp"
                     alt="Folkode Logo"

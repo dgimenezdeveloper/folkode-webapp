@@ -143,7 +143,9 @@ export default function Team() {
     : null
 
   return (
-    <section className="section bg-[var(--color-surface)] relative overflow-hidden">
+    <section className="section relative overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-background)] via-[var(--color-surface)] to-[var(--color-background)]" />
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/4 w-1/2 h-1/2 bg-[radial-gradient(circle_at_50%_0%,rgba(134,168,105,0.06),transparent_50%)]" />
