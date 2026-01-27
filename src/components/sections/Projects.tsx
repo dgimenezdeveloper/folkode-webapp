@@ -30,6 +30,7 @@ const projects = [
     shortDesc: 'Página institucional para museo de geología',
     category: 'CORPORATIVO',
     technologies: ['Next.js', 'Tailwind CSS', 'Framer Motion'],
+    liveUrl: 'https://geo-museo.vercel.app/',
     images: [
       '/images/proyectos/geomuseo/geomuseo-01.png',
       '/images/proyectos/geomuseo/geomuseo-02.png',
@@ -44,6 +45,7 @@ const projects = [
     shortDesc: 'Landing page para recetas y productos sin gluten',
     category: 'LANDING_PAGE',
     technologies: ['React', 'CSS Modules', 'Node.js'],
+    liveUrl: 'https://micocinasintacc.vercel.app/',
     images: [
       '/images/proyectos/mi-cocina-sin-tacc/cocina-01.png',
       '/images/proyectos/mi-cocina-sin-tacc/cocina-02.png',
@@ -53,9 +55,9 @@ const projects = [
   },
   {
     id: 'congreso',
-    title: 'Congreso',
+    title: 'Congreso de Logística y Transporte',
     shortDesc: 'Página oficial del Congreso De Logística y Transporte de la UNAB',
-    category: 'WEB',
+    category: 'SISTEMA_GESTION',
     technologies: ['Next.js', 'TypeScript', 'Tailwind CSS'],
     liveUrl: 'https://www.congresologistica.unab.edu.ar/',
     images: [
@@ -78,10 +80,10 @@ const projects = [
   {
     id: 'radiogo',
     title: 'RadioGo',
+    liveUrl: 'https://radiogo.com.ar/',
     shortDesc: 'Página de Streaming de radio y entretenimiento',
     category: 'MULTIMEDIA',
     technologies: ['React', 'Node.js', 'Socket.io'],
-    liveUrl: 'https://radiogo.com.ar/',
     images: [
       '/images/proyectos/radio-go/radio-go-01.webp',
       '/images/proyectos/radio-go/radio-go-02.webp',
@@ -93,6 +95,7 @@ const projects = [
   {
     id: 'andet',
     title: 'Andet',
+    liveUrl: 'https://demo-andet-ecommerce.onrender.com/',
     shortDesc: 'E-commerce de productos industriales de servicios eléctricos',
     category: 'ECOMMERCE',
     technologies: ['React', 'Django', 'PostgreSQL'],
@@ -107,6 +110,7 @@ const projects = [
   {
     id: 'autopartes',
     title: 'Autopartes Deloreans',
+    liveUrl: 'https://web-autopartes.vercel.app/',
     shortDesc: 'E-commerce Empresarial de gestión de autopartes',
     category: 'SOFTWARE',
     technologies: ['Python', 'Flask', 'SQLite'],
@@ -120,10 +124,10 @@ const projects = [
   {
     id: 'luminova',
     title: 'Luminova',
+    liveUrl: 'https://luminovaerp.pythonanywhere.com/',
     shortDesc: 'Software ERP de ensamblado de luminarias con productos importados',
     category: 'SOFTWARE',
     technologies: ['Python', 'Django', 'PostgreSQL', 'React'],
-    liveUrl: 'https://luminovaerp.pythonanywhere.com/',
     images: [
       '/images/proyectos/luminova/login/luminova-login.webp',
       '/images/proyectos/luminova/administrador/luminova-admin-01.webp',
@@ -135,10 +139,10 @@ const projects = [
   {
     id: 'revisteria',
     title: 'La Revisteria',
+    liveUrl: 'https://revisteria.pythonanywhere.com/',
     shortDesc: 'E-commerce de libros y cómics de colección',
     category: 'ECOMMERCE',
     technologies: ['Python', 'Django', 'Bootstrap'],
-    liveUrl: 'https://revisteria.pythonanywhere.com/',
     images: [
       '/images/proyectos/revisteria/revisteria-01.webp',
       '/images/proyectos/revisteria/revisteria-02.webp',
@@ -163,6 +167,7 @@ const projects = [
   {
     id: 'nutricion',
     title: 'Nutrición Fernández',
+    liveUrl: 'https://nutricion-fernandez.vercel.app/',
     shortDesc: 'Página institucional para servicios de nutrición profesional',
     category: 'CORPORATIVO',
     technologies: ['React', 'Tailwind CSS'],
@@ -176,6 +181,7 @@ const projects = [
   {
     id: 'planb',
     title: 'Plan B',
+    liveUrl: 'https://plan-b-portugues.vercel.app/',
     shortDesc: 'Landing page para escuela de portugués',
     category: 'LANDING_PAGE',
     technologies: ['HTML', 'CSS', 'JavaScript'],
@@ -189,8 +195,9 @@ const projects = [
   {
     id: 'arcagym',
     title: 'El Arca Gym',
+    liveUrl: 'https://elarcagym.vercel.app/',
     shortDesc: 'Página institucional para gimnasio con sistema de gestión',
-    category: 'CORPORATIVO',
+    category: 'SOFTWARE',
     technologies: ['React', 'Node.js', 'MongoDB'],
     images: [
       '/images/proyectos/el-arca-gym/arcagym-01.png',
@@ -202,6 +209,7 @@ const projects = [
   {
     id: 'deluchi',
     title: 'Laura Deluchi Endocrinología',
+    liveUrl: 'https://deluchi-endocrinologia.vercel.app/',
     shortDesc: 'Página institucional para servicios médicos de endocrinología',
     category: 'CORPORATIVO',
     technologies: ['Next.js', 'Tailwind CSS'],
@@ -215,6 +223,7 @@ const projects = [
   {
     id: 'amueblathom',
     title: 'Amueblathom',
+    liveUrl: 'https://amueblathom.vercel.app/',
     shortDesc: 'E-commerce de muebles y decoración para el hogar',
     category: 'ECOMMERCE',
     technologies: ['React', 'Strapi', 'PostgreSQL'],
@@ -235,6 +244,7 @@ const categories = [
   { value: 'MULTIMEDIA', label: 'Multimedia' },
   { value: 'WEB', label: 'Web' },
   { value: 'SOFTWARE', label: 'Software' },
+  { value: 'SISTEMA_GESTION', label: 'Eventos ' },
 ]
 
 export default function Projects() {
