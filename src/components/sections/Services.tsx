@@ -140,7 +140,7 @@ export default function Services() {
             >
               <motion.div
                 className={`
-                  card h-full cursor-pointer group
+                  card h-full cursor-pointer group w-[400px]
                   ${hoveredService === service.id ? 'border-[var(--color-accent)] shadow-xl' : ''}
                 `}
                 whileHover={{ y: -8 }}
@@ -157,7 +157,7 @@ export default function Services() {
                   `}>
                     <service.icon className="w-15 h-6 text-white" />
                   </div>
-                  <h3 className="text-xl md:text-2xl font-bold text-[var(--color-text-primary)] group-hover:text-[var(--color-primary)] transition-colors">
+                  <h3 className="text-lg md:text-xl font-bold text-[var(--color-text-primary)] group-hover:text-[var(--color-primary)] transition-colors">
                     {service.title}
                   </h3>
                 </div>
@@ -233,7 +233,7 @@ export default function Services() {
           transition={{ duration: 0.5, delay: 0.6 }}
           className="text-center mt-16"
         >
-          <p className="text-[var(--color-text-secondary)] mb-6 text-lg">
+          <p className="text-[var(--color-text-secondary)] mb-6 text-lg spacing">
             ¿No encontrás lo que buscás?
           </p>
           <motion.a
