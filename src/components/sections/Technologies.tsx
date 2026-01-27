@@ -90,10 +90,10 @@ export default function Technologies() {
               key={i}
               className="glass rounded-[2.5rem] p-10 flex flex-col items-center justify-center gap-6 group hover:border-[#a3b18a]/40 bg-black/20"
             >
-              <div className="group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 text-3xl">
+              <div className="group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 text-3xl mt-4 mb-2">
                 {platform.icon}
               </div>
-              <span className="font-bold text-[10px] tracking-[0.3em] uppercase text-white/40 group-hover:text-white transition-colors">
+              <span className="text-center font-bold text-[10px] tracking-[0.3em] uppercase text-white/40 group-hover:text-white transition-colors">
                 {platform.name}
               </span>
             </div>
@@ -102,11 +102,11 @@ export default function Technologies() {
 
         {/* Carrusel de tecnologías con íconos */}
         <div className="relative w-full overflow-hidden py-16 border-y border-white/5 flex justify-center">
-          <div className="flex animate-scroll whitespace-nowrap gap-20 px-10">
+          <div className="spacing flex animate-scroll whitespace-nowrap gap-20 px-10">
             {[...technologies, ...technologies].map((tech, i) => (
               <div
                 key={i}
-                className="inline-flex items-center gap-6 opacity-30 hover:opacity-100 transition-opacity cursor-default group"
+                className="inline-flex items-center gap-6 opacity-30 hover:opacity-100 transition-opacity cursor-default transition-opacity group"
               >
                 <tech.icon className="w-10 h-10" style={{ color: tech.color }} />
                 <span className="text-3xl md:text-3xl font-black tracking-tighter text-white uppercase group-hover:text-[#a3b18a] transition-colors">

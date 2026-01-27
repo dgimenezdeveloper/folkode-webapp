@@ -1,4 +1,3 @@
-
 @import "tailwindcss";
 /* @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap'); */
 
@@ -310,6 +309,15 @@ a:hover {
   margin-top: 1rem;
 }
 
+.label-contact {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  margin-left: 1rem;
+  text-align: left;
+  color: var(--color-text-primary);
+}
+
 /* ==================== SECTIONS ==================== */
 .section {
   padding: 7rem 1.5rem;
@@ -429,6 +437,7 @@ a:hover {
 }
 
 /* Infinite Marquee Animation */
+
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-33.33%); }
@@ -450,16 +459,16 @@ a:hover {
 }
 
 .animate-marquee {
-  animation: marquee 40s linear infinite;
+  animation: marquee 120s linear infinite;
 }
 
 .animate-marquee-reverse {
-  animation: marquee-reverse 40s linear infinite;
+  animation: marquee-reverse 120s linear infinite;
 }
 
 /* Pause on hover */
 .marquee-container:hover .marquee-track {
-  animation-play-state: paused;
+  animation-play-state: paused !important;
 }
 
 .animate-fadeIn { animation: fadeIn 0.5s ease-out; }

@@ -219,7 +219,7 @@ export default function Contact() {
             >
               {/* Name */}
               <div>
-                <label htmlFor="name" className="block text-sm font-semibold text-[var(--color-text-primary)] mb-2">
+                <label htmlFor="name" className="label-contact block text-sm font-semibold text-[var(--color-text-primary)] mb-2">
                   Nombre *
                 </label>
                 <input
@@ -230,7 +230,7 @@ export default function Contact() {
                   className={`w-full px-5 py-4 rounded-xl bg-[var(--color-surface)] border-2 transition-all duration-300 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:outline-none focus:ring-0 ${errors.name ? 'border-[var(--color-error)]' : 'border-[var(--color-border)] focus:border-[var(--color-primary)]'}`}
                 />
                 {errors.name && (
-                  <p className="text-sm text-[var(--color-error)] mt-2 flex items-center gap-1">
+                  <p className="text-sm text-[var(--color-error)] mt-2 flex items-center gap-1 ">
                     <AlertCircle size={14} />
                     {errors.name.message}
                   </p>
@@ -239,7 +239,7 @@ export default function Contact() {
 
               {/* Email */}
               <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-[var(--color-text-primary)] mb-2">
+                <label htmlFor="email" className="label-contact block text-sm font-semibold text-[var(--color-text-primary)] mb-2">
                   Email *
                 </label>
                 <input
@@ -260,7 +260,7 @@ export default function Contact() {
               {/* Phone & Company in a row */}
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-semibold text-[var(--color-text-primary)] mb-2">
+                  <label htmlFor="phone" className="label-contact block text-sm font-semibold text-[var(--color-text-primary)] mb-2">
                     Teléfono
                   </label>
                   <input
@@ -272,7 +272,7 @@ export default function Contact() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="company" className="block text-sm font-semibold text-[var(--color-text-primary)] mb-2">
+                  <label htmlFor="company" className="label-contact block text-sm font-semibold text-[var(--color-text-primary)] mb-2">
                     Empresa/Proyecto
                   </label>
                   <input
@@ -287,7 +287,7 @@ export default function Contact() {
 
               {/* Message */}
               <div>
-                <label htmlFor="message" className="block text-sm font-semibold text-[var(--color-text-primary)] mb-2">
+                <label htmlFor="message" className="label-contact block text-sm font-semibold text-[var(--color-text-primary)] mb-2">
                   Mensaje *
                 </label>
                 <textarea
