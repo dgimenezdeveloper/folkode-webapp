@@ -45,53 +45,24 @@
 ## 📁 Estructura del Proyecto
 
 ```
-folkode-v1.4/
-├── prisma/                      # Configuración de base de datos
-│   ├── schema.prisma           # Esquema de Prisma
-│   ├── seed.ts                 # Datos iniciales
-│   └── generated/              # Cliente Prisma generado
-├── public/                      # Archivos estáticos
-│   └── images/                 # Imágenes del sitio
-├── src/
-│   ├── actions/                # Server Actions
-│   ├── app/                    # App Router de Next.js
-│   │   ├── admin/              # Panel de administración
-│   │   │   ├── clientes/       # CRUD de clientes
-│   │   │   ├── proyectos/      # CRUD de proyectos
-│   │   │   ├── finanzas/       # CRUD de transacciones
-│   │   │   └── login/          # Página de login
-│   │   ├── api/                # API Routes
-│   │   │   ├── auth/           # Auth.js endpoints
-│   │   │   ├── clients/        # API de clientes
-│   │   │   ├── projects/       # API de proyectos
-│   │   │   └── transactions/   # API de transacciones
-│   │   ├── layout.tsx          # Layout principal
-│   │   ├── page.tsx            # Landing page
-│   │   └── globals.css         # Estilos globales
-│   ├── components/
-│   │   ├── layout/             # Navbar, Footer
-│   │   ├── sections/           # Secciones del landing
-│   │   │   ├── Hero.tsx
-│   │   │   ├── AboutUs.tsx
-│   │   │   ├── Services.tsx
-│   │   │   ├── Projects.tsx
-│   │   │   ├── Technologies.tsx
-│   │   │   ├── Team.tsx
-│   │   │   ├── Testimonials.tsx
-│   │   │   └── Contact.tsx
-│   │   └── ui/                 # Componentes reutilizables
-│   ├── lib/
-│   │   ├── auth/               # Configuración de Auth.js
-│   │   │   ├── auth.ts         # Auth.js principal
-│   │   │   └── auth.config.ts  # Configuración Edge-compatible
-│   │   └── db/                 # Configuración de Prisma
-│   └── types/                  # Definiciones TypeScript
-├── .env                        # Variables de entorno (no commitear)
-├── .env.example                # Ejemplo de variables de entorno
-├── .gitignore                  # Archivos ignorados por Git
-├── package.json                # Dependencias
-├── tailwind.config.ts          # Configuración Tailwind
-└── tsconfig.json               # Configuración TypeScript
+webapp-folkode/
+├── frontend/   # Next.js, React, Tailwind, etc.
+│   ├── src/
+│   ├── public/
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── .env
+│   └── .env.example
+├── backend/    # Express, Prisma, DB
+│   ├── prisma/
+│   ├── server.js
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── .env
+│   └── .env.example
+├── .gitignore
+├── README.md
+└── ...otros archivos
 ```
 
 ---
@@ -108,7 +79,7 @@ folkode-v1.4/
 
 ```bash
 git clone <repository-url>
-cd folkode-v1.4
+cd webapp-folkode
 ```
 
 ### 2. Instalar dependencias
@@ -325,3 +296,30 @@ Este proyecto es propiedad de **Folkode**. Todos los derechos reservados.
 **Desarrollado con ❤️ por Folkode**
 
 </div>
+
+# Folkode Frontend (Separado)
+
+## Estructura
+- `src/` — Código fuente Next.js
+- `public/` — Archivos estáticos
+- `next.config.ts`, `tsconfig.json`, etc. — Configuración
+
+## Scripts útiles
+- `npm run dev` — Inicia el servidor de desarrollo Next.js
+- `npm run build` — Compila la app para producción
+- `npm run start` — Inicia la app en modo producción
+
+## Consumo de API
+- Consumir la API del backend usando fetch/axios apuntando a la URL del backend (por ejemplo, `http://localhost:4000/api/projects`)
+
+## Variables de entorno
+- `.env` debe contener la URL del backend, por ejemplo:
+  ```
+  NEXT_PUBLIC_API_URL=http://localhost:4000
+  ```
+
+## Despliegue
+- Subir `/frontend` como servicio independiente en Render (Next.js)
+- Configurar variables de entorno en Render
+
+---
