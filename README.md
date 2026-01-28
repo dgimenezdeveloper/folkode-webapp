@@ -1,10 +1,29 @@
-# 🚀 Folkode - Desarrollo de Software a Medida
+# 🚀 webapp-folkode
 
 <div align="center">
 
-![Folkode Logo](public/images/logo-folkode.png)
+![Folkode Logo](/frontend/public/folkode-oscuro-no-bg.webp)
 
 **Sitio web y panel de administración para Folkode**
+
+---
+
+## 🆕 Novedades y Migración 2026
+
+- 🔄 **Separación total de frontend y backend**: Ahora existen dos carpetas independientes (`/frontend` y `/backend`), cada una con su propio `package.json`, dependencias y variables de entorno.
+- 🚀 **Backend Express con API REST**: Implementados endpoints principales (`/api/auth/login`, `/api/stats`, `/api/projects`, `/api/health`). Prisma configurado para PostgreSQL.
+- 🌐 **Frontend Next.js**: Adaptado para consumir la nueva API del backend. Eliminadas referencias a Prisma y rutas API internas antiguas.
+- 🔑 **Autenticación**: El frontend ahora usa el endpoint `/api/auth/login` del backend. Variables de entorno separadas para cada entorno.
+- 🗃️ **Estructura de carpetas y comandos**: Nuevos comandos de arranque y estructura clara para ambos entornos.
+- 🧹 **Limpieza de código**: Eliminadas dependencias y archivos obsoletos en el frontend (`prisma.ts`, rutas API internas, etc.).
+- 📦 **Despliegue preparado para Render y Vercel**: Instrucciones y variables de entorno listas para ambos entornos.
+
+**Estado actual:**
+- Backend funcionando y sirviendo API REST.
+- Frontend parcialmente adaptado, consumiendo la nueva API.
+- Próximos pasos: completar CRUDs en backend y adaptar páginas de admin en frontend.
+
+---
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.1.4-black?logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.2-61DAFB?logo=react)](https://react.dev/)
@@ -42,7 +61,8 @@
 
 ---
 
-## 📁 Estructura del Proyecto
+
+## 📁 Estructura del Proyecto (Actualizada)
 
 ```
 webapp-folkode/
@@ -50,17 +70,15 @@ webapp-folkode/
 │   ├── src/
 │   ├── public/
 │   ├── package.json
-│   ├── package-lock.json
 │   ├── .env
-│   └── .env.example
+│   └── ...
 ├── backend/    # Express, Prisma, DB
 │   ├── prisma/
 │   ├── server.js
 │   ├── package.json
-│   ├── package-lock.json
 │   ├── .env
-│   └── .env.example
-├── .gitignore
+│   └── ...
+├── notas-de-migracion.md
 ├── README.md
 └── ...otros archivos
 ```
@@ -82,9 +100,18 @@ git clone <repository-url>
 cd webapp-folkode
 ```
 
+
 ### 2. Instalar dependencias
 
+#### Backend
 ```bash
+cd backend
+npm install
+```
+
+#### Frontend
+```bash
+cd frontend
 npm install
 ```
 
@@ -96,10 +123,10 @@ Crear la base de datos y usuario:
 -- Conectarse a PostgreSQL como superusuario
 sudo -u postgres psql
 
--- Crear usuario y base de datos
-CREATE USER folkode_admin WITH PASSWORD 'FolKode2025!Secure';
-CREATE DATABASE folkode_db OWNER folkode_admin;
-GRANT ALL PRIVILEGES ON DATABASE folkode_db TO folkode_admin;
+-- Crear usuario y base de datos (EJEMPLO, usa tus propios valores seguros)
+CREATE USER <usuario> WITH PASSWORD '<contraseña-segura>';
+CREATE DATABASE <nombre_db> OWNER <usuario>;
+GRANT ALL PRIVILEGES ON DATABASE <nombre_db> TO <usuario>;
 
 -- Salir
 \q
@@ -113,11 +140,11 @@ Copiar el archivo de ejemplo y editar:
 cp .env.example .env
 ```
 
-Editar `.env` con las credenciales correctas:
+Editar `.env` con las credenciales correctas (no compartas estos valores en el repositorio):
 
 ```env
-DATABASE_URL="postgresql://folkode_admin:FolKode2025!Secure@localhost:5432/folkode_db?schema=public"
-AUTH_SECRET="tu-clave-secreta-aqui"
+DATABASE_URL="postgresql://<usuario>:<contraseña>@localhost:5432/<nombre_db>?schema=public"
+AUTH_SECRET="<tu-clave-secreta>"
 ```
 
 ### 5. Generar cliente Prisma y migrar base de datos
@@ -133,50 +160,58 @@ npx prisma db push
 npx prisma db seed
 ```
 
+
 ### 6. Ejecutar en desarrollo
 
+#### Backend
 ```bash
+cd backend
+node server.js
+```
+El backend estará disponible en: [http://localhost:4000](http://localhost:4000)
+
+#### Frontend
+```bash
+cd frontend
 npm run dev
 ```
-
-Abrir [http://localhost:3000](http://localhost:3000) en el navegador.
-
----
-
-## 🔐 Credenciales de Acceso
-
-### Panel de Administración
-
-| Campo | Valor |
-|-------|-------|
-| **URL** | http://localhost:3000/admin/login |
-| **Email** | admin@folkode.com.ar |
-| **Password** | admin123 |
-
-### Base de Datos PostgreSQL
-
-| Campo | Valor |
-|-------|-------|
-| **Host** | localhost |
-| **Port** | 5432 |
-| **Database** | folkode_db |
-| **User** | folkode_admin |
-| **Password** | FolKode2025!Secure |
+El frontend estará disponible en: [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 📚 Scripts Disponibles
+
+## 🔐 Acceso y manejo de credenciales
+
+**Nunca compartas contraseñas, secrets o claves reales en el README ni en archivos públicos.**
+
+- Usa archivos `.env` (que están en `.gitignore`) para variables sensibles.
+- Proporciona un archivo `.env.example` con los nombres de las variables, pero sin valores reales.
+- Comparte las claves reales solo por canales seguros (gestores de contraseñas, mensajería cifrada, etc.).
+
+Ejemplo de variables de entorno:
+
+```env
+DATABASE_URL="postgresql://<usuario>:<contraseña>@localhost:5432/<nombre_db>?schema=public"
+AUTH_SECRET="<tu-clave-secreta>"
+```
+
+Para acceso de desarrollo, solicita las credenciales a un responsable del equipo por un canal seguro.
+
+---
+
+
+## 📚 Scripts Disponibles (Actualizados)
 
 | Script | Descripción |
 |--------|-------------|
-| `npm run dev` | Inicia servidor de desarrollo con Turbopack |
-| `npm run build` | Compila para producción |
-| `npm run start` | Inicia servidor de producción |
-| `npm run lint` | Ejecuta ESLint |
-| `npx prisma studio` | Abre Prisma Studio (GUI para la DB) |
-| `npx prisma generate` | Regenera el cliente Prisma |
-| `npx prisma db push` | Sincroniza schema con la DB |
-| `npx prisma db seed` | Ejecuta el seed de datos |
+| `npm run dev` | Inicia servidor de desarrollo (frontend o backend) |
+| `npm run build` | Compila para producción (frontend) |
+| `npm run start` | Inicia servidor de producción (frontend) |
+| `npm run lint` | Ejecuta ESLint (frontend) |
+| `npx prisma studio` | Abre Prisma Studio (backend) |
+| `npx prisma generate` | Regenera el cliente Prisma (backend) |
+| `npx prisma db push` | Sincroniza schema con la DB (backend) |
+| `npx prisma db seed` | Ejecuta el seed de datos (backend) |
 
 ---
 
@@ -205,7 +240,8 @@ Abrir [http://localhost:3000](http://localhost:3000) en el navegador.
 
 ---
 
-## 🔧 Panel de Administración
+
+## 🔧 Panel de Administración (Actualizado)
 
 ### Módulos
 
@@ -216,10 +252,10 @@ Abrir [http://localhost:3000](http://localhost:3000) en el navegador.
 
 ### Características
 
-- ✅ Autenticación con Auth.js v5
+- ✅ Autenticación con Auth.js v5 (adaptada a API REST)
 - ✅ Middleware de protección de rutas
 - ✅ Validación de roles (ADMIN, EDITOR, VIEWER)
-- ✅ CRUD con validación de datos
+- ✅ CRUD con validación de datos (en migración a API REST)
 - ✅ Filtros y búsqueda
 - ✅ Paginación
 - ✅ Responsive design
@@ -247,15 +283,18 @@ TeamMember        → Miembros del equipo
 
 ---
 
-## 🚀 Despliegue
 
-### Vercel (Recomendado)
+## 🚀 Despliegue (Actualizado)
+
+
+### Vercel (Frontend recomendado)
 
 1. Conectar repositorio en [vercel.com](https://vercel.com)
 2. Configurar variables de entorno
 3. Desplegar
 
-### Docker (Alternativo)
+
+### Docker (Backend alternativo)
 
 ```bash
 # Construir imagen
@@ -267,7 +306,8 @@ docker run -p 3000:3000 folkode
 
 ---
 
-## 🤝 Contribuir
+
+## 🤝 Contribuir (Recomendaciones)
 
 1. Fork el repositorio
 2. Crear rama feature (`git checkout -b feature/nueva-funcionalidad`)
@@ -297,29 +337,13 @@ Este proyecto es propiedad de **Folkode**. Todos los derechos reservados.
 
 </div>
 
-# Folkode Frontend (Separado)
 
-## Estructura
-- `src/` — Código fuente Next.js
-- `public/` — Archivos estáticos
-- `next.config.ts`, `tsconfig.json`, etc. — Configuración
+---
+## ℹ️ Notas para desarrolladores
 
-## Scripts útiles
-- `npm run dev` — Inicia el servidor de desarrollo Next.js
-- `npm run build` — Compila la app para producción
-- `npm run start` — Inicia la app en modo producción
-
-## Consumo de API
-- Consumir la API del backend usando fetch/axios apuntando a la URL del backend (por ejemplo, `http://localhost:4000/api/projects`)
-
-## Variables de entorno
-- `.env` debe contener la URL del backend, por ejemplo:
-  ```
-  NEXT_PUBLIC_API_URL=http://localhost:4000
-  ```
-
-## Despliegue
-- Subir `/frontend` como servicio independiente en Render (Next.js)
-- Configurar variables de entorno en Render
+- Consulta el archivo `notas-de-migracion.md` para detalles técnicos de la migración y troubleshooting.
+- El frontend y backend pueden evolucionar de forma independiente, pero deben mantener la compatibilidad en los endpoints definidos.
+- Las variables de entorno son distintas para cada entorno, revisa los archivos `.env.example` en cada carpeta.
+- Si encuentras errores relacionados con Prisma en el frontend, asegúrate de haber eliminado todas las referencias y archivos relacionados.
 
 ---
