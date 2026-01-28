@@ -108,7 +108,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0f1a]">
+    <div className="min-h-screen bg-[#0a0f1a] relative lg:flex">
       {/* Mobile sidebar backdrop */}
       {sidebarOpen && (
         <div 
@@ -119,9 +119,9 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
 
       {/* Sidebar */}
       <aside className={`
-        fixed top-0 left-0 z-50 h-full w-72 bg-[#0f1520] border-r border-[#1e2a3a] transform transition-transform duration-300 ease-in-out
-        lg:translate-x-0
+        fixed top-0 left-0 z-40 h-full w-72 bg-[#0f1520] border-r border-[#1e2a3a] transform transition-transform duration-300 ease-in-out
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+        lg:relative lg:translate-x-0 lg:h-auto lg:top-0 lg:flex-shrink-0
       `}>
         {/* Logo */}
         <div className="flex items-center justify-between h-20 px-6 border-b border-[#1e2a3a]">
@@ -235,7 +235,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Main content */}
-      <div className="lg:pl-72">
+      <div className="flex-1 transition-all duration-300">
         {/* Top header */}
         <header className="sticky top-0 z-30 flex items-center h-20 px-6 bg-[#0a0f1a]/80 backdrop-blur-xl border-b border-[#1e2a3a]">
           <button
@@ -266,7 +266,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
         </header>
 
         {/* Page content */}
-        <main className="p-6 lg:p-8">
+        <main className="p-4 sm:p-6 lg:p-8 max-w-screen-xl mx-auto w-full min-h-[calc(100vh-5rem)]">
           {children}
         </main>
       </div>

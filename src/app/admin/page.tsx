@@ -79,7 +79,7 @@ function StatCard({
       <div className="flex items-start justify-between">
         <div>
           <p className="text-sm font-medium text-gray-500">{title}</p>
-          <p className="text-3xl font-bold text-white mt-2">{value}</p>
+          <p className="text-2xl font-bold text-white mt-2">{value}</p>
           {change && (
             <div className={`flex items-center gap-1.5 mt-3 text-sm font-medium ${
               changeType === 'positive' ? 'text-green-400' :
@@ -127,9 +127,9 @@ async function DashboardContent() {
   const balance = stats.totalIncome - stats.totalExpenses
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title="Proyectos Totales"
           value={stats.totalProjects}
@@ -163,7 +163,7 @@ async function DashboardContent() {
       </div>
 
       {/* Recent Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Recent Projects */}
         <div className="bg-[#0f1520] rounded-2xl border-2 border-[#1e2a3a] overflow-hidden">
           <div className="px-6 py-5 border-b border-[#1e2a3a] flex items-center justify-between">
@@ -283,9 +283,9 @@ async function DashboardContent() {
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-[#0f1520] rounded-2xl border-2 border-[#1e2a3a] p-6">
-        <h3 className="font-bold text-white mb-5">Acciones Rápidas</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="bg-[#0f1520] rounded-2xl border-2 border-[#1e2a3a] p-4 sm:p-6">
+        <h3 className="font-bold text-white mb-4">Acciones Rápidas</h3>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <Link
             href="/admin/proyectos/nuevo"
             className="flex flex-col items-center gap-3 p-5 rounded-xl border-2 border-[#1e2a3a] hover:border-[#86A869]/50 hover:bg-[#86A869]/5 transition-all duration-300 group"
@@ -353,9 +353,9 @@ function LoadingState() {
 export default function AdminDashboard() {
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white">Dashboard</h1>
-        <p className="text-gray-500 mt-2">Bienvenido al panel de administración de Folkode</p>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-white">Dashboard</h1>
+        <p className="text-gray-500 mt-1">Bienvenido al panel de administración de Folkode</p>
       </div>
       
       <Suspense fallback={<LoadingState />}>
