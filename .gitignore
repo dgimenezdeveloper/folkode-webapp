@@ -12,6 +12,7 @@ node_modules/
 
 # ==================== BUILD & OUTPUT ====================
 /.next/
+/frontend/.next/
 /out/
 /build/
 /dist/
