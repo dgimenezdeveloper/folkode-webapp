@@ -354,7 +354,6 @@ export default function AdminDashboard() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-white">Dashboard</h1>
         <p className="text-gray-500 mt-1">Bienvenido al panel de administración de Folkode</p>
       </div>
       

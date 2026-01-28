@@ -246,12 +246,10 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
           </button>
           
           <div className="flex-1">
-            <h1 className="text-xl font-bold text-white">
-              {navigation.find(item => isActive(item.href))?.name || 'Dashboard'}
-            </h1>
-            <p className="text-sm text-gray-500">
+            
+            <h1 className="text-sm text-gray-500">
               Panel de administración
-            </p>
+            </h1>
           </div>
 
           <div className="flex items-center gap-4">
