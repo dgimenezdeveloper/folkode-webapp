@@ -117,6 +117,14 @@ const teamMembers = [
     image: '/dashi.webp',
     github: 'https://github.com/facudalle-dev',
   },
+  {
+    id: '13',
+    name: 'Evián Delle Donne',
+    role: 'Frontend Developer',
+    bio: 'Creador de soluciones visuales',
+    image: '/evian.png',
+    github: 'https://github.com/facudalle-dev',
+  },
 ]
 
 export default function Team() {

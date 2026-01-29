@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, Suspense } from 'react'
+import Link from 'next/link'
 import { signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
@@ -134,9 +135,9 @@ function LoginForm() {
           </form>
 
           <div className="mt-6 text-center">
-            <a href="/" className="text-sm text-gray-500 hover:text-[#86A869] transition-colors font-medium">
+              <Link href="/" className="text-sm text-gray-500 hover:text-[#86A869] transition-colors font-medium">
               ← Volver al sitio
-            </a>
+              </Link>
           </div>
         </div>
 

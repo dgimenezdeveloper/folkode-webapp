@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import authConfig from './auth.config'
+import { Role } from '@/lib/db/types'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'
 
@@ -61,7 +62,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.role = token.role as 'ADMIN' | 'EDITOR' | 'VIEWER'
+        session.user.role = token.role as Role
         session.user.id = token.id as string
       }
       return session

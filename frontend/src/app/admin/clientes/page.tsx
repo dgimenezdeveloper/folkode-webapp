@@ -53,7 +53,7 @@ async function ClientsTable({ searchParams }: { searchParams: SearchParams }) {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {clients.map((client: { id: string; name: string; avatar?: string; company?: string; email?: string; phone?: string; website?: string; projects?: any[]; transactions?: any[] }) => (
+              {clients.map((client: { id: string; name: string; avatar?: string; company?: string; email?: string; phone?: string; website?: string; projects?: { id: string; name: string }[]; transactions?: { id: string; amount: number }[] }) => (
               <tr key={client.id} className="hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
