@@ -51,7 +51,7 @@ export default function Navbar() {
       const offset = 80
       const elementPosition = element.getBoundingClientRect().top
       const offsetPosition = elementPosition + window.pageYOffset - offset
-      
+
       window.scrollTo({
         top: offsetPosition,
         behavior: 'smooth'
@@ -82,9 +82,9 @@ export default function Navbar() {
           >
             {!logoError ? (
               <div className="flex items-center gap-3">
-                <div className="relative w-[100px] h-[56px] md:w-[64px] md:h-[64px]">
+                <div className="relative w-[200px] h-[112px] md:w-[128px] md:h-[128px]">
                   <Image
-                    src="/folkode-oscuro-no-bg.webp"
+                    src="/Folkode_Logo_Normal_Black_Costado.webp"
                     alt="Folkode Logo"
                     fill
                     className="object-contain transition-transform duration-300 group-hover:scale-110"
@@ -92,9 +92,6 @@ export default function Navbar() {
                     onError={() => setLogoError(true)}
                   />
                 </div>
-                <span className="text-xl md:text-2xl font-bold text-[var(--color-text-primary)] tracking-tight">
-                  Folkode
-                </span>
               </div>
             ) : (
               <span className="text-2xl font-bold text-gradient">Folkode</span>
