@@ -1,0 +1,63 @@
+name: Issue a Ready
+
+on:
+  issues:
+    types: [assigned]
+
+jobs:
+  move-to-ready:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mover issue a Ready en Project v2
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_PROJECT_TOKEN }}
+          script: |
+            const projectId = "PVT_kwHOBz_BNM4BNyNi";
+            const statusFieldId = "PVTSSF_lAHOBz_BNM4BNyNizg8rc0M";
+            const readyOptionId = "61e4505c";
+            // Buscar el item en el proyecto
+            const { repository } = await github.graphql(`
+              query($owner: String!, $repo: String!, $issue: Int!) {
+                repository(owner: $owner, name: $repo) {
+                  issue(number: $issue) {
+                    id
+                    projectItems(first: 10) {
+                      nodes {
+                        id
+                        project {
+                          id
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue: context.payload.issue.number
+            });
+            const item = repository.issue.projectItems.nodes.find(i => i.project.id === projectId);
+            if (!item) throw new Error("El issue no está en el proyecto");
+            // Cambiar el status a Ready
+            await github.graphql(`
+              mutation($itemId:ID!, $fieldId:ID!, $optionId: String!) {
+                updateProjectV2ItemFieldValue(
+                  input: {
+                    projectId: \"${projectId}\",
+                    itemId: $itemId,
+                    fieldId: $fieldId,
+                    value: { singleSelectOptionId: $optionId }
+                  }
+                ) {
+                  projectV2Item {
+                    id
+                  }
+                }
+              }
+            `, {
+              itemId: item.id,
+              fieldId: statusFieldId,
+              optionId: readyOptionId
+            });

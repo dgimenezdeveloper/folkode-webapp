@@ -1,0 +1,69 @@
+name: PR mergeado a Done
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  move-to-done:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mover issue vinculado a Done en Project v2
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_PROJECT_TOKEN }}
+          script: |
+            const projectId = "PVT_kwHOBz_BNM4BNyNi";
+            const statusFieldId = "PVTSSF_lAHOBz_BNM4BNyNizg8rc0M";
+            const doneOptionId = "98236657";
+            // Buscar issues vinculados al PR
+            const prBody = context.payload.pull_request.body || "";
+            const issueMatch = prBody.match(/#(\d+)/);
+            if (!issueMatch) return;
+            const issueNumber = parseInt(issueMatch[1], 10);
+            // Buscar el item en el proyecto
+            const { repository } = await github.graphql(`
+              query($owner: String!, $repo: String!, $issue: Int!) {
+                repository(owner: $owner, name: $repo) {
+                  issue(number: $issue) {
+                    id
+                    projectItems(first: 10) {
+                      nodes {
+                        id
+                        project {
+                          id
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue: issueNumber
+            });
+            const item = repository.issue.projectItems.nodes.find(i => i.project.id === projectId);
+            if (!item) throw new Error("El issue no está en el proyecto");
+            // Cambiar el status a Done
+            await github.graphql(`
+              mutation($itemId:ID!, $fieldId:ID!, $optionId: String!) {
+                updateProjectV2ItemFieldValue(
+                  input: {
+                    projectId: \"${projectId}\",
+                    itemId: $itemId,
+                    fieldId: $fieldId,
+                    value: { singleSelectOptionId: $optionId }
+                  }
+                ) {
+                  projectV2Item {
+                    id
+                  }
+                }
+              }
+            `, {
+              itemId: item.id,
+              fieldId: statusFieldId,
+              optionId: doneOptionId
+            });
