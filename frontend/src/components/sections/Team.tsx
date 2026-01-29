@@ -85,12 +85,11 @@ const teamMembers = [
   },
   {
     id: '9',
-    name: 'Nahue Dalesio',
-    role: 'Full Stack Developer',
-    bio: 'Desarrollador con visión integral de proyectos.',
-    image: '/nahue.webp',
-    github: 'https://github.com/Nahuel-Dalesio',
-    linkedin: 'https://ar.linkedin.com/in/nahuel-dalesio-183498213',
+    name: 'Evián Delle Donne',
+    role: 'Frontend Developer',
+    bio: 'Creador de soluciones visuales',
+    image: '/evian.png',
+    github: 'https://github.com/facudalle-dev',
   },
   {
     id: '10',
@@ -119,11 +118,12 @@ const teamMembers = [
   },
   {
     id: '13',
-    name: 'Evián Delle Donne',
-    role: 'Frontend Developer',
-    bio: 'Creador de soluciones visuales',
-    image: '/evian.png',
-    github: 'https://github.com/facudalle-dev',
+    name: 'Nahue Dalesio',
+    role: 'Full Stack Developer',
+    bio: 'Desarrollador con visión integral de proyectos.',
+    image: '/nahue.webp',
+    github: 'https://github.com/Nahuel-Dalesio',
+    linkedin: 'https://ar.linkedin.com/in/nahuel-dalesio-183498213',
   },
 ]
 
