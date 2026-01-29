@@ -1,0 +1,52 @@
+name: Issue a Backlog
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  move-to-backlog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mover issue a Backlog en Project v2
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_PROJECT_TOKEN }}
+          script: |
+            const projectId = "PVT_kwHOBz_BNM4BNyNi";
+            const statusFieldId = "PVTSSF_lAHOBz_BNM4BNyNizg8rc0M";
+            const backlogOptionId = "f75ad846";
+            // Añadir el issue al proyecto
+            const addItem = await github.graphql(`
+              mutation($projectId:ID!, $contentId:ID!) {
+                addProjectV2ItemById(input: {projectId: $projectId, contentId: $contentId}) {
+                  item {
+                    id
+                  }
+                }
+              }
+            `, {
+              projectId,
+              contentId: context.payload.issue.node_id
+            });
+            // Cambiar el status a Backlog
+            await github.graphql(`
+              mutation($itemId:ID!, $fieldId:ID!, $optionId: String!) {
+                updateProjectV2ItemFieldValue(
+                  input: {
+                    projectId: \"${projectId}\",
+                    itemId: $itemId,
+                    fieldId: $fieldId,
+                    value: { singleSelectOptionId: $optionId }
+                  }
+                ) {
+                  projectV2Item {
+                    id
+                  }
+                }
+              }
+            `, {
+              itemId: addItem.addProjectV2ItemById.item.id,
+              fieldId: statusFieldId,
+              optionId: backlogOptionId
+            });
