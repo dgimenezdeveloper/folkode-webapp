@@ -10,7 +10,18 @@
     "db:push": "prisma db push",
     "db:seed": "npx tsx prisma/seed.ts",
     "db:studio": "prisma studio",
-    "db:reset": "prisma db push --force-reset && npx tsx prisma/seed.ts"
+    "db:reset": "prisma db push --force-reset && npx tsx prisma/seed.ts",
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-dom"
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    }
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
@@ -41,16 +52,22 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/better-sqlite3": "^7.6.13",
+    "@types/jest": "^30.0.0",
     "@types/node": "^20",
     "@types/pg": "^8.16.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.4",
+    "jest": "^30.2.0",
+    "jest-environment-jsdom": "^30.2.0",
     "sharp": "^0.34.5",
     "tailwindcss": "^4",
+    "ts-jest": "^29.4.6",
     "tsx": "^4.21.0",
     "typescript": "^5"
   }
