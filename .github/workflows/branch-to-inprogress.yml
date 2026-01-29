@@ -1,0 +1,69 @@
+name: Rama creada a In Progress
+
+on:
+  create:
+    branches:
+      - '*'
+
+jobs:
+  move-to-inprogress:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mover issue vinculado a In Progress en Project v2
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_PROJECT_TOKEN }}
+          script: |
+            const projectId = "PVT_kwHOBz_BNM4BNyNi";
+            const statusFieldId = "PVTSSF_lAHOBz_BNM4BNyNizg8rc0M";
+            const inProgressOptionId = "47fc9ee4";
+            const branchName = context.payload.ref.replace('refs/heads/', '');
+            // Buscar número de issue en el nombre de la rama (ej: issue-5, feature/5-nombre, etc)
+            const match = branchName.match(/(?:issue[-_]?|feature[-_]?|hotfix[-_]?|bugfix[-_]?|)(\d+)/i);
+            if (!match) return;
+            const issueNumber = parseInt(match[1], 10);
+            // Buscar el item en el proyecto
+            const { repository } = await github.graphql(`
+              query($owner: String!, $repo: String!, $issue: Int!) {
+                repository(owner: $owner, name: $repo) {
+                  issue(number: $issue) {
+                    id
+                    projectItems(first: 10) {
+                      nodes {
+                        id
+                        project {
+                          id
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue: issueNumber
+            });
+            const item = repository.issue.projectItems.nodes.find(i => i.project.id === projectId);
+            if (!item) return;
+            // Cambiar el status a In Progress
+            await github.graphql(`
+              mutation($itemId:ID!, $fieldId:ID!, $optionId: String!) {
+                updateProjectV2ItemFieldValue(
+                  input: {
+                    projectId: \"${projectId}\",
+                    itemId: $itemId,
+                    fieldId: $fieldId,
+                    value: { singleSelectOptionId: $optionId }
+                  }
+                ) {
+                  projectV2Item {
+                    id
+                  }
+                }
+              }
+            `, {
+              itemId: item.id,
+              fieldId: statusFieldId,
+              optionId: inProgressOptionId
+            });
