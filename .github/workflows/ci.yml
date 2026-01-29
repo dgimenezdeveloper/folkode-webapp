@@ -20,6 +20,7 @@ jobs:
         run: npm ci
       - name: Crear archivo .env en backend
         run: echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > backend/.env
+        working-directory: ${{ github.workspace }}
       - name: Install backend dependencies
         run: npm ci
         working-directory: backend
