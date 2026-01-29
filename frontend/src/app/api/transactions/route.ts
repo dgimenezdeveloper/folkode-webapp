@@ -1,17 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/db/prisma'
 
-// GET /api/transactions - List all transactions
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
+
+// GET /api/transactions - List all transactions (proxy to backend)
 export async function GET() {
   try {
-    const transactions = await prisma.transaction.findMany({
-      include: {
-        client: true,
-        project: true
+    const response = await fetch(`${API_URL}/api/transactions`, {
+      headers: {
+        'Content-Type': 'application/json',
       },
-      orderBy: { date: 'desc' }
     })
     
+    if (!response.ok) {
+      throw new Error('Failed to fetch transactions')
+    }
+    
+    const transactions = await response.json()
     return NextResponse.json(transactions)
   } catch (error) {
     console.error('Error fetching transactions:', error)
@@ -22,35 +26,25 @@ export async function GET() {
   }
 }
 
-// POST /api/transactions - Create a new transaction
+// POST /api/transactions - Create a new transaction (proxy to backend)
 export async function POST(request: NextRequest) {
   try {
-    const data = await request.json()
+    const body = await request.json()
     
-    // Validate required fields
-    if (!data.type || !data.amount || !data.description || !data.date) {
-      return NextResponse.json(
-        { message: 'Faltan campos requeridos' },
-        { status: 400 }
-      )
-    }
-
-    const transaction = await prisma.transaction.create({
-      data: {
-        type: data.type,
-        amount: parseFloat(data.amount),
-        description: data.description,
-        date: new Date(data.date),
-        category: data.category,
-        projectId: data.projectId || null,
-        clientId: data.clientId || null
+    const response = await fetch(`${API_URL}/api/transactions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
-      include: {
-        client: true,
-        project: true
-      }
+      body: JSON.stringify(body),
     })
-
+    
+    if (!response.ok) {
+      const error = await response.json()
+      return NextResponse.json(error, { status: response.status })
+    }
+    
+    const transaction = await response.json()
     return NextResponse.json(transaction, { status: 201 })
   } catch (error) {
     console.error('Error creating transaction:', error)

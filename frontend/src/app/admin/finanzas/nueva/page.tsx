@@ -37,7 +37,7 @@ export default function NewTransactionPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [projects, setProjects] = useState<Project[]>([])
   const [clients, setClients] = useState<Client[]>([])
-  const [transactionType, setTransactionType] = useState<TransactionType>('INCOME')
+  const [transactionType, setTransactionType] = useState<TransactionType>(TransactionType.INCOME)
 
   useEffect(() => {
     Promise.all([

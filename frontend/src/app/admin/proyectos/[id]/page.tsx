@@ -18,26 +18,26 @@ interface PageProps {
 }
 
 const statusLabels: Record<ProjectStatus, string> = {
-  IN_DEVELOPMENT: 'En desarrollo',
-  COMPLETED: 'Completado',
-  MAINTENANCE: 'Mantenimiento',
-  PAUSED: 'Pausado'
+  [ProjectStatus.IN_DEVELOPMENT]: 'En desarrollo',
+  [ProjectStatus.COMPLETED]: 'Completado',
+  [ProjectStatus.MAINTENANCE]: 'Mantenimiento',
+  [ProjectStatus.PAUSED]: 'Pausado'
 }
 
 const categoryLabels: Record<ProjectCategory, string> = {
-  ECOMMERCE: 'E-commerce',
-  LANDING_PAGE: 'Landing Page',
-  CORPORATIVO: 'Corporativo',
-  MULTIMEDIA: 'Multimedia',
-  WEB: 'Web',
-  SOFTWARE: 'Software'
+  [ProjectCategory.ECOMMERCE]: 'E-commerce',
+  [ProjectCategory.LANDING_PAGE]: 'Landing Page',
+  [ProjectCategory.CORPORATIVO]: 'Corporativo',
+  [ProjectCategory.MULTIMEDIA]: 'Multimedia',
+  [ProjectCategory.WEB]: 'Web',
+  [ProjectCategory.SOFTWARE]: 'Software'
 }
 
 const statusColors: Record<ProjectStatus, string> = {
-  IN_DEVELOPMENT: 'bg-blue-100 text-blue-700',
-  COMPLETED: 'bg-green-100 text-green-700',
-  MAINTENANCE: 'bg-yellow-100 text-yellow-700',
-  PAUSED: 'bg-gray-100 text-gray-700'
+  [ProjectStatus.IN_DEVELOPMENT]: 'bg-blue-100 text-blue-700',
+  [ProjectStatus.COMPLETED]: 'bg-green-100 text-green-700',
+  [ProjectStatus.MAINTENANCE]: 'bg-yellow-100 text-yellow-700',
+  [ProjectStatus.PAUSED]: 'bg-gray-100 text-gray-700'
 }
 
 async function getProject(id: string) {
@@ -93,8 +93,8 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           <div>
             <div className="flex items-center gap-3 flex-wrap">
               <h1 className="text-2xl font-bold text-gray-900">{project.title}</h1>
-              <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${statusColors[project.status]}`}>
-                {statusLabels[project.status]}
+              <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${statusColors[project.status as ProjectStatus]}`}>
+                {statusLabels[project.status as ProjectStatus]}
               </span>
               {project.featured && (
                 <span className="px-2.5 py-1 text-xs font-medium rounded-full bg-amber-100 text-amber-700">
@@ -222,7 +222,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Categoría</p>
-                  <p className="font-medium text-gray-900 mt-0.5">{categoryLabels[project.category]}</p>
+                  <p className="font-medium text-gray-900 mt-0.5">{categoryLabels[project.category as ProjectCategory]}</p>
                 </div>
               </div>
 

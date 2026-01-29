@@ -36,19 +36,19 @@ interface Project {
 }
 
 const categoryOptions: { value: ProjectCategory; label: string }[] = [
-  { value: 'ECOMMERCE', label: 'E-commerce' },
-  { value: 'LANDING_PAGE', label: 'Landing Page' },
-  { value: 'CORPORATIVO', label: 'Corporativo' },
-  { value: 'MULTIMEDIA', label: 'Multimedia' },
-  { value: 'WEB', label: 'Web' },
-  { value: 'SOFTWARE', label: 'Software' },
+  { value: ProjectCategory.ECOMMERCE, label: 'E-commerce' },
+  { value: ProjectCategory.LANDING_PAGE, label: 'Landing Page' },
+  { value: ProjectCategory.CORPORATIVO, label: 'Corporativo' },
+  { value: ProjectCategory.MULTIMEDIA, label: 'Multimedia' },
+  { value: ProjectCategory.WEB, label: 'Web' },
+  { value: ProjectCategory.SOFTWARE, label: 'Software' },
 ]
 
 const statusOptions: { value: ProjectStatus; label: string }[] = [
-  { value: 'IN_DEVELOPMENT', label: 'En desarrollo' },
-  { value: 'COMPLETED', label: 'Completado' },
-  { value: 'MAINTENANCE', label: 'Mantenimiento' },
-  { value: 'PAUSED', label: 'Pausado' },
+  { value: ProjectStatus.IN_DEVELOPMENT, label: 'En desarrollo' },
+  { value: ProjectStatus.COMPLETED, label: 'Completado' },
+  { value: ProjectStatus.MAINTENANCE, label: 'Mantenimiento' },
+  { value: ProjectStatus.PAUSED, label: 'Pausado' },
 ]
 
 const commonTechnologies = [
