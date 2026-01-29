@@ -18,6 +18,8 @@ jobs:
           node-version: 20
       - name: Install dependencies
         run: npm ci
+      - name: Crear archivo .env en backend
+        run: echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > backend/.env
       - name: Install backend dependencies
         run: npm ci
         working-directory: backend
