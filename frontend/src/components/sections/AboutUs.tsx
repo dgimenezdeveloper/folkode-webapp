@@ -80,7 +80,7 @@ export default function AboutUs() {
 						transition={{ duration: 0.6 }}
 						className="space-y-6"
 					>
-						<h3 className="text-3xl md:text-4xl font-bold text-[var(--color-text-primary)]">
+						<h3 className="text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] !mx-0">
 							Creamos soluciones digitales{' '}
 							<span className="text-gradient">modernas y funcionales</span>
 						</h3>
@@ -124,14 +124,14 @@ export default function AboutUs() {
 						transition={{ duration: 0.6, delay: 0.2 }}
 						className="relative"
 					>
-						<div className="relative rounded-3xl overflow-hidden border-2 border-[var(--color-border)] shadow-2xl">
+						<div className="relative rounded-3xl overflow-hidden border-2 border-[var(--color-border)] shadow-2xl hover:scale-105 transition-transform duration-1000">
 							{!imageError ? (
 								<Image
 									src="/images/grupo.png"
 									alt="Equipo Folkode"
 									width={600}
 									height={400}
-									className="object-cover w-full h-auto"
+									className="object-cover w-full h-auto "
 									onError={() => setImageError(true)}
 								/>
 							) : (
@@ -143,7 +143,7 @@ export default function AboutUs() {
 								</div>
 							)}
 							{/* Overlay gradient */}
-							<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-background)]/60 via-transparent to-transparent" />
+							<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-background)]/60 via-transparent to-transparent select-none" />
 						</div>
 
 						{/* Floating badge */}
