@@ -109,8 +109,8 @@ export default function Navbar() {
               className={cn(
                 'relative text-sm xl:text-base font-semibold transition-colors duration-200 py-2',
                 activeSection === link.href.replace('#', '')
-                  ? 'text-[var(--color-primary)]'
-                  : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
+                  ? 'nav-text-hover'
+                  : 'nav-text hover:nav-text-hover'
               )}
               whileHover={{ y: -2 }}
               whileTap={{ y: 0 }}
