@@ -1,13 +1,14 @@
 @import "tailwindcss";
-/* @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap'); */
 
+/*@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+*/
 /* ==================== FOLKODE COLOR PALETTE ==================== */
 :root {
   /* Primary Colors - Nueva paleta de folkode-glow-up */
   --moss-green: #a3b18a;
   --petrol-blue: #003d5b;
   --deep-black: #000000;
-  
+
   --color-primary: #a3b18a;
   --color-primary-hover: #588157;
   --color-secondary: #003d5b;
@@ -88,8 +89,8 @@ body {
 
 /* ==================== MESH GRADIENT ==================== */
 .mesh-gradient {
-  background-image: 
-    radial-gradient(at 0% 0%, var(--petrol-blue) 0, transparent 40%), 
+  background-image:
+    radial-gradient(at 0% 0%, var(--petrol-blue) 0, transparent 40%),
     radial-gradient(at 100% 0%, #1a1a1a 0, transparent 50%),
     radial-gradient(at 50% 100%, #344e41 0, transparent 50%);
   background-attachment: fixed;
@@ -110,17 +111,17 @@ body {
 }
 
 /* ==================== SCROLLBAR ==================== */
-::-webkit-scrollbar { 
-  width: 6px; 
+::-webkit-scrollbar {
+  width: 6px;
 }
 
-::-webkit-scrollbar-track { 
-  background: var(--deep-black); 
+::-webkit-scrollbar-track {
+  background: var(--deep-black);
 }
 
-::-webkit-scrollbar-thumb { 
-  background: var(--moss-green); 
-  border-radius: 10px; 
+::-webkit-scrollbar-thumb {
+  background: var(--moss-green);
+  border-radius: 10px;
 }
 
 /* ==================== SELECTION ==================== */
@@ -130,19 +131,44 @@ body {
 }
 
 /* ==================== TYPOGRAPHY ==================== */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 800;
   line-height: 1.1;
   color: var(--color-text-primary);
   letter-spacing: -0.02em;
 }
 
-h1 { font-size: clamp(2.5rem, 5vw, 6.25rem); } /* 100px max */
-h2 { font-size: clamp(2rem, 4vw, 4.375rem); } /* 70px max */
-h3 { font-size: clamp(1.5rem, 3vw, 3.125rem); margin: 2rem 2rem; } /* 50px max */
-h4 { font-size: clamp(1.25rem, 2.5vw, 2rem); } /* 32px max */
+h1 {
+  font-size: clamp(2.5rem, 5vw, 6.25rem);
+}
 
-span {width: 130px; height: 40px;}
+/* 100px max */
+h2 {
+  font-size: clamp(2rem, 4vw, 4.375rem);
+}
+
+/* 70px max */
+h3 {
+  font-size: clamp(1.5rem, 3vw, 3.125rem);
+  margin: 2rem 2rem;
+}
+
+/* 50px max */
+h4 {
+  font-size: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+/* 32px max */
+
+span {
+  width: 130px;
+  height: 40px;
+}
 
 p {
   color: var(--color-text-secondary);
@@ -386,8 +412,13 @@ a:hover {
 
 /* ==================== ANIMATIONS ==================== */
 @keyframes scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-scroll {
@@ -395,8 +426,13 @@ a:hover {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
@@ -404,6 +440,7 @@ a:hover {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -415,6 +452,7 @@ a:hover {
     opacity: 0;
     transform: translateY(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -422,30 +460,61 @@ a:hover {
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 @keyframes glow {
-  0%, 100% { box-shadow: 0 0 5px var(--moss-green); }
-  50% { box-shadow: 0 0 20px var(--moss-green), 0 0 30px var(--moss-green); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 5px var(--moss-green);
+  }
+
+  50% {
+    box-shadow: 0 0 20px var(--moss-green), 0 0 30px var(--moss-green);
+  }
 }
 
 /* Infinite Marquee Animation */
 
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-33.33%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-33.33%);
+  }
 }
 
 @keyframes marquee-reverse {
-  0% { transform: translateX(-33.33%); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(-33.33%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }
 
 .marquee-container {
@@ -471,12 +540,29 @@ a:hover {
   animation-play-state: paused !important;
 }
 
-.animate-fadeIn { animation: fadeIn 0.5s ease-out; }
-.animate-slideUp { animation: slideUp 0.5s ease-out; }
-.animate-slideDown { animation: slideDown 0.5s ease-out; }
-.animate-pulse { animation: pulse 2s ease-in-out infinite; }
-.animate-float { animation: float 3s ease-in-out infinite; }
-.animate-glow { animation: glow 2s ease-in-out infinite; }
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.5s ease-out;
+}
+
+.animate-slideDown {
+  animation: slideDown 0.5s ease-out;
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
 
 /* ==================== UTILITIES ==================== */
 .text-gradient {
@@ -489,7 +575,7 @@ a:hover {
 .border-gradient {
   border: 2px solid transparent;
   background: linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
-              linear-gradient(135deg, var(--color-primary), var(--color-accent)) border-box;
+    linear-gradient(135deg, var(--color-primary), var(--color-accent)) border-box;
 }
 
 .hover-lift {
@@ -505,7 +591,7 @@ a:hover {
   .section {
     padding: 3rem 1rem;
   }
-  
+
   .section-title {
     margin-bottom: 2rem;
   }
@@ -531,11 +617,13 @@ a:hover {
 
 /* Team section specific overrides to ensure vertical spacing */
 .team-grid {
-  margin-bottom: 2.5rem !important; /* 40px */
+  margin-bottom: 2.5rem !important;
+  /* 40px */
 }
 
 .team-slider {
-  margin-top: 2.5rem !important; /* 40px */
+  margin-top: 2.5rem !important;
+  /* 40px */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -543,8 +631,13 @@ a:hover {
 }
 
 @media (max-width: 768px) {
-  .team-grid { margin-bottom: 1.25rem !important; }
-  .team-slider { margin-top: 1rem !important; }
+  .team-grid {
+    margin-bottom: 1.25rem !important;
+  }
+
+  .team-slider {
+    margin-top: 1rem !important;
+  }
 }
 
 .input::placeholder {
@@ -592,5 +685,5 @@ a:hover {
   align-items: center;
   justify-content: center;
   margin: 20px auto;
-  
+
 }
