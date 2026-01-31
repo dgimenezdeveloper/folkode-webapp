@@ -7,7 +7,7 @@
   --moss-green: #a3b18a;
   --petrol-blue: #003d5b;
   --deep-black: #000000;
-  
+
   --color-primary: #a3b18a;
   --color-primary-hover: #588157;
   --color-secondary: #003d5b;
@@ -88,8 +88,8 @@ body {
 
 /* ==================== MESH GRADIENT ==================== */
 .mesh-gradient {
-  background-image: 
-    radial-gradient(at 0% 0%, var(--petrol-blue) 0, transparent 40%), 
+  background-image:
+    radial-gradient(at 0% 0%, var(--petrol-blue) 0, transparent 40%),
     radial-gradient(at 100% 0%, #1a1a1a 0, transparent 50%),
     radial-gradient(at 50% 100%, #344e41 0, transparent 50%);
   background-attachment: fixed;
@@ -110,17 +110,17 @@ body {
 }
 
 /* ==================== SCROLLBAR ==================== */
-::-webkit-scrollbar { 
-  width: 6px; 
+::-webkit-scrollbar {
+  width: 6px;
 }
 
-::-webkit-scrollbar-track { 
-  background: var(--deep-black); 
+::-webkit-scrollbar-track {
+  background: var(--deep-black);
 }
 
-::-webkit-scrollbar-thumb { 
-  background: var(--moss-green); 
-  border-radius: 10px; 
+::-webkit-scrollbar-thumb {
+  background: var(--moss-green);
+  border-radius: 10px;
 }
 
 /* ==================== SELECTION ==================== */
@@ -159,6 +159,14 @@ a {
 
 a:hover {
   color: var(--color-primary-hover);
+}
+
+.nav-text {
+  color: var(--color-text-primary);
+}
+
+.nav-text:hover {
+  color: var(--moss-green);
 }
 
 /* ==================== TEXT GLOW ==================== */
@@ -505,7 +513,7 @@ a:hover {
   .section {
     padding: 3rem 1rem;
   }
-  
+
   .section-title {
     margin-bottom: 2rem;
   }
@@ -592,5 +600,5 @@ a:hover {
   align-items: center;
   justify-content: center;
   margin: 20px auto;
-  
+
 }
