@@ -195,6 +195,14 @@ a:hover {
   color: var(--moss-green);
 }
 
+.button-text{
+  color: var(--color-text-inverse);
+}
+
+.button-text:hover {
+  color: var(--color-text-primary);
+}
+
 /* ==================== TEXT GLOW ==================== */
 .text-glow-green {
   text-shadow: 0 0 40px rgba(163, 177, 138, 0.5);
