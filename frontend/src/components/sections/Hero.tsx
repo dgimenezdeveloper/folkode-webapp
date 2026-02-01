@@ -39,7 +39,7 @@ export default function Hero() {
               href="https://wa.me/5491167906178"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-brand px-10 py-5 text-white rounded-2xl font-bold text-lg flex items-center gap-4 group"
+              className="btn btn-brand button-text px-10 py-5 text-white rounded-2xl font-bold text-lg flex items-center gap-4 group"
             >
               <User className="w-6 h-6" />
               Emprendedor
@@ -50,7 +50,7 @@ export default function Hero() {
               href="https://wa.me/5491169695436"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn px-10 py-5 bg-white text-black rounded-2xl font-bold text-lg hover:bg-[#a3b18a] transition-all flex items-center gap-4 group"
+              className="btn btn-animated px-10 py-5 bg-white text-black rounded-2xl font-bold text-lg hover:bg-[#a3b18a] transition-all flex items-center gap-4 group button-text:hover"
             >
               <Building2 className="w-6 h-6" />
               Empresa
@@ -61,7 +61,7 @@ export default function Hero() {
               href="https://wa.me/5491165020777"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn px-10 py-5 glass text-white rounded-2xl font-bold text-lg hover:border-[#a3b18a]/50 transition-all flex items-center gap-4 group"
+              className="btn btn-animated px-10 py-5 glass text-white rounded-2xl font-bold text-lg hover:border-[#a3b18a]/50 transition-all flex items-center gap-4 group"
             >
               <Factory className="w-6 h-6" />
               Pyme

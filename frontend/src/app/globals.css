@@ -255,7 +255,6 @@ a:hover {
   border-radius: 1rem;
   transition: all 0.3s ease;
   cursor: pointer;
-  border: none;
   outline: none;
 }
 
@@ -301,6 +300,17 @@ a:hover {
 .btn-gradient:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 30px rgba(163, 177, 138, 0.3);
+}
+
+.btn-animated {
+  color: var(--color-primary-hover);
+  box-shadow: 0 10px 30px -10px rgba(163, 177, 138, 0.5);
+}
+
+.btn-animated:hover{
+  color: var(--color-text-inverse);
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px -10px rgba(163, 177, 138, 0.7);
 }
 
 /* ==================== CARDS ==================== */

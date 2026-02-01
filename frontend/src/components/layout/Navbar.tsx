@@ -133,7 +133,7 @@ export default function Navbar() {
           <motion.a
             href="#contacto"
             onClick={(e) => handleNavClick(e, '#contacto')}
-            className="btn btn-gradient text-sm xl:text-base px-6 py-2.5 font-semibold shadow-lg button-text button-text:hover"
+            className="btn btn-gradient text-sm xl:text-base px-6 py-2.5 font-semibold shadow-lg button-text"
             whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(134, 168, 105, 0.4)' }}
             whileTap={{ scale: 0.95 }}
           >
