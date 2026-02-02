@@ -4,13 +4,13 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'motion/react'
-import { 
-  FaGithub, 
-  FaDiscord, 
-  FaFacebook, 
-  FaInstagram, 
-  FaLinkedin, 
-  FaWhatsapp 
+import {
+  FaGithub,
+  FaDiscord,
+  FaFacebook,
+  FaInstagram,
+  FaLinkedin,
+  FaWhatsapp
 } from 'react-icons/fa'
 import { MdEmail } from 'react-icons/md'
 
@@ -60,7 +60,7 @@ export default function Footer() {
     <footer className="relative bg-[var(--color-surface)] border-t-2 border-[var(--color-border)]">
       {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-background)]/70 to-transparent pointer-events-none" />
-      
+
       <div className="container mx-auto py-16 md:py-20 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-10 mb-12">
           {/* Brand Column */}
@@ -209,7 +209,7 @@ export default function Footer() {
                 </a>
               </li>
             </ul>
-            
+
             {/* CTA */}
             <div className="mt-5">
               <motion.a
@@ -231,21 +231,19 @@ export default function Footer() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-12 pt-8 border-t-2 border-[var(--color-border)] flex flex-col md:flex-row justify-between items-center gap-4"
+          className="mt-12 !py-8 border-t-2 border-[var(--color-border)] flex flex-col md:flex-row justify-between items-center gap-4"
         >
-          <p className="text-[var(--color-text-secondary)] text-sm">
+          <p className="text-[var(--color-text-secondary)] text-sm !mb-0">
             © {currentYear} Folkode. Todos los derechos reservados.
           </p>
-          <div className="flex gap-6 text-sm spacing">
-            <Link href="#" className="text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors">
-              Políticas de privacidad
-            </Link>
-            <Link href="#" className="text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors">
-              Términos de servicio
-            </Link>
-          </div>
-          <p className="text-[var(--color-text-secondary)] text-sm flex items-center gap-2">
-             <span className="text-red-500">Diseñado con ❤️ por Folkode</span>
+          <Link href="#" className="text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors">
+            Políticas de privacidad
+          </Link>
+          <Link href="#" className="text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors">
+            Términos de servicio
+          </Link>
+          <p className="text-[var(--color-text-secondary)] text-sm !mb-0">
+            <span className="text-red-500 !w-full !mb-0">Diseñado con ❤️ por Folkode</span>
           </p>
         </motion.div>
       </div>
