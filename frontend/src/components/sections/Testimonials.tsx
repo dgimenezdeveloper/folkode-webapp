@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'motion/react'
 import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react'
 
 // Helper to generate avatar placeholder
-const getAvatarPlaceholder = (name: string) => 
+const getAvatarPlaceholder = (name: string) =>
   `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=86A869&color=fff&size=100`
 
 const testimonials = [
@@ -119,7 +119,7 @@ export default function Testimonials() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="section-title mb-16"
+          className="section-title !mb-[7rem]"
         >
           <h2 className="text-gradient">
             Comentarios de Clientes
@@ -132,7 +132,7 @@ export default function Testimonials() {
         {/* Testimonial carousel */}
         <div className="relative max-w-4xl mx-auto flex flex-col items-center justify-center w-full">
           {/* Quote icon decorativo, mejor alineado y separado */}
-          <div className="absolute -top-16 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
+          <div className="absolute -top-22 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
             <div className="flex items-center justify-center gap-4">
               <Star className="w-6 h-6 text-yellow-400 fill-yellow-400 drop-shadow-lg" />
               <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-accent)] flex items-center justify-center shadow-xl shadow-[var(--color-primary)]/30 border-4 border-[var(--color-background)]">
@@ -143,7 +143,7 @@ export default function Testimonials() {
           </div>
 
           {/* Testimonial card - Fixed height container */}
-          <div className="rounded-3xl p-10 md:p-16 pt-16 min-h-[420px] md:min-h-[380px] flex flex-col bg-[var(--color-background)] border-2 border-[var(--color-border)] shadow-2xl shadow-black/10 items-center justify-center w-full">
+          <div className="rounded-3xl !p-5 md:p-16 pt-16 min-h-[420px] md:min-h-[380px] flex flex-col bg-[var(--color-background)] border-2 border-[var(--color-border)] shadow-2xl shadow-black/10 items-center justify-center w-full">
             <AnimatePresence mode="sync" custom={direction} initial={false}>
               <motion.div
                 key={currentIndex}
@@ -156,16 +156,15 @@ export default function Testimonials() {
                 className="flex flex-col items-center justify-center flex-1"
               >
                 {/* Rating - centered */}
-                <div className="flex justify-center gap-1.5 mb-8">
+                <div className="flex justify-center gap-1.5 !mb-4">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star
                       key={i}
                       size={20}
-                      className={`${
-                        i < currentTestimonial.rating
-                          ? 'text-yellow-400 fill-yellow-400'
-                          : 'text-[var(--color-border)]'
-                      }`}
+                      className={`${i < currentTestimonial.rating
+                        ? 'text-yellow-400 fill-yellow-400'
+                        : 'text-[var(--color-border)]'
+                        }`}
                     />
                   ))}
                 </div>
@@ -178,7 +177,7 @@ export default function Testimonials() {
                 </div>
 
                 {/* Client info - always at bottom */}
-                <div className="flex flex-col items-center gap-4 mt-10">
+                <div className="flex flex-col items-center gap-4 !mt-10">
                   <div className="relative w-16 h-16 rounded-full overflow-hidden border-3 border-[var(--color-primary)] flex-shrink-0 shadow-lg shadow-[var(--color-primary)]/20">
                     <AvatarImage
                       src={currentTestimonial.client.avatar}
@@ -222,11 +221,10 @@ export default function Testimonials() {
                     setDirection(i > currentIndex ? 1 : -1)
                     setCurrentIndex(i)
                   }}
-                  className={`h-2.5 rounded-full transition-all duration-300 ${
-                    i === currentIndex 
-                      ? 'bg-[var(--color-primary)] w-10 shadow-lg shadow-[var(--color-primary)]/30' 
-                      : 'bg-[var(--color-border)] w-2.5 hover:bg-[var(--color-text-secondary)]'
-                  }`}
+                  className={`h-2.5 rounded-full transition-all duration-300 ${i === currentIndex
+                    ? 'bg-[var(--color-primary)] w-10 shadow-lg shadow-[var(--color-primary)]/30'
+                    : 'bg-[var(--color-border)] w-2.5 hover:bg-[var(--color-text-secondary)]'
+                    }`}
                   aria-label={`Ir al testimonio ${i + 1}`}
                 />
               ))}
@@ -250,7 +248,7 @@ export default function Testimonials() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="text-center mt-20"
+          className="text-center !mt-10"
         >
           <p className="text-[var(--color-text-secondary)] text-lg mb-6">
             ¿Tenés alguna idea que quieras hacer realidad?
@@ -270,15 +268,15 @@ export default function Testimonials() {
 }
 
 // Avatar Image with fallback
-function AvatarImage({ 
-  src, 
-  name 
-}: { 
+function AvatarImage({
+  src,
+  name
+}: {
   src: string
   name: string
 }) {
   const [hasError, setHasError] = useState(false)
-  
+
   return (
     <Image
       src={hasError ? getAvatarPlaceholder(name) : src}
