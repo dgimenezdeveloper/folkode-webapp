@@ -4,13 +4,13 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'motion/react'
-import { 
-  FaGithub, 
-  FaDiscord, 
-  FaFacebook, 
-  FaInstagram, 
-  FaLinkedin, 
-  FaWhatsapp 
+import {
+  FaGithub,
+  FaDiscord,
+  FaFacebook,
+  FaInstagram,
+  FaLinkedin,
+  FaWhatsapp
 } from 'react-icons/fa'
 import { MdEmail } from 'react-icons/md'
 
@@ -60,7 +60,7 @@ export default function Footer() {
     <footer className="relative bg-[var(--color-surface)] border-t-2 border-[var(--color-border)]">
       {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-background)]/70 to-transparent pointer-events-none" />
-      
+
       <div className="container mx-auto py-16 md:py-20 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-10 mb-12">
           {/* Brand Column */}
@@ -71,7 +71,7 @@ export default function Footer() {
             transition={{ duration: 0.5 }}
             className="space-y-6 lg:col-span-1"
           >
-            <Link href="/" className="inline-flex items-center gap-3 group">
+            <Link href="/" className="inline-flex items-center gap-3 group !my-[2rem]">
               <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-accent)] p-0.5 group-hover:scale-110 transition-transform shadow-lg">
                 <div className="w-full h-full rounded-[10px] bg-[var(--color-surface)] flex items-center justify-center">
                   {!logoError ? (
@@ -90,7 +90,7 @@ export default function Footer() {
               </div>
               <div>
                 <span className="text-2xl font-bold text-[var(--color-text-primary)]">Folkode</span>
-                <p className="text-xs text-[var(--color-text-tertiary)]">Software Factory</p>
+                <p className="text-xs !mb-0 text-[var(--color-text-tertiary)]">Software Factory</p>
               </div>
             </Link>
             <p className="text-[var(--color-text-secondary)] leading-relaxed">
@@ -209,7 +209,7 @@ export default function Footer() {
                 </a>
               </li>
             </ul>
-            
+
             {/* CTA */}
             <div className="mt-5">
               <motion.a
@@ -245,7 +245,7 @@ export default function Footer() {
             </Link>
           </div>
           <p className="text-[var(--color-text-secondary)] text-sm flex items-center gap-2">
-             <span className="text-red-500">Diseñado con ❤️ por Folkode</span>
+            <span className="text-red-500">Diseñado con ❤️ por Folkode</span>
           </p>
         </motion.div>
       </div>
