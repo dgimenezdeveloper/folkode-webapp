@@ -122,7 +122,7 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <h3 className="text-xl font-bold mb-6 text-[var(--color-text-primary)]">
+            <h3 className="text-xl font-bold mb-6 !mx-0 text-[var(--color-text-primary)]">
               Links Rápidos
             </h3>
             <ul className="space-y-3.5">
@@ -133,7 +133,7 @@ export default function Footer() {
                     onClick={(e) => handleNavClick(e, link.href)}
                     className="text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors flex items-center gap-3 group text-base"
                   >
-                    <p className="w-2 h-2 rounded-full bg-[var(--color-primary)] group-hover:scale-150 transition-transform" />
+                    <p className="w-2 h-2 !mb-0 rounded-full bg-[var(--color-primary)] group-hover:scale-150 transition-transform" />
                     {link.label}
                   </a>
                 </li>
@@ -148,14 +148,14 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <h3 className="text-xl font-bold mb-6 text-[var(--color-text-primary)]">
+            <h3 className="text-xl font-bold mb-6 !mx-0 text-[var(--color-text-primary)]">
               Servicios
             </h3>
             <ul className="space-y-3.5">
               {services.map((service) => (
                 <li key={service}>
-                  <span className="text-[var(--color-text-secondary)] flex items-center gap-3 text-base">
-                    <p className="w-2 h-2 rounded-full bg-[var(--color-accent)]" />
+                  <span className="!w-full text-[var(--color-text-secondary)] flex items-center gap-3 text-base">
+                    <p className="w-2 h-2 !mb-0 rounded-full bg-[var(--color-accent)]" />
                     {service}
                   </span>
                 </li>
@@ -170,7 +170,7 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <h3 className="text-xl font-bold mb-6 text-[var(--color-text-primary)]">
+            <h3 className="text-xl font-bold mb-6 !mx-0 text-[var(--color-text-primary)]">
               Contacto
             </h3>
             <ul className="space-y-3">
