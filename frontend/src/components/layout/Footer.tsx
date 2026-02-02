@@ -173,18 +173,18 @@ export default function Footer() {
             <h3 className="text-xl font-bold mb-6 !mx-0 text-[var(--color-text-primary)]">
               Contacto
             </h3>
-            <ul className="space-y-3">
+            <ul className="flex flex-col gap-4">
               <li>
                 <a
                   href="mailto:contactofolkode@gmail.com"
-                  className="flex items-center gap-3 p-4 rounded-xl bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-[var(--color-primary)]/50 transition-all duration-300 group shadow-md hover:shadow-lg"
+                  className="flex items-center gap-3 !px-2 !py-3 rounded-xl bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-[var(--color-primary)]/50 transition-all duration-300 group shadow-md hover:shadow-lg"
                 >
                   <div className="w-10 h-10 rounded-lg bg-[var(--color-primary)]/15 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <MdEmail size={20} className="text-[var(--color-primary)]" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs text-[var(--color-text-tertiary)] mb-0.5 font-medium">Email</p>
-                    <p className="text-sm text-[var(--color-text-primary)] group-hover:text-[var(--color-primary)] transition-colors truncate font-medium">
+                  <div className="flex-1 min-w-0 flex flex-col justify-content-center">
+                    <p className="text-xs text-[var(--color-text-tertiary)] !mb-0 font-medium">Email</p>
+                    <p className="text-sm text-[var(--color-text-primary)] !mb-0 group-hover:text-[var(--color-primary)] transition-colors truncate font-medium">
                       contactofolkode@gmail.com
                     </p>
                   </div>
@@ -195,14 +195,14 @@ export default function Footer() {
                   href="https://wa.me/541162193426"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-4 rounded-xl bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-green-500/50 transition-all duration-300 group shadow-md hover:shadow-lg"
+                  className="flex items-center gap-3 !px-2 !py-3 rounded-xl bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-green-500/50 transition-all duration-300 group shadow-md hover:shadow-lg"
                 >
                   <div className="w-10 h-10 rounded-lg bg-green-500/15 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <FaWhatsapp size={20} className="text-green-500" />
                   </div>
-                  <div>
-                    <p className="text-xs text-[var(--color-text-tertiary)] mb-0.5 font-medium">WhatsApp</p>
-                    <p className="text-sm text-[var(--color-text-primary)] group-hover:text-green-500 transition-colors font-medium">
+                  <div className="flex-1 min-w-0 flex flex-col justify-center">
+                    <p className="text-xs text-[var(--color-text-tertiary)] !mb-0  font-medium">WhatsApp</p>
+                    <p className="text-sm text-[var(--color-text-primary)] !mb-0 group-hover:text-green-500 transition-colors font-medium">
                       +54 11 6219-3426
                     </p>
                   </div>
@@ -211,11 +211,11 @@ export default function Footer() {
             </ul>
 
             {/* CTA */}
-            <div className="mt-5">
+            <div className="!mt-5">
               <motion.a
                 href="#contacto"
                 onClick={(e) => handleNavClick(e, '#contacto')}
-                className="btn btn-gradient w-full px-6 py-3 text-base font-semibold shadow-lg"
+                className="btn btn-gradient w-full !px-6 !py-3 text-base font-semibold shadow-lg"
                 whileHover={{ scale: 1.02, y: -2, boxShadow: '0 0 25px rgba(134, 168, 105, 0.4)' }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -231,7 +231,7 @@ export default function Footer() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-12 pt-8 border-t-2 border-[var(--color-border)] flex flex-col md:flex-row justify-between items-center gap-4"
+          className="mt-12 !pt-8 border-t-2 border-[var(--color-border)] flex flex-col md:flex-row justify-between items-center gap-4"
         >
           <p className="text-[var(--color-text-secondary)] text-sm">
             © {currentYear} Folkode. Todos los derechos reservados.
