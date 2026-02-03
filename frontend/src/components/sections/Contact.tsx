@@ -178,7 +178,7 @@ export default function Contact() {
 
             {/* Social links */}
             <div>
-              <p className="text-base font-medium text-[var(--color-text-secondary)] mb-5">
+              <p className="!pt-2 text-base font-medium text-[var(--color-text-secondary)] mb-5">
                 Seguinos en redes
               </p>
               <div className="flex gap-4">
