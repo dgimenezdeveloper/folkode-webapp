@@ -5,22 +5,22 @@ import { motion } from 'motion/react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { 
-  Send, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  CheckCircle, 
+import {
+  Send,
+  Mail,
+  Phone,
+  MapPin,
+  CheckCircle,
   AlertCircle,
   Loader2
 } from 'lucide-react'
-import { 
-  FaGithub, 
-  FaDiscord, 
-  FaFacebook, 
-  FaInstagram, 
-  FaLinkedin, 
-  FaWhatsapp 
+import {
+  FaGithub,
+  FaDiscord,
+  FaFacebook,
+  FaInstagram,
+  FaLinkedin,
+  FaWhatsapp
 } from 'react-icons/fa'
 
 const contactSchema = z.object({
@@ -123,8 +123,8 @@ export default function Contact() {
                 Trabajemos juntos
               </h3>
               <p className="text-lg text-[var(--color-text-secondary)] leading-relaxed">
-                ¿Tenés una idea que querés hacer realidad? Contanos sobre tu proyecto 
-                y te responderemos a la brevedad. Estamos listos para transformar tus 
+                ¿Tenés una idea que querés hacer realidad? Contanos sobre tu proyecto
+                y te responderemos a la brevedad. Estamos listos para transformar tus
                 ideas en soluciones digitales.
               </p>
             </div>
@@ -133,7 +133,7 @@ export default function Contact() {
             <div className="space-y-4">
               <a
                 href="mailto:contactofolkode@gmail.com"
-                className="flex items-center gap-5 p-5 rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-[var(--color-primary)]/50 transition-all duration-300 group"
+                className="!px-4 !pt-2 flex items-center gap-5 p-5 rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-[var(--color-primary)]/50 transition-all duration-300 group"
               >
                 <div className="w-14 h-14 rounded-2xl bg-[var(--color-primary)]/15 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <Mail className="w-6 h-6 text-[var(--color-primary)]" />
@@ -150,7 +150,7 @@ export default function Contact() {
                 href="https://wa.me/541162193426"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-5 p-5 rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-green-500/50 transition-all duration-300 group"
+                className="!px-4 !pt-2 flex items-center gap-5 p-5 rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-green-500/50 transition-all duration-300 group"
               >
                 <div className="w-14 h-14 rounded-2xl bg-green-500/15 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <Phone className="w-6 h-6 text-green-500" />
@@ -163,7 +163,7 @@ export default function Contact() {
                 </div>
               </a>
 
-              <div className="flex items-center gap-5 p-5 rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)]">
+              <div className="!px-4 !pt-2 flex items-center gap-5 p-5 rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)]">
                 <div className="w-14 h-14 rounded-2xl bg-blue-500/15 flex items-center justify-center">
                   <MapPin className="w-6 h-6 text-blue-500" />
                 </div>
@@ -193,9 +193,9 @@ export default function Contact() {
                     whileTap={{ scale: 0.9 }}
                     aria-label={social.label}
                   >
-                    <social.icon 
-                      size={22} 
-                      className="text-[var(--color-text-secondary)] transition-colors duration-300" 
+                    <social.icon
+                      size={22}
+                      className="text-[var(--color-text-secondary)] transition-colors duration-300"
                       style={{ color: undefined }}
                       onMouseEnter={(e) => (e.currentTarget.style.color = social.color)}
                       onMouseLeave={(e) => (e.currentTarget.style.color = '')}
