@@ -421,7 +421,7 @@ function ProjectCard({
       </div>
 
       {/* Content */}
-      <div className="spacing p-6 flex flex-col gap-3 flex-1">
+      <div className="!m-3 !p-6 flex flex-col gap-3 flex-1">
         <h4 className="font-bold text-xl md:text-2xl text-[var(--color-text-primary)] group-hover:text-[var(--color-primary)] transition-colors">
           {project.title}
         </h4>
@@ -430,7 +430,7 @@ function ProjectCard({
         </p>
 
         {/* Technologies */}
-        <div className="flex flex-nowrap justify-center items-center gap-2 mt-2 pt-3 border-t border-[var(--color-border)] spacing">
+        <div className="flex flex-nowrap justify-center items-center gap-2 mt-2 pt-3 border-t border-[var(--color-border)] !p-3">
           {project.technologies.slice(0, 3).map((tech) => (
             <span
               key={tech}
