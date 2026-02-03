@@ -231,7 +231,7 @@ export default function Footer() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-12 !pt-8 border-t-2 border-[var(--color-border)] flex flex-col md:flex-row justify-between items-center gap-4"
+          className="!mt-12 pt-8 border-t-2 border-[var(--color-border)] flex flex-col md:flex-row justify-between items-center gap-4"
         >
           <p className="text-[var(--color-text-secondary)] text-sm">
             © {currentYear} Folkode. Todos los derechos reservados.
