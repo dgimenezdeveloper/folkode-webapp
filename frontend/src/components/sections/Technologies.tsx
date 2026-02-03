@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'motion/react'
+import { Globe, Smartphone, Apple, Watch, Tv, Zap } from 'lucide-react';
 import {
   SiReact,
   SiNextdotjs,
@@ -62,20 +63,20 @@ const technologies = [
 ]
 
 const platforms = [
-  { name: 'Website', icon: '🌐' },
-  { name: 'Android', icon: '📱' },
-  { name: 'iOS', icon: '🍎' },
-  { name: 'Watch', icon: '⌚' },
-  { name: 'TV', icon: '📺' },
-  { name: 'IA', icon: '🤖' },
+  { name: 'Website', icon: <Globe className="w-8 h-8 text-[#598392]" /> },
+  { name: 'Android', icon: <Smartphone className="w-8 h-8 text-[#a3b18a]" /> },
+  { name: 'iOS', icon: <Apple className="w-8 h-8 text-white" /> },
+  { name: 'Watch', icon: <Watch className="w-8 h-8 text-[#a3b18a]" /> },
+  { name: 'Tv', icon: <Tv className="w-8 h-8 text-[#598392]" /> },
+  { name: 'IA', icon: <Zap className="w-8 h-8 text-[#a3b18a]" /> },
 ]
 
 export default function Technologies() {
   return (
-    <section className="py-40 relative bg-black/40 flex justify-center items-center w-full">
-      <div className="max-w-7xl w-full flex flex-col items-center px-6">
-        <div className="text-center mb-24 w-full">
-          <h2 className="text-[#a3b18a] font-black tracking-[0.5em] text-[10px] uppercase mb-6">
+    <section className="!py-40 relative bg-black/40 flex justify-center items-center w-full">
+      <div className="max-w-7xl w-full flex flex-col items-center !px-6">
+        <div className="text-center !mb-24 w-full">
+          <h2 className="text-[#a3b18a] font-black tracking-[0.5em] text-[10px] uppercase !mb-6">
             Stack Tecnológico
           </h2>
           <h3 className="text-5xl md:text-7xl font-black text-white tracking-tighter">
@@ -84,13 +85,13 @@ export default function Technologies() {
         </div>
 
         {/* Plataformas (mantener visual) */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-24 w-full justify-items-center">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10 !mb-24 ">
           {platforms.map((platform, i) => (
             <div
               key={i}
-              className="glass rounded-[2.5rem] p-10 flex flex-col items-center justify-center gap-6 group hover:border-[#a3b18a]/40 bg-black/20"
+              className="!glass rounded-[2.5rem] !p-10 flex flex-col items-center justify-center gap-6 group border-1 border-transparent hover:border-[#a3b18a]/40 transition-color !bg-black/20"
             >
-              <div className="group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 text-3xl mt-4 mb-2">
+              <div className="group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 text-3xl !mt-4 !mb-2">
                 {platform.icon}
               </div>
               <span className="text-center font-bold text-[10px] tracking-[0.3em] uppercase text-white/40 group-hover:text-white transition-colors">
@@ -101,8 +102,8 @@ export default function Technologies() {
         </div>
 
         {/* Carrusel de tecnologías con íconos */}
-        <div className="relative w-full overflow-hidden py-16 border-y border-white/5 flex justify-center">
-          <div className="spacing flex animate-scroll whitespace-nowrap gap-20 px-10">
+        <div className="relative w-full overflow-hidden !py-16 border-y border-white/5 flex justify-center">
+          <div className="spacing flex animate-scroll whitespace-nowrap gap-20 !px-10">
             {[...technologies, ...technologies].map((tech, i) => (
               <div
                 key={i}
