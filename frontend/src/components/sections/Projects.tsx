@@ -520,7 +520,7 @@ function ProjectModal({
         <div className="p-8 ">
           <div className="flex flex-wrap items-start justify-between gap-4 mb-6 modal-avatar">
             <div className="flex-1">
-              <span className=" px-4 py-1.5 text-xs font-semibold rounded-full bg-[var(--color-accent)]/15 text-[var(--color-primary)] border border-[var(--color-primary)]/30 mb-4 inline-block btn btn-gradient px-6 py-3 text-sm font-semibold shadow-lg transition-all">
+              <span className="!ml-5 px-4 py-1.5 text-xs font-semibold rounded-full bg-[var(--color-accent)]/15 text-[var(--color-primary)] border border-[var(--color-primary)]/30 mb-4 inline-block btn btn-gradient px-6 py-3 text-sm font-semibold shadow-lg transition-all">
                 {categories.find(c => c.value === project.category)?.label}
               </span>
               <h2 className="spacing text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] mb-3">
