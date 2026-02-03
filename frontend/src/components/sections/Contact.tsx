@@ -119,7 +119,7 @@ export default function Contact() {
             className="space-y-10"
           >
             <div>
-              <h3 className="text-3xl font-bold text-[var(--color-text-primary)] mb-5">
+              <h3 className="!m-0 !pb-4 text-3xl font-bold text-[var(--color-text-primary)] mb-5">
                 Trabajemos juntos
               </h3>
               <p className="text-lg text-[var(--color-text-secondary)] leading-relaxed">
