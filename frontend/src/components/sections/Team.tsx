@@ -8,7 +8,7 @@ import { ChevronLeft, ChevronRight, GitBranch } from 'lucide-react'
 import { link } from 'fs'
 
 // Helper to generate avatar placeholder
-const getAvatarPlaceholder = (name: string) => 
+const getAvatarPlaceholder = (name: string) =>
   `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=86A869&color=fff&size=200`
 
 const teamMembers = [
@@ -47,7 +47,7 @@ const teamMembers = [
     image: '/fede.webp',
     github: 'https://github.com/FedericoPaal',
     linkedin: 'https://linkedin.com/in/federico-paal',
-  
+
   },
   {
     id: '4',
@@ -146,8 +146,8 @@ export default function Team() {
     setCurrentIndex((prev) => (prev - 1 + totalPages) % totalPages)
   }
 
-  const member = selectedMember 
-    ? teamMembers.find(m => m.id === selectedMember) 
+  const member = selectedMember
+    ? teamMembers.find(m => m.id === selectedMember)
     : null
 
   return (
@@ -159,7 +159,7 @@ export default function Team() {
         <div className="absolute top-0 left-1/4 w-1/2 h-1/2 bg-[radial-gradient(circle_at_50%_0%,rgba(134,168,105,0.06),transparent_50%)]" />
         <div className="absolute bottom-0 right-1/4 w-1/2 h-1/2 bg-[radial-gradient(circle_at_50%_100%,rgba(51,131,183,0.06),transparent_50%)]" />
       </div>
-      
+
       <div className="container mx-auto relative z-10">
         {/* Section header */}
         <motion.div
@@ -202,7 +202,7 @@ export default function Team() {
                       />
                       {/* Overlay on hover */}
                       <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-background)]/90 via-[var(--color-background)]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
-                        <span className="text-xs font-semibold text-white px-3 py-1.5 rounded-full bg-[var(--color-primary)] shadow-lg">
+                        <span className="flex items-center justify-center text-xs font-semibold text-white px-3 py-1.5 rounded-full bg-[var(--color-primary)] shadow-lg">
                           Ver perfil
                         </span>
                       </div>
@@ -235,7 +235,7 @@ export default function Team() {
             >
               <ChevronLeft size={24} className="text-[var(--color-text-primary)]" />
             </motion.button>
-            
+
             {/* Page indicators */}
             <div className="flex gap-3">
               {Array.from({ length: totalPages }).map((_, i) => (
@@ -243,15 +243,15 @@ export default function Team() {
                   key={i}
                   onClick={() => setCurrentIndex(i)}
                   className={`h-2.5 rounded-full transition-all ${
-                    i === currentIndex 
-                      ? 'bg-[var(--color-primary)] w-8 shadow-lg' 
+                    i === currentIndex
+                      ? 'bg-[var(--color-primary)] w-8 shadow-lg'
                       : 'bg-[var(--color-border)] hover:bg-[var(--color-text-secondary)] w-2.5'
                   }`}
                   aria-label={`Página ${i + 1}`}
                 />
               ))}
             </div>
-            
+
             <motion.button
               onClick={nextPage}
               className="p-4 rounded-full bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-[var(--color-primary)] transition-all shadow-lg hover:shadow-xl"
@@ -294,7 +294,7 @@ export default function Team() {
                     </svg>
                   </motion.div>
                 </button>
-                
+
                 <div className="text-center">
                   {/* Avatar */}
                   <div className="modal-avatar relative w-40 h-40 mx-auto mb-6 rounded-full overflow-hidden border-4 border-[var(--color-primary)] shadow-xl">
@@ -303,7 +303,7 @@ export default function Team() {
                       name={member.name}
                     />
                   </div>
-                  
+
                   {/* Info */}
                   <h3 className="text-2xl md:text-3xl font-bold text-[var(--color-text-primary)] mb-2">
                     {member.name}
@@ -314,7 +314,7 @@ export default function Team() {
                   <p className="text-base text-[var(--color-text-secondary)] leading-relaxed mb-8">
                     {member.bio}
                   </p>
-                  
+
                   {/* Social links */}
                   {(member.github || member.linkedin || member.portfolio) && (
                     <div className="flex justify-center gap-4 pt-4 border-t border-[var(--color-border)] spacing">
@@ -325,7 +325,7 @@ export default function Team() {
                           rel="noopener noreferrer"
                           className="p-3.5 rounded-xl bg-[var(--color-surface)] hover:bg-[var(--color-border)] border-2 border-[var(--color-border)] hover:border-[var(--color-primary)] transition-all shadow-md hover:shadow-lg group"
                           aria-label="GitHub"
-                          
+
                         >
                           <FaGithub size={24} className="text-[var(--color-text-secondary)] group-hover:text-[var(--color-primary)] transition-colors" />
                         </a>
@@ -365,17 +365,17 @@ export default function Team() {
 }
 
 // Team Member Image with fallback
-function TeamMemberImage({ 
-  src, 
+function TeamMemberImage({
+  src,
   name,
   className = ''
-}: { 
+}: {
   src: string
   name: string
   className?: string
 }) {
   const [hasError, setHasError] = useState(false)
-  
+
   return (
     <Image
       src={hasError ? getAvatarPlaceholder(name) : src}
