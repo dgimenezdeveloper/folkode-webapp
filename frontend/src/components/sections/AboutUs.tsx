@@ -177,9 +177,9 @@ export default function AboutUs() {
 								{/* Decorative gradient overlay on hover */}
 								<div className="absolute inset-0 rounded-[1.25rem] bg-gradient-to-br from-[var(--color-primary)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-								<div className="relative z-10 flex items-center gap-4">
+								<div className="relative z-10 flex flex-col items-center gap-4">
 									<div
-										className={`w-24 h-12 rounded-full bg-gradient-to-br ${value.gradient} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}
+										className={`flex-shrink-0 w-16 h-16 rounded-2xl bg-gradient-to-br ${value.gradient} flex items-center justify-center mb-4`}
 									>
 										<value.icon className="w-6 h-6 text-white" />
 									</div>
