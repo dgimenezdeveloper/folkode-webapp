@@ -87,6 +87,7 @@ export default function Navbar() {
                     src="/Folkode_Logo_Normal_Black_Costado.webp"
                     alt="Folkode Logo"
                     fill
+                    sizes="(max-width: 768px) 60vw, 128px"
                     className="object-contain transition-transform duration-300 group-hover:scale-110"
                     priority
                     onError={() => setLogoError(true)}
