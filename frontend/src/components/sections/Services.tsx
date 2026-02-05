@@ -1,12 +1,12 @@
 'use client'
 import { useState } from 'react'
 import { motion } from 'motion/react'
-import { 
-  Monitor, 
-  Settings, 
-  Smartphone, 
-  ShieldCheck, 
-  Heart, 
+import {
+  Monitor,
+  Settings,
+  Smartphone,
+  ShieldCheck,
+  Heart,
   Share2
 } from 'lucide-react'
 
@@ -105,7 +105,7 @@ export default function Services() {
               <motion.div
                 key={service.id}
                 className={`card group relative w-[400px] p-10 glass rounded-[3rem] transition-all duration-700 flex flex-col justify-between mx-auto cursor-pointer ${isExpanded ? 'shadow-2xl z-10' : 'hover:-translate-y-4 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.8)]'} `}
-                style={{ minHeight: isExpanded ? 420 : 320, maxHeight: isExpanded ? 600 : 320 }}
+                style={{ minHeight: isExpanded ? 450 : 320, maxHeight: isExpanded ? 450 : 320 }}
                 onMouseEnter={() => setExpanded(service.id)}
                 onMouseLeave={() => setExpanded(null)}
                 initial={{ opacity: 0, y: 30 }}
@@ -137,9 +137,9 @@ export default function Services() {
                   </ul>
                 </div>
                 <div className="flex flex-col gap-2 mt-8">
-                  <div className="pt-6 border-t border-white/5 flex items-center gap-2 text-[#a3b18a] font-black text-[10px] tracking-[0.2em] uppercase group-hover:translate-x-2 transition-transform cursor-pointer">
+                  <a href="#contacto" className="pt-6 border-t border-white/5 flex items-center  text-[#a3b18a] font-black text-[10px] tracking-[0.2em] uppercase group-hover:translate-x-2 transition-transform cursor-pointer">
                     Consultar <span className="text-lg">→</span>
-                  </div>
+                  </a>
                   {/* Ver más/menos */}
                   <button
                     className="self-end text-xs text-[#a3b18a] font-bold underline focus:outline-none mt-2"

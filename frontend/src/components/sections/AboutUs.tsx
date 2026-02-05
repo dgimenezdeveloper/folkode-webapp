@@ -80,7 +80,7 @@ export default function AboutUs() {
 						transition={{ duration: 0.6 }}
 						className="space-y-6"
 					>
-						<h3 className="text-3xl md:text-4xl font-bold text-[var(--color-text-primary)]">
+						<h3 className="text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] !mx-0">
 							Creamos soluciones digitales{' '}
 							<span className="text-gradient">modernas y funcionales</span>
 						</h3>
@@ -124,14 +124,14 @@ export default function AboutUs() {
 						transition={{ duration: 0.6, delay: 0.2 }}
 						className="relative"
 					>
-						<div className="relative rounded-3xl overflow-hidden border-2 border-[var(--color-border)] shadow-2xl">
+						<div className="relative rounded-3xl overflow-hidden border-2 border-[var(--color-border)] shadow-2xl hover:scale-105 transition-transform duration-1000">
 							{!imageError ? (
 								<Image
 									src="/images/grupo.png"
 									alt="Equipo Folkode"
 									width={600}
 									height={400}
-									className="object-cover w-full h-auto"
+									className="object-cover w-full h-auto "
 									onError={() => setImageError(true)}
 								/>
 							) : (
@@ -143,7 +143,7 @@ export default function AboutUs() {
 								</div>
 							)}
 							{/* Overlay gradient */}
-							<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-background)]/60 via-transparent to-transparent" />
+							<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-background)]/60 via-transparent to-transparent select-none" />
 						</div>
 
 						{/* Floating badge */}
@@ -177,9 +177,9 @@ export default function AboutUs() {
 								{/* Decorative gradient overlay on hover */}
 								<div className="absolute inset-0 rounded-[1.25rem] bg-gradient-to-br from-[var(--color-primary)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-								<div className="relative z-10 flex items-center gap-4">
+								<div className="relative z-10 flex flex-col items-center gap-4">
 									<div
-										className={`w-24 h-12 rounded-full bg-gradient-to-br ${value.gradient} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}
+										className={`flex-shrink-0 w-16 h-16 rounded-2xl bg-gradient-to-br ${value.gradient} flex items-center justify-center mb-4`}
 									>
 										<value.icon className="w-6 h-6 text-white" />
 									</div>
@@ -216,7 +216,7 @@ export default function AboutUs() {
 								whileInView={{ opacity: 1, scale: 1 }}
 								viewport={{ once: true }}
 								transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-								className="flex flex-col items-center text-center gap-4 p-6 rounded-2xl bg-[var(--color-surface)] border-2 border-[var(--color-border)] shadow-md hover:border-[var(--color-primary)]/50 hover:shadow-xl transition-all duration-300 group"
+								className="card flex flex-col items-center text-center gap-4 p-6 rounded-2xl bg-[var(--color-surface)] border-2 border-[var(--color-border)] shadow-md hover:border-[var(--color-primary)]/50 hover:shadow-xl transition-all duration-300 group"
 							>
 								<div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-[var(--color-primary)]/15 flex items-center justify-center group-hover:scale-110 transition-transform">
 									<feature.icon className="w-8 h-8 text-[var(--color-primary-hover)]" />

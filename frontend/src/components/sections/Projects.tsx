@@ -3,10 +3,10 @@
 import { useState, useMemo } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'motion/react'
-import { 
-  ExternalLink, 
-  X, 
-  ChevronLeft, 
+import {
+  ExternalLink,
+  X,
+  ChevronLeft,
   ChevronRight,
   Eye,
   Code,
@@ -19,7 +19,7 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
 // Helper to generate placeholder image
-const getPlaceholderImage = (title: string, index: number) => 
+const getPlaceholderImage = (title: string, index: number) =>
   `https://placehold.co/800x600/1a1a2e/86A869?text=${encodeURIComponent(title)}+${index + 1}`
 
 // Project data
@@ -263,7 +263,7 @@ export default function Projects() {
         <div className="absolute top-1/4 right-0 w-1/2 h-1/2 bg-[radial-gradient(circle_at_100%_50%,rgba(134,168,105,0.05),transparent_50%)]" />
         <div className="absolute bottom-1/4 left-0 w-1/2 h-1/2 bg-[radial-gradient(circle_at_0%_50%,rgba(51,131,183,0.05),transparent_50%)]" />
       </div>
-      
+
       <div className="container mx-auto relative z-10">
         {/* Section header */}
         <motion.div
@@ -304,7 +304,7 @@ export default function Projects() {
         </motion.div>
 
         {/* Projects grid */}
-        <motion.div 
+        <motion.div
           layout
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
         >
@@ -318,8 +318,8 @@ export default function Projects() {
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
               >
-                <ProjectCard 
-                  project={project} 
+                <ProjectCard
+                  project={project}
                   onClick={() => setSelectedProject(project)}
                 />
               </motion.div>
@@ -344,9 +344,9 @@ export default function Projects() {
       {/* Project detail modal */}
       <AnimatePresence>
         {selectedProject && (
-          <ProjectModal 
-            project={selectedProject} 
-            onClose={() => setSelectedProject(null)} 
+          <ProjectModal
+            project={selectedProject}
+            onClose={() => setSelectedProject(null)}
           />
         )}
       </AnimatePresence>
@@ -355,12 +355,12 @@ export default function Projects() {
 }
 
 // Project Card Component
-function ProjectCard({ 
-  project, 
-  onClick 
-}: { 
+function ProjectCard({
+  project,
+  onClick
+}: {
   project: typeof projects[0]
-  onClick: () => void 
+  onClick: () => void
 }) {
   const [imgErrors, setImgErrors] = useState<Record<number, boolean>>({})
 
@@ -399,10 +399,10 @@ function ProjectCard({
             </SwiperSlide>
           ))}
         </Swiper>
-        
+
         {/* Category badge */}
         <div className="absolute top-4 left-4 z-10">
-          <span className={` btn-gradient px-4 py-1.5 text-xs font-semibold rounded-full shadow-lg`}> 
+          <span className={` btn-gradient !px-4 !py-1.5 text-xs font-semibold rounded-full shadow-lg`}>
             {categories.find(c => c.value === project.category)?.label}
           </span>
         </div>
@@ -421,16 +421,16 @@ function ProjectCard({
       </div>
 
       {/* Content */}
-      <div className="spacing p-6 flex flex-col gap-3 flex-1">
+      <div className="!m-3 !p-6 flex flex-col gap-3 flex-1">
         <h4 className="font-bold text-xl md:text-2xl text-[var(--color-text-primary)] group-hover:text-[var(--color-primary)] transition-colors">
           {project.title}
         </h4>
         <p className="text-base text-[var(--color-text-secondary)] leading-relaxed flex-1">
           {project.shortDesc}
         </p>
-        
+
         {/* Technologies */}
-        <div className="flex flex-nowrap justify-center items-center gap-2 mt-2 pt-3 border-t border-[var(--color-border)] spacing">
+        <div className="flex flex-nowrap justify-center items-center gap-2 mt-2 pt-3 border-t border-[var(--color-border)] !p-3">
           {project.technologies.slice(0, 3).map((tech) => (
             <span
               key={tech}
@@ -451,12 +451,12 @@ function ProjectCard({
 }
 
 // Project Modal Component
-function ProjectModal({ 
-  project, 
-  onClose 
-}: { 
+function ProjectModal({
+  project,
+  onClose
+}: {
   project: typeof projects[0]
-  onClose: () => void 
+  onClose: () => void
 }) {
   const [imgErrors, setImgErrors] = useState<Record<number, boolean>>({})
 
@@ -520,7 +520,7 @@ function ProjectModal({
         <div className="p-8 ">
           <div className="flex flex-wrap items-start justify-between gap-4 mb-6 modal-avatar">
             <div className="flex-1">
-              <span className=" px-4 py-1.5 text-xs font-semibold rounded-full bg-[var(--color-accent)]/15 text-[var(--color-primary)] border border-[var(--color-primary)]/30 mb-4 inline-block btn btn-gradient px-6 py-3 text-sm font-semibold shadow-lg transition-all">
+              <span className="!ml-5 px-4 py-1.5 text-xs font-semibold rounded-full bg-[var(--color-accent)]/15 text-[var(--color-primary)] border border-[var(--color-primary)]/30 mb-4 inline-block btn btn-gradient px-6 py-3 text-sm font-semibold shadow-lg transition-all">
                 {categories.find(c => c.value === project.category)?.label}
               </span>
               <h2 className="spacing text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] mb-3">
@@ -530,7 +530,7 @@ function ProjectModal({
                 {project.shortDesc}
               </p>
             </div>
-            
+
             {/* Action buttons */}
             <div className="flex flex-wrap gap-3">
               {project.liveUrl && (

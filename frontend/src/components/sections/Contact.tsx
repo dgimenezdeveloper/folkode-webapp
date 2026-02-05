@@ -5,22 +5,22 @@ import { motion } from 'motion/react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { 
-  Send, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  CheckCircle, 
+import {
+  Send,
+  Mail,
+  Phone,
+  MapPin,
+  CheckCircle,
   AlertCircle,
   Loader2
 } from 'lucide-react'
-import { 
-  FaGithub, 
-  FaDiscord, 
-  FaFacebook, 
-  FaInstagram, 
-  FaLinkedin, 
-  FaWhatsapp 
+import {
+  FaGithub,
+  FaDiscord,
+  FaFacebook,
+  FaInstagram,
+  FaLinkedin,
+  FaWhatsapp
 } from 'react-icons/fa'
 
 const contactSchema = z.object({
@@ -109,6 +109,17 @@ export default function Contact() {
           </p>
         </motion.div>
 
+        <div>
+              <h3 className="!m-0 !pb-4 text-3xl font-bold text-[var(--color-text-primary)] mb-5">
+                Trabajemos juntos
+              </h3>
+              <p className="text-lg text-[var(--color-text-secondary)] leading-relaxed">
+                ¿Tenés una idea que querés hacer realidad? Contanos sobre tu proyecto
+                y te responderemos a la brevedad. Estamos listos para transformar tus
+                ideas en soluciones digitales.
+              </p>
+            </div>
+
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           {/* Contact info */}
           <motion.div
@@ -118,29 +129,19 @@ export default function Contact() {
             transition={{ duration: 0.5 }}
             className="space-y-10"
           >
-            <div>
-              <h3 className="text-3xl font-bold text-[var(--color-text-primary)] mb-5">
-                Trabajemos juntos
-              </h3>
-              <p className="text-lg text-[var(--color-text-secondary)] leading-relaxed">
-                ¿Tenés una idea que querés hacer realidad? Contanos sobre tu proyecto 
-                y te responderemos a la brevedad. Estamos listos para transformar tus 
-                ideas en soluciones digitales.
-              </p>
-            </div>
 
             {/* Contact methods */}
             <div className="space-y-4">
               <a
                 href="mailto:contactofolkode@gmail.com"
-                className="flex items-center gap-5 p-5 rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-[var(--color-primary)]/50 transition-all duration-300 group"
+                className="!px-4 !py-2 flex items-center gap-5 p-5 rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-[var(--color-primary)]/50 transition-all duration-300 group"
               >
                 <div className="w-14 h-14 rounded-2xl bg-[var(--color-primary)]/15 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <Mail className="w-6 h-6 text-[var(--color-primary)]" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-[var(--color-text-tertiary)] mb-1">Email</p>
-                  <p className="text-lg text-[var(--color-text-primary)] group-hover:text-[var(--color-primary)] transition-colors font-medium">
+                  <p className="text-sm font-medium text-[var(--color-text-tertiary)] !mb-0">Email</p>
+                  <p className="text-lg text-[var(--color-text-primary)] group-hover:text-[var(--color-primary)] transition-colors font-medium !mb-0">
                     contactofolkode@gmail.com
                   </p>
                 </div>
@@ -150,26 +151,26 @@ export default function Contact() {
                 href="https://wa.me/541162193426"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-5 p-5 rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-green-500/50 transition-all duration-300 group"
+                className="!px-4 !py-2 flex items-center gap-5 p-5 rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-green-500/50 transition-all duration-300 group"
               >
                 <div className="w-14 h-14 rounded-2xl bg-green-500/15 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <Phone className="w-6 h-6 text-green-500" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-[var(--color-text-tertiary)] mb-1">WhatsApp</p>
-                  <p className="text-lg text-[var(--color-text-primary)] group-hover:text-green-500 transition-colors font-medium">
+                  <p className="text-sm font-medium text-[var(--color-text-tertiary)] !mb-0">WhatsApp</p>
+                  <p className="text-lg text-[var(--color-text-primary)] group-hover:text-green-500 transition-colors font-medium !mb-0">
                     +54 11 6219-3426
                   </p>
                 </div>
               </a>
 
-              <div className="flex items-center gap-5 p-5 rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)]">
+              <div className="!px-4 !py-2 flex items-center gap-5 p-5 rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)]">
                 <div className="w-14 h-14 rounded-2xl bg-blue-500/15 flex items-center justify-center">
                   <MapPin className="w-6 h-6 text-blue-500" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-[var(--color-text-tertiary)] mb-1">Ubicación</p>
-                  <p className="text-lg text-[var(--color-text-primary)] font-medium">
+                  <p className="text-sm font-medium text-[var(--color-text-tertiary)] !mb-0">Ubicación</p>
+                  <p className="text-lg text-[var(--color-text-primary)] font-medium !mb-0">
                     Buenos Aires, Argentina 🇦🇷
                   </p>
                 </div>
@@ -178,10 +179,10 @@ export default function Contact() {
 
             {/* Social links */}
             <div>
-              <p className="text-base font-medium text-[var(--color-text-secondary)] mb-5">
+              <p className="text-center !pt-2 text-base font-medium text-[var(--color-text-secondary)] mb-5">
                 Seguinos en redes
               </p>
-              <div className="flex gap-4">
+              <div className="flex justify-center gap-4">
                 {socialLinks.map((social) => (
                   <motion.a
                     key={social.label}
@@ -193,9 +194,9 @@ export default function Contact() {
                     whileTap={{ scale: 0.9 }}
                     aria-label={social.label}
                   >
-                    <social.icon 
-                      size={22} 
-                      className="text-[var(--color-text-secondary)] transition-colors duration-300" 
+                    <social.icon
+                      size={22}
+                      className="text-[var(--color-text-secondary)] transition-colors duration-300"
                       style={{ color: undefined }}
                       onMouseEnter={(e) => (e.currentTarget.style.color = social.color)}
                       onMouseLeave={(e) => (e.currentTarget.style.color = '')}
@@ -219,7 +220,7 @@ export default function Contact() {
             >
               {/* Name */}
               <div>
-                <label htmlFor="name" className="label-contact block text-sm font-semibold text-[var(--color-text-primary)] mb-2">
+                <label htmlFor="name" className="!mb-1 label-contact block text-sm font-semibold text-[var(--color-text-primary)] mb-2">
                   Nombre *
                 </label>
                 <input
@@ -227,7 +228,7 @@ export default function Contact() {
                   type="text"
                   id="name"
                   placeholder="Tu nombre"
-                  className={`w-full px-5 py-4 rounded-xl bg-[var(--color-surface)] border-2 transition-all duration-300 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:outline-none focus:ring-0 ${errors.name ? 'border-[var(--color-error)]' : 'border-[var(--color-border)] focus:border-[var(--color-primary)]'}`}
+                  className={`!pl-3 w-full px-5 py-4 rounded-xl bg-[var(--color-surface)] border-2 transition-all duration-300 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:outline-none focus:ring-0 ${errors.name ? 'border-[var(--color-error)]' : 'border-[var(--color-border)] focus:border-[var(--color-primary)]'}`}
                 />
                 {errors.name && (
                   <p className="text-sm text-[var(--color-error)] mt-2 flex items-center gap-1 ">
@@ -239,7 +240,7 @@ export default function Contact() {
 
               {/* Email */}
               <div>
-                <label htmlFor="email" className="label-contact block text-sm font-semibold text-[var(--color-text-primary)] mb-2">
+                <label htmlFor="email" className="!mb-1 label-contact block text-sm font-semibold text-[var(--color-text-primary)] mb-2">
                   Email *
                 </label>
                 <input
@@ -247,7 +248,7 @@ export default function Contact() {
                   type="email"
                   id="email"
                   placeholder="tu@email.com"
-                  className={`w-full px-5 py-4 rounded-xl bg-[var(--color-surface)] border-2 transition-all duration-300 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:outline-none focus:ring-0 ${errors.email ? 'border-[var(--color-error)]' : 'border-[var(--color-border)] focus:border-[var(--color-primary)]'}`}
+                  className={`!pl-3 w-full px-5 py-4 rounded-xl bg-[var(--color-surface)] border-2 transition-all duration-300 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:outline-none focus:ring-0 ${errors.email ? 'border-[var(--color-error)]' : 'border-[var(--color-border)] focus:border-[var(--color-primary)]'}`}
                 />
                 {errors.email && (
                   <p className="text-sm text-[var(--color-error)] mt-2 flex items-center gap-1">
@@ -260,7 +261,7 @@ export default function Contact() {
               {/* Phone & Company in a row */}
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="phone" className="label-contact block text-sm font-semibold text-[var(--color-text-primary)] mb-2">
+                  <label htmlFor="phone" className="!mb-1 label-contact block text-sm font-semibold text-[var(--color-text-primary)] mb-2">
                     Teléfono
                   </label>
                   <input
@@ -268,11 +269,11 @@ export default function Contact() {
                     type="tel"
                     id="phone"
                     placeholder="+54 11 1234-5678"
-                    className="w-full px-5 py-4 rounded-xl bg-[var(--color-surface)] border-2 border-[var(--color-border)] focus:border-[var(--color-primary)] transition-all duration-300 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:outline-none focus:ring-0"
+                    className="!pl-3 w-full px-5 py-4 rounded-xl bg-[var(--color-surface)] border-2 border-[var(--color-border)] focus:border-[var(--color-primary)] transition-all duration-300 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:outline-none focus:ring-0"
                   />
                 </div>
                 <div>
-                  <label htmlFor="company" className="label-contact block text-sm font-semibold text-[var(--color-text-primary)] mb-2">
+                  <label htmlFor="company" className="!mb-1 label-contact block text-sm font-semibold text-[var(--color-text-primary)] mb-2">
                     Empresa/Proyecto
                   </label>
                   <input
@@ -280,14 +281,14 @@ export default function Contact() {
                     type="text"
                     id="company"
                     placeholder="Nombre de tu empresa"
-                    className="w-full px-5 py-4 rounded-xl bg-[var(--color-surface)] border-2 border-[var(--color-border)] focus:border-[var(--color-primary)] transition-all duration-300 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:outline-none focus:ring-0"
+                    className="!pl-3 w-full px-5 py-4 rounded-xl bg-[var(--color-surface)] border-2 border-[var(--color-border)] focus:border-[var(--color-primary)] transition-all duration-300 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:outline-none focus:ring-0"
                   />
                 </div>
               </div>
 
               {/* Message */}
               <div>
-                <label htmlFor="message" className="label-contact block text-sm font-semibold text-[var(--color-text-primary)] mb-2">
+                <label htmlFor="message" className="!mb-1 label-contact block text-sm font-semibold text-[var(--color-text-primary)] mb-2">
                   Mensaje *
                 </label>
                 <textarea
@@ -295,7 +296,7 @@ export default function Contact() {
                   id="message"
                   rows={5}
                   placeholder="Contanos sobre tu proyecto..."
-                  className={`w-full px-5 py-4 rounded-xl bg-[var(--color-surface)] border-2 transition-all duration-300 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:outline-none focus:ring-0 resize-none ${errors.message ? 'border-[var(--color-error)]' : 'border-[var(--color-border)] focus:border-[var(--color-primary)]'}`}
+                  className={`!pl-3 w-full px-5 py-4 rounded-xl bg-[var(--color-surface)] border-2 transition-all duration-300 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:outline-none focus:ring-0 resize-none ${errors.message ? 'border-[var(--color-error)]' : 'border-[var(--color-border)] focus:border-[var(--color-primary)]'}`}
                 />
                 {errors.message && (
                   <p className="text-sm text-[var(--color-error)] mt-2 flex items-center gap-1">

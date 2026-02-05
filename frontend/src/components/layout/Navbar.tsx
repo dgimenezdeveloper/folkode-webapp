@@ -109,8 +109,8 @@ export default function Navbar() {
               className={cn(
                 'relative text-sm xl:text-base font-semibold transition-colors duration-200 py-2',
                 activeSection === link.href.replace('#', '')
-                  ? 'text-[var(--color-primary)]'
-                  : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
+                  ? 'nav-text-hover'
+                  : 'nav-text hover:nav-text-hover'
               )}
               whileHover={{ y: -2 }}
               whileTap={{ y: 0 }}
@@ -133,7 +133,7 @@ export default function Navbar() {
           <motion.a
             href="#contacto"
             onClick={(e) => handleNavClick(e, '#contacto')}
-            className="btn btn-gradient text-sm xl:text-base px-6 py-2.5 font-semibold shadow-lg"
+            className="btn btn-gradient text-sm xl:text-base px-6 py-2.5 font-semibold shadow-lg button-text"
             whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(134, 168, 105, 0.4)' }}
             whileTap={{ scale: 0.95 }}
           >
