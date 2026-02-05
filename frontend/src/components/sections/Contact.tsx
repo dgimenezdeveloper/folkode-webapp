@@ -133,14 +133,14 @@ export default function Contact() {
             <div className="space-y-4">
               <a
                 href="mailto:contactofolkode@gmail.com"
-                className="!px-4 !pt-2 flex items-center gap-5 p-5 rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-[var(--color-primary)]/50 transition-all duration-300 group"
+                className="!px-4 !py-2 flex items-center gap-5 p-5 rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-[var(--color-primary)]/50 transition-all duration-300 group"
               >
                 <div className="w-14 h-14 rounded-2xl bg-[var(--color-primary)]/15 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <Mail className="w-6 h-6 text-[var(--color-primary)]" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-[var(--color-text-tertiary)] mb-1">Email</p>
-                  <p className="text-lg text-[var(--color-text-primary)] group-hover:text-[var(--color-primary)] transition-colors font-medium">
+                  <p className="text-sm font-medium text-[var(--color-text-tertiary)] !mb-0">Email</p>
+                  <p className="text-lg text-[var(--color-text-primary)] group-hover:text-[var(--color-primary)] transition-colors font-medium !mb-0">
                     contactofolkode@gmail.com
                   </p>
                 </div>
@@ -150,26 +150,26 @@ export default function Contact() {
                 href="https://wa.me/541162193426"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="!px-4 !pt-2 flex items-center gap-5 p-5 rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-green-500/50 transition-all duration-300 group"
+                className="!px-4 !py-2 flex items-center gap-5 p-5 rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-green-500/50 transition-all duration-300 group"
               >
                 <div className="w-14 h-14 rounded-2xl bg-green-500/15 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <Phone className="w-6 h-6 text-green-500" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-[var(--color-text-tertiary)] mb-1">WhatsApp</p>
-                  <p className="text-lg text-[var(--color-text-primary)] group-hover:text-green-500 transition-colors font-medium">
+                  <p className="text-sm font-medium text-[var(--color-text-tertiary)] !mb-0">WhatsApp</p>
+                  <p className="text-lg text-[var(--color-text-primary)] group-hover:text-green-500 transition-colors font-medium !mb-0">
                     +54 11 6219-3426
                   </p>
                 </div>
               </a>
 
-              <div className="!px-4 !pt-2 flex items-center gap-5 p-5 rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)]">
+              <div className="!px-4 !py-2 flex items-center gap-5 p-5 rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)]">
                 <div className="w-14 h-14 rounded-2xl bg-blue-500/15 flex items-center justify-center">
                   <MapPin className="w-6 h-6 text-blue-500" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-[var(--color-text-tertiary)] mb-1">Ubicación</p>
-                  <p className="text-lg text-[var(--color-text-primary)] font-medium">
+                  <p className="text-sm font-medium text-[var(--color-text-tertiary)] !mb-0">Ubicación</p>
+                  <p className="text-lg text-[var(--color-text-primary)] font-medium !mb-0">
                     Buenos Aires, Argentina 🇦🇷
                   </p>
                 </div>
