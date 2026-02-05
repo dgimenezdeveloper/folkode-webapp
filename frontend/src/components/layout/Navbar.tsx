@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -45,17 +46,21 @@ export default function Navbar() {
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault()
-    const targetId = href.replace('#', '')
-    const element = document.getElementById(targetId)
-    if (element) {
-      const offset = 80
-      const elementPosition = element.getBoundingClientRect().top
-      const offsetPosition = elementPosition + window.pageYOffset - offset
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      })
+    if (href === '/' || href === '#inicio') {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      setActiveSection('inicio')
+    } else {
+      const targetId = href.replace('#', '')
+      const element = document.getElementById(targetId)
+      if (element) {
+        const offset = 80
+        const elementPosition = element.getBoundingClientRect().top
+        const offsetPosition = elementPosition + window.pageYOffset - offset
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        })
+      }
     }
     setIsMobileMenuOpen(false)
   }
@@ -74,7 +79,11 @@ export default function Navbar() {
     >
       <nav className="container mx-auto px-4 md:px-6 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 group">
+        <a
+          href="/"
+          className="flex items-center gap-3 group cursor-pointer"
+          onClick={(e) => handleNavClick(e, '/')}
+        >
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -98,34 +107,62 @@ export default function Navbar() {
               <span className="text-2xl font-bold text-gradient">Folkode</span>
             )}
           </motion.div>
-        </Link>
+        </a>
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-8">
           {navLinks.map((link) => (
-            <motion.a
-              key={link.href}
-              href={link.href}
-              onClick={(e) => handleNavClick(e, link.href)}
-              className={cn(
-                'relative text-sm xl:text-base font-semibold transition-colors duration-200 py-2',
-                activeSection === link.href.replace('#', '')
-                  ? 'nav-text-hover'
-                  : 'nav-text hover:nav-text-hover'
-              )}
-              whileHover={{ y: -2 }}
-              whileTap={{ y: 0 }}
-            >
-              {link.label}
-              {activeSection === link.href.replace('#', '') && (
-                <motion.div
-                  layoutId="activeSection"
-                  className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[var(--color-primary)] rounded-full"
-                  initial={false}
-                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                />
-              )}
-            </motion.a>
+            (
+              link.label === 'Inicio' ? (
+                <motion.a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className={cn(
+                    'relative text-sm xl:text-base font-semibold transition-colors duration-200 py-2',
+                    activeSection === link.href.replace('#', '')
+                      ? 'nav-text-hover'
+                      : 'nav-text hover:nav-text-hover'
+                  )}
+                  whileHover={{ y: -2 }}
+                  whileTap={{ y: 0 }}
+                >
+                  {link.label}
+                  {activeSection === link.href.replace('#', '') && (
+                    <motion.div
+                      layoutId="activeSection"
+                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[var(--color-primary)] rounded-full"
+                      initial={false}
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                </motion.a>
+              ) : (
+                <motion.a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className={cn(
+                    'relative text-sm xl:text-base font-semibold transition-colors duration-200 py-2',
+                    activeSection === link.href.replace('#', '')
+                      ? 'nav-text-hover'
+                      : 'nav-text hover:nav-text-hover'
+                  )}
+                  whileHover={{ y: -2 }}
+                  whileTap={{ y: 0 }}
+                >
+                  {link.label}
+                  {activeSection === link.href.replace('#', '') && (
+                    <motion.div
+                      layoutId="activeSection"
+                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[var(--color-primary)] rounded-full"
+                      initial={false}
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                </motion.a>
+              )
+            )
           ))}
         </div>
 
