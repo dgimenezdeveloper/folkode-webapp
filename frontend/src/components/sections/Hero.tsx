@@ -30,8 +30,9 @@ export default function Hero() {
             </span>
           </h1>
 
-          <p className=" max-w-3xl text-lg md:text-1xl text-white/50 mb-16 !mt-5 leading-relaxed font-medium">
-            Transformamos ideas en soluciones reales e innovadoras
+          <p className=" max-w-3xl text-lg md:text-2xl text-white/50 mb-16 leading-relaxed font-medium">
+            Transformamos ideas<br />
+            en soluciones reales e innovadoras
           </p>
 
           <div className=" spacing flex flex-wrap justify-center gap-4 md:gap-8 mb-24">
@@ -75,15 +76,15 @@ export default function Hero() {
             <div className="relative glass rounded-[4rem] border-white/5 p-4 md:p-8 shadow-2xl overflow-hidden group">
               <div className="aspect-[21/9] w-full rounded-[3rem] overflow-hidden bg-black relative">
                 <img
-                  src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=2000"
+                  src="/images/hero-featured.jpg"
                   alt="Folkode Studio"
                   className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-1000"
                 />
-                <div className="title-space absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex flex-col justify-end p-12 text-left">
-                  <span className="text-[#a3b18a] font-black tracking-[0.5em] text-[10px] uppercase mb-4">
+                <div className="title-space absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex flex-col justify-end p-[2rem_!important] text-left ">
+                  <span className="text-[#a3b18a] font-black tracking-[0.5em] text-[10px] uppercase w-[100%_!important]">
                     Nuestro Espacio de Trabajo
                   </span>
-                  <h3 className="text-4xl font-black text-white max-w-xl">
+                  <h3 className="text-4xl font-black text-white max-w-xl m-[0_!important]">
                     Donde las ideas se convierten en líneas de código perfectas.
                   </h3>
                 </div>
