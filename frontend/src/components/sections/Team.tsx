@@ -381,6 +381,7 @@ function TeamMemberImage({
       src={hasError ? getAvatarPlaceholder(name) : src}
       alt={name}
       fill
+      sizes="(max-width: 640px) 100vw, 200px"
       className={`object-cover ${className}`}
       unoptimized={hasError}
       onError={() => setHasError(true)}
