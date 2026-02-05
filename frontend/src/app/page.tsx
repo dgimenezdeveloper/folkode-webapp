@@ -8,6 +8,7 @@ import Projects from '@/components/sections/Projects'
 import Testimonials from '@/components/sections/Testimonials'
 import Technologies from '@/components/sections/Technologies'
 import Contact from '@/components/sections/Contact'
+import History from '@/components/sections/History'
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
         <Hero />
         <Services />
         <AboutUs />
+        <History />
         <Team />
         <Projects />
         <Testimonials />
