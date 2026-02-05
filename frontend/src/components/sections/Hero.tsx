@@ -76,7 +76,7 @@ export default function Hero() {
             <div className="relative glass rounded-[4rem] border-white/5 p-4 md:p-8 shadow-2xl overflow-hidden group">
               <div className="aspect-[21/9] w-full rounded-[3rem] overflow-hidden bg-black relative">
                 <img
-                  src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=2000"
+                  src="/images/hero-featured.jpg"
                   alt="Folkode Studio"
                   className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-1000"
                 />
