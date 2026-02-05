@@ -109,16 +109,7 @@ export default function Contact() {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          {/* Contact info */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="space-y-10"
-          >
-            <div>
+        <div>
               <h3 className="!m-0 !pb-4 text-3xl font-bold text-[var(--color-text-primary)] mb-5">
                 Trabajemos juntos
               </h3>
@@ -128,6 +119,16 @@ export default function Contact() {
                 ideas en soluciones digitales.
               </p>
             </div>
+
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+          {/* Contact info */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="space-y-10"
+          >
 
             {/* Contact methods */}
             <div className="space-y-4">
