@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'motion/react'
 import { Globe, Smartphone, Apple, Watch, Tv, Zap } from 'lucide-react';
 import {
   SiReact,

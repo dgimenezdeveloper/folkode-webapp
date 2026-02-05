@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import Link from 'next/link'
-import { FiPlus, FiSearch, FiEdit2, FiTrash2, FiExternalLink, FiEye, FiFolder } from 'react-icons/fi'
+import Image from 'next/image'
+import { FiPlus, FiSearch, FiEdit2, FiExternalLink, FiEye, FiFolder } from 'react-icons/fi'
 import { ProjectCategory, ProjectStatus } from '@/lib/db/types'
 import DeleteProjectButton from './DeleteProjectButton'
 
@@ -87,9 +88,11 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
                       {project.images[0] ? (
-                        <img 
+                        <Image 
                           src={project.images[0].url} 
                           alt={project.title}
+                          width={48}
+                          height={48}
                           className="w-full h-full object-cover"
                         />
                       ) : (
