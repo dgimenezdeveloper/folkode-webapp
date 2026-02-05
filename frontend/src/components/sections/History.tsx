@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Calendar, Users, Coffee, BookOpen, Fingerprint, Palette } from 'lucide-react';
+import { Calendar, Users, Coffee, Fingerprint, Palette } from 'lucide-react';
 
 const History: React.FC = () => {
   return (

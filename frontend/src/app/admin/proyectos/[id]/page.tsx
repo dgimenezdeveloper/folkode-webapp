@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { 
   FiArrowLeft, 
   FiEdit2, 
@@ -124,10 +125,11 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           {project.images.length > 0 && (
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
               <div className="aspect-video relative">
-                <img
+                <Image
                   src={project.images[0].url}
                   alt={project.images[0].alt || project.title}
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                 />
               </div>
               {project.images.length > 1 && (
@@ -135,11 +137,12 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                   <p className="text-sm font-medium text-gray-600 mb-3">Más imágenes</p>
                   <div className="grid grid-cols-4 gap-3">
                     {project.images.slice(1).map((image: { id: string; url: string; alt?: string }, index: number) => (
-                      <div key={image.id} className="aspect-video rounded-lg overflow-hidden border border-gray-200">
-                        <img
+                      <div key={image.id} className="aspect-video rounded-lg overflow-hidden border border-gray-200 relative">
+                        <Image
                           src={image.url}
                           alt={image.alt || `${project.title} - ${index + 2}`}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform"
+                          fill
+                          className="object-cover hover:scale-105 transition-transform"
                         />
                       </div>
                     ))}

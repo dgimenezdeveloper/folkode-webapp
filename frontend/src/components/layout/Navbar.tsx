@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'motion/react'
-import { Menu, X, ChevronDown } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const navLinks = [
@@ -79,7 +79,7 @@ export default function Navbar() {
     >
       <nav className="container mx-auto px-4 md:px-6 flex items-center justify-between">
         {/* Logo */}
-        <a
+        <Link
           href="/"
           className="flex items-center gap-3 group cursor-pointer"
           onClick={(e) => handleNavClick(e, '/')}
@@ -107,7 +107,7 @@ export default function Navbar() {
               <span className="text-2xl font-bold text-gradient">Folkode</span>
             )}
           </motion.div>
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-8">

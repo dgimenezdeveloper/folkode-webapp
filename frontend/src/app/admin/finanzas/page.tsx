@@ -4,7 +4,6 @@ import {
   FiPlus, 
   FiSearch, 
   FiEdit2, 
-  FiTrash2, 
   FiTrendingUp, 
   FiTrendingDown, 
   FiDollarSign,
@@ -41,7 +40,7 @@ async function getFilterData() {
   return { projects, clients }
 }
 
-async function getSummary(searchParams: SearchParams) {
+async function getSummary() {
   // TODO: Implementar endpoint real en backend para resumen financiero
   return { income: 0, expenses: 0, balance: 0 }
 }
@@ -210,7 +209,7 @@ export default async function FinancesPage({
   const params = await searchParams
   const [filterData, summary] = await Promise.all([
     getFilterData(),
-    getSummary(params)
+    getSummary()
   ])
   
   return (

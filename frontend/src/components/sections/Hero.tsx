@@ -1,6 +1,6 @@
 'use client'
 
-
+import Image from 'next/image'
 import { motion } from "motion/react"
 import { ChevronRight, Sparkles, User, Building2, Factory } from 'lucide-react'
 
@@ -75,11 +75,12 @@ export default function Hero() {
             <div className="absolute -inset-1 bg-gradient-to-r from-[#a3b18a]/20 to-[#003d5b]/20 blur-2xl opacity-50" />
             <div className="relative glass rounded-[4rem] border-white/5 p-4 md:p-8 shadow-2xl overflow-hidden group">
               <div className="w-full flex justify-center items-center rounded-[3rem] bg-black relative" style={{ minHeight: '400px' }}>
-                <img
+                <Image
                   src="/images/hero-featured.jpg"
                   alt="Folkode Studio"
-                  style={{ objectFit: 'contain', width: '100%', height: '100%', maxHeight: '600px' }}
-                  className="w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-1500"
+                  fill
+                  style={{ objectFit: 'contain' }}
+                  className="opacity-90 group-hover:scale-110 transition-transform duration-1500"
                 />
                 <div className="title-space absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex flex-col justify-end p-[2rem_!important] text-left ">
                   <span className="text-[#a3b18a] font-black tracking-[0.5em] text-[10px] uppercase w-[100%_!important]">

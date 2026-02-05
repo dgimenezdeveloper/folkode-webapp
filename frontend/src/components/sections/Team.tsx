@@ -3,9 +3,8 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'motion/react'
-import { FaGithub, FaLinkedin, FaTwitter, FaGlobe } from 'react-icons/fa'
-import { ChevronLeft, ChevronRight, GitBranch } from 'lucide-react'
-import { link } from 'fs'
+import { FaGithub, FaLinkedin, FaGlobe } from 'react-icons/fa'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 // Helper to generate avatar placeholder
 const getAvatarPlaceholder = (name: string) =>

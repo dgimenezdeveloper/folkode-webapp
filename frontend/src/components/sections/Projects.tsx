@@ -6,11 +6,8 @@ import { motion, AnimatePresence } from 'motion/react'
 import {
   ExternalLink,
   X,
-  ChevronLeft,
-  ChevronRight,
   Eye,
-  Code,
-  ImageIcon
+  Code
 } from 'lucide-react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination, Autoplay } from 'swiper/modules'
