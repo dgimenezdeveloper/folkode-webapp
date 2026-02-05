@@ -392,9 +392,11 @@ function ProjectCard({
                 src={getImageSrc(img, i)}
                 alt={`${project.title} - ${i + 1}`}
                 fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
                 unoptimized={imgErrors[i]}
                 onError={() => setImgErrors(prev => ({ ...prev, [i]: true }))}
+                loading={i === 0 ? 'eager' : 'lazy'}
               />
             </SwiperSlide>
           ))}
@@ -507,6 +509,7 @@ function ProjectModal({
                   src={getImageSrc(img, i)}
                   alt={`${project.title} - ${i + 1}`}
                   fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 60vw"
                   className="object-cover"
                   unoptimized={imgErrors[i]}
                   onError={() => setImgErrors(prev => ({ ...prev, [i]: true }))}
