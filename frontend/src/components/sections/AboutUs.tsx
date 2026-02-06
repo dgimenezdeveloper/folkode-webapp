@@ -164,7 +164,7 @@ export default function AboutUs() {
 
 				{/* Values section */}
 				<div className="mt-24 mb-24">
-					<div className="grid md:grid-cols-3 gap-8">
+					<div className="grid md:grid-cols-3">
 						{values.map((value, index) => (
 							<motion.div
 								key={value.title}
@@ -208,7 +208,7 @@ export default function AboutUs() {
 					<h3 className="text-3xl md:text-4xl font-bold text-center mb-14 text-[var(--color-text-primary)] ">
 						¿Qué nos hace diferentes?
 					</h3>
-					<div className="grid md:grid-cols-3 gap-8">
+					<div className="grid md:grid-cols-3">
 						{features.map((feature, index) => (
 							<motion.div
 								key={feature.title}
