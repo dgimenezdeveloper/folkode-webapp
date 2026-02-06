@@ -32,28 +32,28 @@ const History: React.FC = () => {
             </div>
             <div className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-[var(--color-primary)]/5 rounded-full blur-[100px] -z-10" />
           </div>
-          <div className="grid grid-cols-2 gap-6">
-            <div className="card !p-4 glass rounded-[3rem] border-[var(--color-border)] flex flex-col justify-center items-center text-center group hover:border-[var(--color-primary)]/30 transition-all">
-               <Calendar className="!mb-2 w-10 h-10 text-[var(--color-primary)] mb-6 group-hover:scale-110 transition-transform" />
-               <span className="text-white font-black text-lg mb-2">Julio 2025</span>
-               <span className="text-[var(--color-text-secondary)] text-[10px] font-bold uppercase tracking-widest">Inicios</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 !gap-10 sm:gap-6">
+            <div className="card h-[200px] !m-[0rem] sm:!m-[2rem] sm:!p-4 glass rounded-[3rem] border-[var(--color-border)] flex flex-col justify-center items-center text-center group hover:border-[var(--color-primary)]/30 transition-all">
+              <Calendar className="!mb-2 w-10 h-10 text-[var(--color-primary)] mb-6 group-hover:scale-110 transition-transform" />
+              <span className="text-white font-black text-lg mb-2">Julio 2025</span>
+              <span className="text-[var(--color-text-secondary)] text-[10px] font-bold uppercase tracking-widest">Inicios</span>
             </div>
-            <div className="card !p-4 glass rounded-[3rem] border-[var(--color-border)] flex flex-col justify-center items-center text-center translate-y-12 group hover:border-[var(--color-primary)]/30 transition-all">
-               <Coffee className="!mb-2 w-10 h-10 text-[var(--color-primary)] mb-6 group-hover:scale-110 transition-transform" />
-               <span className="text-white font-black text-lg mb-2">Mate & Code</span>
-               <span className="text-[var(--color-text-secondary)] text-[10px] font-bold uppercase tracking-widest">Cultura</span>
+            <div className="card h-[200px] !m-[0rem] sm:!m-[2rem] !p-4 glass rounded-[3rem] border-[var(--color-border)] flex flex-col justify-center items-center text-center lg:translate-y-12 group hover:border-[var(--color-primary)]/30 transition-all">
+              <Coffee className="!mb-2 w-10 h-10 text-[var(--color-primary)] mb-6 group-hover:scale-110 transition-transform" />
+              <span className="text-white font-black text-lg mb-2">Mate & Code</span>
+              <span className="text-[var(--color-text-secondary)] text-[10px] font-bold uppercase tracking-widest">Cultura</span>
             </div>
-            <div className="card !p-4 glass rounded-[3rem] border-[var(--color-border)] flex flex-col justify-center items-center text-center group hover:border-[var(--color-primary)]/30 transition-all">
-               <Users className="!mb-2 w-10 h-10 text-[var(--color-primary)] mb-6 group-hover:scale-110 transition-transform" />
-               <span className="text-white font-black text-lg mb-2">Reunión 21/07</span>
-               <span className="text-[var(--color-text-secondary)] text-[10px] font-bold uppercase tracking-widest">Fundación</span>
+            <div className="card h-[200px] !m-[0rem] sm:!m-[2rem] !p-4 glass rounded-[3rem] border-[var(--color-border)] flex flex-col justify-center items-center text-center group hover:border-[var(--color-primary)]/30 transition-all">
+              <Users className="!mb-2 w-10 h-10 text-[var(--color-primary)] mb-6 group-hover:scale-110 transition-transform" />
+              <span className="text-white font-black text-lg mb-2">Reunión 21/07</span>
+              <span className="text-[var(--color-text-secondary)] text-[10px] font-bold uppercase tracking-widest">Fundación</span>
             </div>
-            <div className="card !p-4 glass rounded-[3rem] border-[var(--color-border)] flex flex-col justify-center items-center text-center translate-y-12 group hover:border-[var(--color-primary)]/30 transition-all">
-               <div className="w-10 h-10 bg-[var(--color-primary)] rounded-xl flex items-center justify-center !mb-2 shadow-lg shadow-[var(--color-primary)]/20">
+            <div className="card h-[200px] !m-[0rem] sm:!m-[2rem] !p-4 glass rounded-[3rem] border-[var(--color-border)] flex flex-col justify-center items-center text-center lg:translate-y-12 group hover:border-[var(--color-primary)]/30 transition-all">
+              <div className="w-10 h-10 bg-[var(--color-primary)] rounded-xl flex items-center justify-center !mb-2 shadow-lg shadow-[var(--color-primary)]/20">
                 <span className="!mt-3 text-black font-black text-center">F</span>
-               </div>
-               <span className="text-white font-black text-lg mb-2">Propósito</span>
-               <span className="text-[var(--color-text-secondary)] text-[10px] font-bold uppercase tracking-widest">Colaborativo</span>
+              </div>
+              <span className="text-white font-black text-lg mb-2">Propósito</span>
+              <span className="text-[var(--color-text-secondary)] text-[10px] font-bold uppercase tracking-widest">Colaborativo</span>
             </div>
           </div>
         </div>
@@ -115,7 +115,7 @@ const History: React.FC = () => {
                     <span className="w-12 !h-1 bg-[var(--color-primary)] shrink-0" />
                     La Cruz Pampa
                     <span className="flex-1 !h-1 bg-[var(--color-primary)]" />
-                    </h5>
+                  </h5>
                   <p className="text-[var(--color-text-secondary)] text-lg leading-relaxed mb-10">
                     Es un motivo decorativo ancestral originario de la región pampeana y patagónica de Argentina, presente en la cultura mapuche y tehuelche. Representa la conexión con la tierra y la identidad de nuestros pueblos originarios.
                   </p>
