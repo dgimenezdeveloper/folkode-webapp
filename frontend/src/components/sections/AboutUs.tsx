@@ -55,7 +55,7 @@ export default function AboutUs() {
 			{/* Background decoration */}
 			<div className="absolute inset-0 bg-gradient-to-b from-[var(--color-background)] via-[var(--color-surface)] to-[var(--color-background)]" />
 
-			<div className="container mx-auto relative z-10">
+			<div className="container !mx-auto relative z-10">
 				{/* Section header */}
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
@@ -71,7 +71,7 @@ export default function AboutUs() {
 				</motion.div>
 
 				{/* Main content grid */}
-				<div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
+				<div className="grid lg:grid-cols-2 gap-16 items-center !mb-20">
 					{/* Text content */}
 					<motion.div
 						initial={{ opacity: 0, x: -30 }}
@@ -98,7 +98,7 @@ export default function AboutUs() {
 							fáciles de usar.
 						</p>
 
-						<blockquote className="border-l-4 border-[var(--color-primary)] pl-6 py-4 my-8 bg-[var(--color-primary)]/5 rounded-r-xl">
+						<blockquote className="border-l-4 border-[var(--color-primary)] !pl-6 !py-4 !my-8 bg-[var(--color-primary)]/5 rounded-r-xl">
 							<p className="text-xl italic text-[var(--color-text-primary)] font-medium">
 								&ldquo;Si lo podés pensar, nosotros lo podemos programar.&rdquo;
 							</p>
@@ -106,14 +106,6 @@ export default function AboutUs() {
 								— Nuestra filosofía
 							</p>
 						</blockquote>
-
-						<p className="text-[var(--color-text-secondary)] text-lg">
-							En Folkode,{' '}
-							<span className="text-[var(--color-primary)] font-bold text-xl">
-								tu visión es nuestra misión
-							</span>
-							.
-						</p>
 					</motion.div>
 
 					{/* Image */}
@@ -152,9 +144,9 @@ export default function AboutUs() {
 							whileInView={{ opacity: 1, scale: 1 }}
 							viewport={{ once: true }}
 							transition={{ duration: 0.5, delay: 0.4 }}
-							className="absolute -bottom-6 -right-6 glass rounded-2xl p-6 shadow-2xl border-2 border-[var(--color-border)]"
+							className="absolute -bottom-6 -right-6 glass rounded-2xl !p-2 shadow-2xl border-2 border-[var(--color-border)]"
 						>
-							<div className="text-4xl md:text-5xl font-bold text-gradient mb-1">13+</div>
+							<div className="text-2xl md:text-4xl font-bold text-gradient mb-1">Más de 10</div>
 							<div className="text-base text-[var(--color-text-secondary)] font-medium">
 								Profesionales
 							</div>
