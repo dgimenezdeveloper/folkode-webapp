@@ -156,7 +156,7 @@ export default function AboutUs() {
 
 				{/* Values section */}
 				<div className="mt-24 mb-24">
-					<div className="grid md:grid-cols-3 gap-8">
+					<div className="grid md:grid-cols-3">
 						{values.map((value, index) => (
 							<motion.div
 								key={value.title}
@@ -179,7 +179,7 @@ export default function AboutUs() {
 										<h4 className="text-xl md:text-2xl font-bold mb-4 text-[var(--color-text-primary)] group-hover:text-[var(--color-primary)] transition-colors duration-300">
 											{value.title}
 										</h4>
-										<p className="text-base text-[var(--color-text-secondary)] leading-relaxed">
+										<p className="text-base text-[var(--color-text-secondary)] leading-relaxed !mt-4">
 											{value.description}
 										</p>
 									</div>
@@ -200,7 +200,7 @@ export default function AboutUs() {
 					<h3 className="text-3xl md:text-4xl font-bold text-center mb-14 text-[var(--color-text-primary)] ">
 						¿Qué nos hace diferentes?
 					</h3>
-					<div className="grid md:grid-cols-3 gap-8">
+					<div className="grid md:grid-cols-3">
 						{features.map((feature, index) => (
 							<motion.div
 								key={feature.title}
@@ -217,7 +217,7 @@ export default function AboutUs() {
 									<h4 className="font-bold text-xl text-[var(--color-text-primary)] mb-3 group-hover:text-[var(--color-primary)] transition-colors">
 										{feature.title}
 									</h4>
-									<p className="text-base text-[var(--color-text-inverse)] leading-relaxed">
+									<p className="text-base text-[var(--color-text-inverse)] leading-relaxed !mt-4">
 										{feature.description}
 									</p>
 								</div>
