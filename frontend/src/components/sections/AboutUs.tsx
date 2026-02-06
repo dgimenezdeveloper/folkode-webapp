@@ -187,7 +187,7 @@ export default function AboutUs() {
 										<h4 className="text-xl md:text-2xl font-bold mb-4 text-[var(--color-text-primary)] group-hover:text-[var(--color-primary)] transition-colors duration-300">
 											{value.title}
 										</h4>
-										<p className="text-base text-[var(--color-text-secondary)] leading-relaxed">
+										<p className="text-base text-[var(--color-text-secondary)] leading-relaxed !mt-4">
 											{value.description}
 										</p>
 									</div>
@@ -225,7 +225,7 @@ export default function AboutUs() {
 									<h4 className="font-bold text-xl text-[var(--color-text-primary)] mb-3 group-hover:text-[var(--color-primary)] transition-colors">
 										{feature.title}
 									</h4>
-									<p className="text-base text-[var(--color-text-inverse)] leading-relaxed">
+									<p className="text-base text-[var(--color-text-inverse)] leading-relaxed !mt-4">
 										{feature.description}
 									</p>
 								</div>
