@@ -61,16 +61,16 @@ const History: React.FC = () => {
         {/* Nuestro Nombre Section */}
         <div className="!mb-40 relative">
           <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[var(--color-secondary)]/10 rounded-full blur-[120px] -z-10" />
-          <div className="flex flex-col lg:flex-row items-start">
-            <div className="lg:w-1/3">
+          <div className="flex flex-col lg:flex-row items-center">
+            <div className="lg:w-1/3 flex flex-col items-center lg:block">
               <div className="w-16 h-16 bg-[var(--color-primary)]/10 rounded-2xl flex items-center justify-center !mb-4 border border-[var(--color-primary)]/20">
                 <Fingerprint className="w-8 h-8 text-[var(--color-primary)]" />
               </div>
               <h5 className="text-gradient font-black !tracking-[0.5em] text-[10px] uppercase mb-4 text-start">La Identidad</h5>
-              <h3 className="text-4xl md:text-5xl font-black text-white tracking-tighter mb-6">NUESTRO <br />NOMBRE</h3>
+              <h3 className="text-4xl md:text-5xl font-black text-white tracking-tighter !mx-0 !mb-6">NUESTRO NOMBRE</h3>
             </div>
             <div className="lg:w-2/3 space-y-8">
-              <p className="text-xl !text-[var(--color-text-primary)] font-medium leading-relaxed">
+              <p className="text-xl !text-[var(--color-text-primary)] font-medium leading-relaxed text-center sm:!ml-[2rem] sm:text-start">
                 Folkode es la síntesis de dos universos que nos definen y nos inspiran.
               </p>
               <div className="grid md:grid-cols-2 gap-8">
