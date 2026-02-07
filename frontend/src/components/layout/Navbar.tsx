@@ -44,25 +44,31 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault()
-    if (href === '/' || href === '#inicio') {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-      setActiveSection('inicio')
-    } else {
-      const targetId = href.replace('#', '')
-      const element = document.getElementById(targetId)
-      if (element) {
-        const offset = 80
-        const elementPosition = element.getBoundingClientRect().top
-        const offsetPosition = elementPosition + window.pageYOffset - offset
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        })
+  const handleNavClick = (e: React.MouseEvent<HTMLElement>, href: string) => {
+    e.preventDefault();
+    setIsMobileMenuOpen(false);
+    setTimeout(() => {
+      if (href === '/' || href === '#inicio') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setActiveSection('inicio');
+        window.location.hash = 'inicio';
+      } else {
+        const targetId = href.replace('#', '');
+        const element = document.getElementById(targetId);
+        if (element) {
+          // Detectar el tamaño real del header
+          const header = document.querySelector('header');
+          const offset = header ? header.offsetHeight : 80;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - offset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+          window.location.hash = targetId;
+        }
       }
-    }
-    setIsMobileMenuOpen(false)
+    }, 300); // Esperar a que el menú se cierre
   }
 
   return (
@@ -114,15 +120,14 @@ export default function Navbar() {
           {navLinks.map((link) => (
             (
               link.label === 'Inicio' ? (
-                <motion.a
+                <motion.div
                   key={link.href}
-                  href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
                   className={cn(
                     'relative text-sm xl:text-base font-semibold transition-colors duration-200 py-2',
                     activeSection === link.href.replace('#', '')
-                      ? 'nav-text-hover'
-                      : 'nav-text hover:nav-text-hover'
+                      ? '!nav-text-hover'
+                      : '!nav-text hover:nav-text-hover'
                   )}
                   whileHover={{ y: -2 }}
                   whileTap={{ y: 0 }}
@@ -136,11 +141,10 @@ export default function Navbar() {
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
-                </motion.a>
+                </motion.div>
               ) : (
-                <motion.a
+                <motion.div
                   key={link.href}
-                  href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
                   className={cn(
                     'relative text-sm xl:text-base font-semibold transition-colors duration-200 py-2',
@@ -160,7 +164,7 @@ export default function Navbar() {
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
-                </motion.a>
+                </motion.div>
               )
             )
           ))}
@@ -168,15 +172,14 @@ export default function Navbar() {
 
         {/* CTA Button */}
         <div className="hidden lg:block">
-          <motion.a
-            href="#contacto"
+          <motion.div
             onClick={(e) => handleNavClick(e, '#contacto')}
             className="btn btn-gradient text-sm xl:text-base px-6 py-2.5 font-semibold shadow-lg button-text"
             whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(134, 168, 105, 0.4)' }}
             whileTap={{ scale: 0.95 }}
           >
             Cotizar proyecto
-          </motion.a>
+          </motion.div>
         </div>
 
         {/* Mobile Menu Button */}
@@ -202,33 +205,38 @@ export default function Navbar() {
           >
             <div className="container mx-auto px-4 py-6 flex flex-col gap-2">
               {navLinks.map((link, index) => (
-                <motion.a
-                  key={link.href}
-                  href={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
-                  className={cn(
-                    'text-base font-semibold py-3.5 px-4 rounded-xl transition-colors',
-                    activeSection === link.href.replace('#', '')
-                      ? 'text-[var(--color-primary)] bg-[var(--color-primary)]/10'
-                      : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)]'
-                  )}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                >
-                  {link.label}
-                </motion.a>
+                <Link key={link.href} href={link.href}>
+                  <motion.div
+                    role="button"
+                    tabIndex={0}
+                    onClick={(e) => handleNavClick(e, link.href)}
+                    className={cn(
+                      'text-base font-semibold py-3.5 px-4 rounded-xl transition-colors cursor-pointer',
+                      activeSection === link.href.replace('#', '')
+                        ? 'text-[var(--color-primary)] bg-[var(--color-primary)]/10'
+                        : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)]'
+                    )}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                  >
+                    {link.label}
+                  </motion.div>
+                </Link>
               ))}
-              <motion.a
-                href="#contacto"
-                onClick={(e) => handleNavClick(e, '#contacto')}
-                className="btn btn-gradient mt-3 w-full font-semibold"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-              >
-                Cotizar proyecto
-              </motion.a>
+              <Link href="#contacto">
+                <motion.div
+                  role="button"
+                  tabIndex={0}
+                  onClick={(e) => handleNavClick(e, '#contacto')}
+                  className="btn btn-gradient mt-4 w-full max-w-xs mx-auto font-semibold cursor-pointer !py-2 text-base sm:text-lg rounded-xl"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  Cotizar proyecto
+                </motion.div>
+              </Link>
             </div>
           </motion.div>
         )}
