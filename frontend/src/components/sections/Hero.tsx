@@ -123,7 +123,7 @@ export default function Hero() {
           </div>
         </motion.div>
       </div>
-      
+
       {/* Mobile styles for vertical spacing */}
       <style jsx>{`
         @media (max-width: 640px) {
@@ -140,7 +140,7 @@ export default function Hero() {
             margin-bottom: 0;
           }
           h1 {
-            font-size: 2.2rem;
+            font-size: 2rem;
             line-height: 1.25;
             margin-bottom: 1.5rem;
           }
@@ -150,7 +150,7 @@ export default function Hero() {
             margin-bottom: 1.5rem;
           }
           .btn {
-            margin-bottom: 1.2rem !important;
+            margin-bottom: 0.5rem !important;
             width: 100%;
             max-width: 350px;
           }
