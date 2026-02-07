@@ -22,10 +22,10 @@ export default function Hero() {
           className="flex flex-col items-center text-center"
         >
           <div
-            className="spacing inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass border-[#a3b18a]/20 text-[10px] font-extrabold tracking-[0.3em] text-[#a3b18a] mb-8 uppercase"
+            className=" inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass border-[#a3b18a]/20 text-[10px] font-extrabold tracking-[0.3em] text-[#a3b18a] mb-8 uppercase"
             style={{ marginTop: '2rem', marginBottom: '2rem' }}
           >
-            <Sparkles className="w-3 h-3" />
+            <Sparkles className="!m-2 w-3 h-3" />
             Software Factory • Hecho en Argentina
           </div>
 
