@@ -229,7 +229,7 @@ export default function Navbar() {
                   role="button"
                   tabIndex={0}
                   onClick={(e) => handleNavClick(e, '#contacto')}
-                  className="btn btn-gradient mt-3 w-full font-semibold cursor-pointer"
+                  className="btn btn-gradient mt-4 w-full max-w-xs mx-auto font-semibold cursor-pointer !py-2 text-base sm:text-lg rounded-xl"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
