@@ -195,7 +195,7 @@ a:hover {
   color: var(--moss-green);
 }
 
-.button-text{
+.button-text {
   color: var(--color-text-inverse);
 }
 
@@ -307,7 +307,7 @@ a:hover {
   box-shadow: 0 10px 30px -10px rgba(163, 177, 138, 0.5);
 }
 
-.btn-animated:hover{
+.btn-animated:hover {
   color: var(--color-text-inverse);
   transform: translateY(-2px);
   box-shadow: 0 15px 40px -10px rgba(163, 177, 138, 0.7);
@@ -712,4 +712,14 @@ a:hover {
   justify-content: center;
   margin: 20px auto;
 
+}
+
+@media (max-width: 425px) {
+  .mobile-filters {
+    display: block;
+  }
+
+  .desktop-filters {
+    display: none;
+  }
 }

@@ -7,9 +7,11 @@ import {
   ExternalLink,
   X,
   Eye,
-  Code
+  Code,
+
 } from 'lucide-react'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import { ProjectFilterBtnMobile } from "../ui/ProjectFilterBtnMobile"
 import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
@@ -282,7 +284,23 @@ export default function Projects() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="inline-flex md:flex flex-wrap md:justify-center gap-3 !mb-12 md:spacing"
+          className="mobile-filters hidden gap-3 !mb-12 md:spacing"
+        >
+          <div className='filter-project-btn-container text-[#6e7681] flex flex-col gap-3'>
+            Categorias:
+            <ProjectFilterBtnMobile
+              categories={categories}
+              activeCategory={activeCategory}
+              onCategoryChange={setActiveCategory} />
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="desktop-filters inline-flex md:flex flex-wrap md:justify-center gap-3 !mb-12 md:spacing"
         >
           {categories.map((cat) => (
             <motion.button
