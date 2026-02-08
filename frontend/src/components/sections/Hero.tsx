@@ -144,6 +144,11 @@ export default function Hero() {
             line-height: 1.25;
             margin-bottom: 1.5rem;
           }
+
+          h3 {
+            font-size: 1.4rem;
+            line-height: 1.2;}
+
           p {
             font-size: 1.1rem;
             line-height: 1.6;
