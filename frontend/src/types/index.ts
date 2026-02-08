@@ -1,3 +1,8 @@
+// Tipo para categorías de proyectos (para filtros)
+export interface Category {
+  value: ProjectCategory;
+  label: string;
+}
 // Types para proyectos
 export interface ModalData {
   title: string
