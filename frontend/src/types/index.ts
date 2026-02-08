@@ -1,6 +1,6 @@
 // Tipo para categorías de proyectos (para filtros)
 export interface Category {
-  value: ProjectCategory;
+  value: string;
   label: string;
 }
 // Types para proyectos
