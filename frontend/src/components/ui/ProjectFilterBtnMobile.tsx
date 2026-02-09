@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Filter } from 'lucide-react';
-import { Category } from '../types';
+import { Category } from '../../types';
 
 interface ProjectFiltersProps {
   categories: Category[];
