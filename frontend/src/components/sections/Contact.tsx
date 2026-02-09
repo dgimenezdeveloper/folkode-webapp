@@ -53,31 +53,31 @@ export default function Contact() {
   }
 
   return (
-    <section id="contacto" className="min-h-[80vh] flex items-center justify-center bg-black/95 py-12 px-2">
-      <div className="w-full max-w-5xl rounded-[2.5rem] bg-gradient-to-br from-[#0d1013] via-[#181c1f] to-[#0d1013] shadow-2xl border border-[#23272b] flex flex-col md:flex-row overflow-hidden relative" style={{boxShadow:'0 0 60px 0 #000a'}}>
+    <section id="contacto" className="min-h-[80vh] flex items-center justify-center bg-transparent py-12 px-2">
+      <div className="!p-12 w-full max-w-5xl rounded-[2.5rem] shadow-2xl border border-[#23272b] flex flex-col md:flex-row overflow-hidden relative" style={{boxShadow:'0 0 60px 0 #000a'}}>
         {/* Lado Izquierdo: Info */}
-        <div className="flex-1 flex flex-col justify-center px-8 py-12 md:py-20 md:px-14 bg-transparent min-w-[320px] max-w-[420px]">
-          <h2 className="text-4xl md:text-5xl font-extrabold leading-tight mb-2 text-white">
+        <div className="flex-1 flex flex-col justify-center !px-6 !py-12 md:py-20 md:px-14 bg-transparent min-w-[320px] max-w-[420px]">
+          <h2 className="text-4xl md:text-5xl font-extrabold leading-tight !mb-2 text-white">
             ¿Listo para<br/>
             <span className="bg-gradient-to-r from-[#a6c48a] to-[#6bb3c7] bg-clip-text text-transparent">hacerlo real?</span>
           </h2>
-          <p className="text-[#bfc5c9] text-base md:text-lg mb-10 mt-2">Si lo podes pensar, lo podemos programar</p>
+          <p className="text-[#bfc5c9] text-base md:text-lg !mb-10 !mt-2">Si lo podes pensar, lo podemos programar</p>
           <div className="space-y-6 mt-8">
-            <a href="mailto:contactofolkode@gmail.com" className="flex items-center gap-4 p-4 rounded-2xl border border-[#2c3237] bg-[#101214]/80 hover:border-[#a6c48a] transition-all">
-              <div className="w-12 h-12 rounded-2xl bg-[#a6c48a]/15 flex items-center justify-center">
+            <a href="mailto:contactofolkode@gmail.com" className="flex items-center gap-4 !p-2 rounded-2xl">
+              <div className="w-12 h-12 rounded-2xl bg-[#6bb3c7]/15 border border-[#2c3237]  flex items-center justify-center">
                 <Mail className="w-6 h-6 text-[#a6c48a]" />
               </div>
               <div>
-                <p className="text-xs tracking-widest text-[#bfc5c9] mb-1 font-semibold uppercase">E-mail</p>
+                <p className="text-xs tracking-widest text-gradient !mb-0 font-semibold uppercase">E-mail</p>
                 <p className="text-white font-bold text-base md:text-lg">contactofolkode@gmail.com</p>
               </div>
             </a>
-            <a href="https://wa.me/541162193426" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-2xl border border-[#2c3237] bg-[#101214]/80 hover:border-[#6bb3c7] transition-all">
-              <div className="w-12 h-12 rounded-2xl bg-[#6bb3c7]/15 flex items-center justify-center">
+            <a href="https://wa.me/541162193426" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 !p-2 rounded-2xl">
+              <div className="w-12 h-12 rounded-2xl bg-[#6bb3c7]/15 border border-[#2c3237]  flex items-center justify-center">
                 <Phone className="w-6 h-6 text-[#6bb3c7]" />
               </div>
               <div>
-                <p className="text-xs tracking-widest text-[#bfc5c9] mb-1 font-semibold uppercase">Whatsapp</p>
+                <p className="!text-xs tracking-widest !text-[#6bb3c7] !mb-0 font-semibold uppercase">Whatsapp</p>
                 <p className="text-white font-bold text-base md:text-lg">Contactanos</p>
               </div>
             </a>
@@ -85,16 +85,20 @@ export default function Contact() {
         </div>
         {/* Lado Derecho: Formulario */}
         <div className="flex-1 flex items-center justify-center px-6 py-12 md:py-20 md:px-14 bg-transparent">
-          <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md space-y-7 bg-[#111315]/80 rounded-2xl p-8 md:p-10 border border-[#23272b] shadow-xl">
+          <form onSubmit={handleSubmit(onSubmit)}
+            className="!p-6 w-full max-w-md space-y-7 rounded-[1.5rem] !p-8 md:p-10 border border-[#bfc5c9]/30 mesh-gradient shadow-[0_0_32px_0_rgba(0,0,0,0.45)]"
+            style={{boxShadow:'0 0 32px 0 #000a'}}
+          >
             {/* Nombre */}
             <div>
-              <label htmlFor="name" className="block text-xs font-bold tracking-widest text-[#bfc5c9] mb-2 uppercase">Nombre</label>
+              <label htmlFor="name" className="block text-xs font-bold tracking-widest text-gradient !mb-2 uppercase">Nombre</label>
               <input
                 {...register('name')}
                 type="text"
                 id="name"
                 placeholder="Tu nombre aquí"
-                className={`w-full px-5 py-3 rounded-lg bg-transparent border-2 text-white placeholder:text-[#6b7680] focus:outline-none focus:ring-0 text-base ${errors.name ? 'border-[#e57373]' : 'border-[#23272b] focus:border-[#a6c48a]'}`}
+                className={`w-full !mb-6 !px-4 !py-3 rounded-xl bg-[#000000] border border-[#bfc5c9]/30 text-[#bfc5c9] placeholder:text-[#bfc5c9]/60 focus:outline-none focus:ring-0 text-base transition-all ${errors.name ? 'border-[#e57373]' : 'focus:border-[#a6c48a]'}`}
+                style={{boxShadow:'none'}}
               />
               {errors.name && (
                 <p className="text-xs text-[#e57373] mt-2 flex items-center gap-1">
@@ -105,13 +109,14 @@ export default function Contact() {
             </div>
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-xs font-bold tracking-widest text-[#bfc5c9] mb-2 uppercase">E-mail</label>
+              <label htmlFor="email" className="block text-xs font-bold tracking-widest text-gradient !mb-2 uppercase">E-mail</label>
               <input
                 {...register('email')}
                 type="email"
                 id="email"
                 placeholder="ejemplo@startup.com"
-                className={`w-full px-5 py-3 rounded-lg bg-transparent border-2 text-white placeholder:text-[#6b7680] focus:outline-none focus:ring-0 text-base ${errors.email ? 'border-[#e57373]' : 'border-[#23272b] focus:border-[#a6c48a]'}`}
+                className={`w-full !mb-6 !px-4 !py-3 rounded-xl bg-[#000000] border border-[#bfc5c9]/30 text-[#bfc5c9] placeholder:text-[#bfc5c9]/60 focus:outline-none focus:ring-0 text-base transition-all ${errors.email ? 'border-[#e57373]' : 'focus:border-[#a6c48a]'}`}
+                style={{boxShadow:'none'}}
               />
               {errors.email && (
                 <p className="text-xs text-[#e57373] mt-2 flex items-center gap-1">
@@ -122,13 +127,14 @@ export default function Contact() {
             </div>
             {/* Mensaje */}
             <div>
-              <label htmlFor="message" className="block text-xs font-bold tracking-widest text-[#bfc5c9] mb-2 uppercase">Mensaje</label>
+              <label htmlFor="message" className="block text-xs font-bold tracking-widest text-gradient !mb-2 uppercase">Mensaje</label>
               <textarea
                 {...register('message')}
                 id="message"
                 rows={4}
                 placeholder="Contanos sobre tu idea..."
-                className={`w-full px-5 py-3 rounded-lg bg-transparent border-2 text-white placeholder:text-[#6b7680] focus:outline-none focus:ring-0 text-base resize-none ${errors.message ? 'border-[#e57373]' : 'border-[#23272b] focus:border-[#a6c48a]'}`}
+                className={`w-full !mb-6 !px-4 !py-3 rounded-xl bg-[#000000] border border-[#bfc5c9]/30 text-[#bfc5c9] placeholder:text-[#bfc5c9]/60 focus:outline-none focus:ring-0 text-base resize-none transition-all ${errors.message ? 'border-[#e57373]' : 'focus:border-[#a6c48a]'}`}
+                style={{boxShadow:'none'}}
               />
               {errors.message && (
                 <p className="text-xs text-[#e57373] mt-2 flex items-center gap-1">
@@ -141,7 +147,8 @@ export default function Contact() {
             <motion.button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-4 rounded-xl bg-[#c2d2a4] text-black font-bold text-lg flex items-center justify-center gap-2 shadow-lg hover:bg-[#dbeac2] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+              className="btn btn-gradient w-full !py-4 rounded-xl bg-[#c2d2a4] text-black font-bold text-lg flex items-center justify-center gap-2 shadow-[0_4px_24px_0_rgba(194,210,164,0.25)] hover:bg-[#dbeac2] transition-all disabled:opacity-60 disabled:cursor-not-allowed !mt-2"
+              style={{letterSpacing:'0.02em'}}
               whileHover={{ scale: isSubmitting ? 1 : 1.01, y: isSubmitting ? 0 : -2 }}
               whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
             >
