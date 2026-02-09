@@ -54,31 +54,31 @@ export default function Contact() {
 
   return (
     <section id="contacto" className="min-h-[80vh] flex items-center justify-center bg-transparent py-12 px-2">
-      <div className="!p-12 w-full max-w-5xl rounded-[2.5rem] shadow-2xl border border-[#23272b] flex flex-col md:flex-row overflow-hidden relative" style={{boxShadow:'0 0 60px 0 #000a'}}>
+      <div className="!p-8 w-full max-w-5xl rounded-[2.5rem] shadow-2xl border border-[#23272b] flex flex-col md:flex-row overflow-hidden relative" style={{boxShadow:'0 0 60px 0 #000a'}}>
         {/* Lado Izquierdo: Info */}
         <div className="flex-1 flex flex-col justify-center !px-6 !py-12 md:py-20 md:px-14 bg-transparent min-w-[320px] max-w-[420px]">
-          <h2 className="text-4xl md:text-5xl font-extrabold leading-tight !mb-2 text-white">
+          <h3 className="text-4xl md:text-5xl font-extrabold leading-tight !m-0 !mb-2 text-white">
             ¿Listo para<br/>
             <span className="bg-gradient-to-r from-[#a6c48a] to-[#6bb3c7] bg-clip-text text-transparent">hacerlo real?</span>
-          </h2>
-          <p className="text-[#bfc5c9] text-base md:text-lg !mb-10 !mt-2">Si lo podes pensar, lo podemos programar</p>
+          </h3>
+          <p className="text-[#bfc5c9] text-base md:text-lg !mt-2">Si lo podes pensar, lo podemos programar</p>
           <div className="space-y-6 mt-8">
-            <a href="mailto:contactofolkode@gmail.com" className="flex items-center gap-4 !p-2 rounded-2xl">
+            <a href="mailto:contactofolkode@gmail.com" className="flex items-center gap-6 !mt-2 !p-2 rounded-2xl">
               <div className="w-12 h-12 rounded-2xl bg-[#6bb3c7]/15 border border-[#2c3237]  flex items-center justify-center">
                 <Mail className="w-6 h-6 text-[#a6c48a]" />
               </div>
               <div>
-                <p className="text-xs tracking-widest text-gradient !mb-0 font-semibold uppercase">E-mail</p>
-                <p className="text-white font-bold text-base md:text-lg">contactofolkode@gmail.com</p>
+                <p className="!mb-0 text-xs tracking-widest text-gradient !mb-0 font-semibold uppercase">E-mail</p>
+                <p className="!mb-0 text-white font-bold text-base md:text-lg">contactofolkode@gmail.com</p>
               </div>
             </a>
-            <a href="https://wa.me/541162193426" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 !p-2 rounded-2xl">
+            <a href="https://wa.me/541162193426" target="_blank" rel="noopener noreferrer" className="flex items-center gap-6 !mt-2 !p-2 rounded-2xl">
               <div className="w-12 h-12 rounded-2xl bg-[#6bb3c7]/15 border border-[#2c3237]  flex items-center justify-center">
                 <Phone className="w-6 h-6 text-[#6bb3c7]" />
               </div>
               <div>
-                <p className="!text-xs tracking-widest !text-[#6bb3c7] !mb-0 font-semibold uppercase">Whatsapp</p>
-                <p className="text-white font-bold text-base md:text-lg">Contactanos</p>
+                <p className="!mb-0 text-xs tracking-widest !text-[#6bb3c7] !mb-0 font-semibold uppercase">Whatsapp</p>
+                <p className="!mb-0 text-white font-bold text-base md:text-lg">Contactanos</p>
               </div>
             </a>
           </div>
@@ -86,7 +86,7 @@ export default function Contact() {
         {/* Lado Derecho: Formulario */}
         <div className="flex-1 flex items-center justify-center px-6 py-12 md:py-20 md:px-14 bg-transparent">
           <form onSubmit={handleSubmit(onSubmit)}
-            className="!p-6 w-full max-w-md space-y-7 rounded-[1.5rem] !p-8 md:p-10 border border-[#bfc5c9]/30 mesh-gradient shadow-[0_0_32px_0_rgba(0,0,0,0.45)]"
+            className="!p-6 w-full max-w-md space-y-7 rounded-[1.5rem] !p-8 md:p-10 border border-[#bfc5c9]/30 shadow-[0_0_32px_0_rgba(0,0,0,0.45)]"
             style={{boxShadow:'0 0 32px 0 #000a'}}
           >
             {/* Nombre */}
