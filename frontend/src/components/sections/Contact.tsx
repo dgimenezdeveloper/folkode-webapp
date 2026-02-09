@@ -110,15 +110,15 @@ export default function Contact() {
         </motion.div>
 
         <div>
-              <h3 className="!m-0 !pb-4 text-3xl font-bold text-[var(--color-text-primary)] mb-5">
-                Trabajemos juntos
-              </h3>
-              <p className="text-lg text-[var(--color-text-secondary)] leading-relaxed">
-                ¿Tenés una idea que querés hacer realidad? Contanos sobre tu proyecto
-                y te responderemos a la brevedad. Estamos listos para transformar tus
-                ideas en soluciones digitales.
-              </p>
-            </div>
+          <h3 className="!m-0 !pb-4 text-3xl font-bold text-[var(--color-text-primary)] mb-5">
+            Trabajemos juntos
+          </h3>
+          <p className="text-lg text-[var(--color-text-secondary)] leading-relaxed">
+            ¿Tenés una idea que querés hacer realidad? Contanos sobre tu proyecto
+            y te responderemos a la brevedad. Estamos listos para transformar tus
+            ideas en soluciones digitales.
+          </p>
+        </div>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           {/* Contact info */}
@@ -131,17 +131,17 @@ export default function Contact() {
           >
 
             {/* Contact methods */}
-            <div className="space-y-4">
+            <div className="space-y-4 flex flex-col gap-4">
               <a
                 href="mailto:contactofolkode@gmail.com"
-                className="!px-4 !py-2 flex items-center gap-5 p-5 rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-[var(--color-primary)]/50 transition-all duration-300 group"
+                className="!p-[.5rem]  flex items-center gap-[1rem] rounded-3xl bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-[var(--color-primary)]/50 transition-all duration-300 group"
               >
                 <div className="w-14 h-14 rounded-2xl bg-[var(--color-primary)]/15 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <Mail className="w-6 h-6 text-[var(--color-primary)]" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-[var(--color-text-tertiary)] !mb-0">Email</p>
-                  <p className="text-lg text-[var(--color-text-primary)] group-hover:text-[var(--color-primary)] transition-colors font-medium !mb-0">
+                  <p className="text-s, sm:text-lg text-[var(--color-text-primary)] group-hover:text-[var(--color-primary)] transition-colors font-medium !mb-0">
                     contactofolkode@gmail.com
                   </p>
                 </div>
@@ -151,26 +151,26 @@ export default function Contact() {
                 href="https://wa.me/541162193426"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="!px-4 !py-2 flex items-center gap-5 p-5 rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-green-500/50 transition-all duration-300 group"
+                className="!p-[.5rem] flex items-center gap-[1rem] rounded-3xl bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-green-500/50 transition-all duration-300 group"
               >
                 <div className="w-14 h-14 rounded-2xl bg-green-500/15 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <Phone className="w-6 h-6 text-green-500" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-[var(--color-text-tertiary)] !mb-0">WhatsApp</p>
-                  <p className="text-lg text-[var(--color-text-primary)] group-hover:text-green-500 transition-colors font-medium !mb-0">
+                  <p className="text-sm sm:text-lg text-[var(--color-text-primary)] group-hover:text-green-500 transition-colors font-medium !mb-0">
                     +54 11 6219-3426
                   </p>
                 </div>
               </a>
 
-              <div className="!px-4 !py-2 flex items-center gap-5 p-5 rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)]">
+              <div className="!p-[.5rem] flex items-center gap-[1rem] rounded-3xl bg-[var(--color-background)] border-2 border-[var(--color-border)]">
                 <div className="w-14 h-14 rounded-2xl bg-blue-500/15 flex items-center justify-center">
                   <MapPin className="w-6 h-6 text-blue-500" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-[var(--color-text-tertiary)] !mb-0">Ubicación</p>
-                  <p className="text-lg text-[var(--color-text-primary)] font-medium !mb-0">
+                  <p className="text-sm sm:text-lg text-[var(--color-text-primary)] font-medium !mb-0">
                     Buenos Aires, Argentina 🇦🇷
                   </p>
                 </div>
@@ -189,7 +189,7 @@ export default function Contact() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-4 rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-[var(--color-primary)]/50 transition-all duration-300 group"
+                    className="rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-border)] hover:border-[var(--color-primary)]/50 transition-all duration-300 group"
                     whileHover={{ scale: 1.1, y: -4 }}
                     whileTap={{ scale: 0.9 }}
                     aria-label={social.label}
