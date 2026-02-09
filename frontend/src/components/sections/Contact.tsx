@@ -55,7 +55,7 @@ export default function Contact() {
   return (
     <section id="contacto" className="min-h-[80vh] flex items-center justify-center bg-transparent py-12 px-2">
       <div
-        className="!p-8 w-full max-w-5xl rounded-[2.5rem] shadow-2xl border border-[#23272b] flex flex-col md:flex-row overflow-hidden relative"
+        className="!p-8 w-full max-w-5xl rounded-[2.5rem] shadow-2xl border border-[#23272b] border-mobile flex flex-col md:flex-row overflow-hidden relative bg-transparent"
         style={{
           boxShadow: '0 0 60px 0 #000a',
           background: 'linear-gradient(45deg, #141a2c 0%, #0d0d0d 25%, #0d0d0d 75%, #232e25 100%)'
@@ -63,7 +63,7 @@ export default function Contact() {
       >
         {/* Lado Izquierdo: Info */}
         <div className="flex-1 flex flex-col justify-center !px-6 !py-12 md:py-20 md:px-14 bg-transparent min-w-[320px] max-w-[420px]">
-          <h3 className="text-4xl md:text-5xl font-extrabold leading-tight !m-0 !mb-2 text-white">
+          <h3 className="h3-mobile text-4xl md:text-5xl font-extrabold leading-tight !m-0 !mb-2 text-white">
             ¿Listo para<br/>
             <span className="bg-gradient-to-r from-[#a6c48a] to-[#6bb3c7] bg-clip-text text-transparent">hacerlo real?</span>
           </h3>
@@ -75,7 +75,7 @@ export default function Contact() {
               </div>
               <div>
                 <p className="!mb-0 text-xs tracking-widest text-gradient !mb-0 font-semibold uppercase">E-mail</p>
-                <p className="!mb-0 text-white font-bold text-base md:text-lg">contactofolkode@gmail.com</p>
+                <p className="!mb-0 !text-white font-bold text-base md:text-lg">contactofolkode@gmail.com</p>
               </div>
             </a>
             <a href="https://wa.me/541162193426" target="_blank" rel="noopener noreferrer" className="flex items-center gap-6 !mt-2 !p-2 rounded-2xl">
@@ -84,7 +84,7 @@ export default function Contact() {
               </div>
               <div>
                 <p className="!mb-0 text-xs tracking-widest !text-[#6bb3c7] !mb-0 font-semibold uppercase">Whatsapp</p>
-                <p className="!mb-0 text-white font-bold text-base md:text-lg">Contactanos</p>
+                <p className="!mb-0 !text-white font-bold text-base md:text-lg">Contactanos</p>
               </div>
             </a>
           </div>
@@ -193,6 +193,20 @@ export default function Contact() {
           </form>
         </div>
       </div>
+      <style jsx>{`
+        @media (max-width: 640px) {
+          .bg-transparent {
+            background: transparent !important;
+          }
+          .border-mobile {
+            border: none !important;
+            box-shadow: none !important;
+          }
+          .h3-mobile {
+            font-size: 3rem !important;
+          }
+        }
+      `}</style>
     </section>
   )
 }
