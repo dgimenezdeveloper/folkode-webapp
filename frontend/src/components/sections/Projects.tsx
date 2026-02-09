@@ -436,7 +436,7 @@ function ProjectCard({
       </div>
 
       {/* Content */}
-      <div className="!m-3 !p-6 flex flex-col gap-3 flex-1">
+      <div className="md:!m-3 !p-[1rem_1rem_0_1rem] sm:!p-[1rem_0.2rem_0_0.2rem] lg:!p-6 flex flex-col gap-3 flex-1">
         <h4 className="font-bold text-xl md:text-2xl text-[var(--color-text-primary)] group-hover:text-[var(--color-primary)] transition-colors">
           {project.title}
         </h4>
@@ -445,17 +445,17 @@ function ProjectCard({
         </p>
 
         {/* Technologies */}
-        <div className="flex flex-nowrap justify-center items-center gap-2 mt-2 pt-3 border-t border-[var(--color-border)] !p-3">
+        <div className="!w-full flex-wrap flex justify-start sm:justify-center items-center gap-2 !px-0 !py-5 border-t border-[var(--color-border)]">
           {project.technologies.slice(0, 3).map((tech) => (
             <span
               key={tech}
-              className="btn-gradient min-w-[90px] px-3 py-1.5 text-xs font-medium rounded-lg shadow-lg flex items-center justify-center text-center"
+              className="btn-gradient !w-auto lg:min-w-[90px] !px-[1rem] !py-1.5 text-xs font-medium rounded-lg shadow-lg flex items-center justify-center text-center"
             >
               {tech}
             </span>
           ))}
           {project.technologies.length > 3 && (
-            <span className="btn-gradient min-w-[90px] px-3 py-1.5 text-xs font-semibold rounded-lg shadow-lg flex items-center justify-center text-center">
+            <span className="btn-gradient !w-auto lg:min-w-[90px] !px-[1rem] !py-1.5 text-xs font-semibold rounded-lg shadow-lg flex items-center justify-center text-center">
               +{project.technologies.length - 3} más
             </span>
           )}

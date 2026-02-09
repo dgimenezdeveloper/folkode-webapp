@@ -59,7 +59,7 @@ export const ProjectFilterBtnMobile: React.FC<ProjectFiltersProps> = ({
               animate={{ opacity: 1, y: 5, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
-              className="absolute z-50 w-full bg-[#161b22] border-2 border-border rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl bg-opacity-95"
+              className="absolute z-99 w-full bg-[#161b22] border-2 border-border rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl bg-opacity-95"
             >
               <div className="!py-2 flex flex-col">
                 {categories.map((cat) => (
