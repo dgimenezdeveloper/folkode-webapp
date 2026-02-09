@@ -54,7 +54,13 @@ export default function Contact() {
 
   return (
     <section id="contacto" className="min-h-[80vh] flex items-center justify-center bg-transparent py-12 px-2">
-      <div className="!p-8 w-full max-w-5xl rounded-[2.5rem] shadow-2xl border border-[#23272b] flex flex-col md:flex-row overflow-hidden relative" style={{boxShadow:'0 0 60px 0 #000a'}}>
+      <div
+        className="!p-8 w-full max-w-5xl rounded-[2.5rem] shadow-2xl border border-[#23272b] flex flex-col md:flex-row overflow-hidden relative"
+        style={{
+          boxShadow: '0 0 60px 0 #000a',
+          background: 'linear-gradient(45deg, #141a2c 0%, #0d0d0d 25%, #0d0d0d 75%, #232e25 100%)'
+        }}
+      >
         {/* Lado Izquierdo: Info */}
         <div className="flex-1 flex flex-col justify-center !px-6 !py-12 md:py-20 md:px-14 bg-transparent min-w-[320px] max-w-[420px]">
           <h3 className="text-4xl md:text-5xl font-extrabold leading-tight !m-0 !mb-2 text-white">
