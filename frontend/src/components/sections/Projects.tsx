@@ -7,9 +7,11 @@ import {
   ExternalLink,
   X,
   Eye,
-  Code
+  Code,
+
 } from 'lucide-react'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import { ProjectFilterBtnMobile } from "../ui/ProjectFilterBtnMobile"
 import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
@@ -254,7 +256,7 @@ export default function Projects() {
   }, [activeCategory])
 
   return (
-    <section id="proyectos" className="spacing relative flex flex-col items-center justify-center px-4 py-8 md:px-8 lg:px-16">
+    <section id="proyectos" className="spacing relative flex flex-col items-center justify-center !px-0 py-8 md:px-8 lg:px-16">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 right-0 w-1/2 h-1/2 bg-[radial-gradient(circle_at_100%_50%,rgba(134,168,105,0.05),transparent_50%)]" />
@@ -282,17 +284,32 @@ export default function Projects() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="flex flex-wrap justify-center gap-3 mb-12 spacing"
+          className="mobile-filters hidden gap-3 !mb-12 md:spacing"
+        >
+          <div className='filter-project-btn-container text-[#6e7681] flex flex-col gap-3'>
+            Categorias:
+            <ProjectFilterBtnMobile
+              categories={categories}
+              activeCategory={activeCategory}
+              onCategoryChange={setActiveCategory} />
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="desktop-filters inline-flex md:flex flex-wrap md:justify-center gap-3 !mb-12 md:spacing"
         >
           {categories.map((cat) => (
             <motion.button
               key={cat.value}
               onClick={() => setActiveCategory(cat.value)}
-              className={`btn-gradient py-2 px-4 rounded-3xl transition-all ${activeCategory === cat.value ? 'shadow-lg' : ''
+              className={` w-fit md:h-[50px] btn-gradient !py-2 !px-4 rounded-3xl transition-all ${activeCategory === cat.value ? 'shadow-lg' : ''
                 }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              style={{ width: '130px', height: '50px' }}
             >
               {cat.label}
             </motion.button>

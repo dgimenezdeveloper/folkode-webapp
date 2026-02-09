@@ -53,6 +53,7 @@ export default function Contact() {
   }
 
   return (
+
     <section id="contacto" className="min-h-[80vh] flex items-center justify-center bg-transparent py-12 px-2">
       <div
         className="!p-8 w-full max-w-5xl rounded-[2.5rem] shadow-2xl border border-[#23272b] border-mobile flex flex-col md:flex-row overflow-hidden relative bg-transparent"
@@ -72,6 +73,7 @@ export default function Contact() {
             <a href="mailto:contactofolkode@gmail.com" className="flex items-center gap-6 !mt-2 !p-2 rounded-2xl">
               <div className="w-12 h-12 rounded-2xl bg-[#6bb3c7]/15 border border-[#2c3237]  flex items-center justify-center">
                 <Mail className="w-6 h-6 text-[#a6c48a]" />
+
               </div>
               <div>
                 <p className="!mb-0 text-xs tracking-widest text-gradient !mb-0 font-semibold uppercase">E-mail</p>
