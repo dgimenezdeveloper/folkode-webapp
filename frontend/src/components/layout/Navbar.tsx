@@ -5,8 +5,19 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'motion/react'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import {
+  FaGithub,
+  FaInstagram,
+  FaLinkedin,
+} from 'react-icons/fa'
+
+const socialLinks = [
+  { icon: FaGithub, href: 'https://github.com/FolkodeGroup', label: 'GitHub' },
+  { icon: FaInstagram, href: 'https://www.instagram.com/fol.kode', label: 'Instagram' },
+  { icon: FaLinkedin, href: 'https://www.linkedin.com/in/folkode', label: 'LinkedIn' },
+]
 
 const navLinks = [
   { href: '#inicio', label: 'Inicio' },
@@ -201,9 +212,10 @@ export default function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden glass overflow-hidden border-t border-[var(--color-border)]"
+            className="lg:hidden glass overflow-hidden !h-[90vh] border-t !px-8 !py-6 border-[var(--color-border)] flex flex-col"
           >
-            <div className="container mx-auto px-4 py-6 flex flex-col gap-2">
+            <span className='text-[var(--color-text-secondary)]'>Navegación</span>
+            <div className="container mx-auto !pt-6 !px-0 flex flex-col gap-8">
               {navLinks.map((link, index) => (
                 <Link key={link.href} href={link.href}>
                   <motion.div
@@ -211,9 +223,9 @@ export default function Navbar() {
                     tabIndex={0}
                     onClick={(e) => handleNavClick(e, link.href)}
                     className={cn(
-                      'text-base font-semibold py-3.5 px-4 rounded-xl transition-colors cursor-pointer',
+                      'text-base text-3xl font-semibold rounded-xl transition-colors cursor-pointer flex items-center justify-between',
                       activeSection === link.href.replace('#', '')
-                        ? 'text-[var(--color-primary)] bg-[var(--color-primary)]/10'
+                        ? 'text-[var(--color-primary)]'
                         : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)]'
                     )}
                     initial={{ opacity: 0, x: -20 }}
@@ -221,6 +233,14 @@ export default function Navbar() {
                     transition={{ delay: index * 0.05 }}
                   >
                     {link.label}
+                    <motion.div
+                      animate={{
+                        opacity: activeSection === link.href.replace('#', '') ? 1 : 0,
+                        x: activeSection === link.href.replace('#', '') ? 0 : -10
+                      }}
+                    >
+                      <ArrowRight size={28} />
+                    </motion.div>
                   </motion.div>
                 </Link>
               ))}
@@ -229,7 +249,7 @@ export default function Navbar() {
                   role="button"
                   tabIndex={0}
                   onClick={(e) => handleNavClick(e, '#contacto')}
-                  className="btn btn-gradient mt-4 w-full max-w-xs mx-auto font-semibold cursor-pointer !py-2 text-base sm:text-lg rounded-xl"
+                  className="btn btn-gradient !mt-4 w-full max-w-xs font-semibold cursor-pointer !py-4 text-base sm:text-lg rounded-xl"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
@@ -238,8 +258,28 @@ export default function Navbar() {
                 </motion.div>
               </Link>
             </div>
+
+            {/* Social links at the bottom */}
+            <div className="h-full flex flex-col items-center justify-center gap-3">
+              <div className="flex gap-4">
+                {socialLinks.map((social, i) => (
+                  <motion.a
+                    key={i}
+                    href="#"
+                    className="p-3 bg-black/5 rounded-full text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] hover:bg-white transition-all shadow-sm"
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <social.icon size={25} />
+                  </motion.a>
+                ))}
+              </div>
+              <div className="text-right">
+                <p className="text-[10px] font-medium text-[var(--color-text-secondary)] opacity-50 uppercase tracking-widest">© 2024 Folkode Studio</p>
+              </div>
+            </div>
           </motion.div>
         )}
+
       </AnimatePresence>
     </motion.header>
   )
