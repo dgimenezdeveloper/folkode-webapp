@@ -262,10 +262,10 @@ export default function Navbar() {
             {/* Social links at the bottom */}
             <div className="h-full flex flex-col items-center justify-center gap-3">
               <div className="flex gap-4">
-                {socialLinks.map((social, i) => (
+                {socialLinks.map((social) => (
                   <motion.a
-                    key={i}
-                    href="#"
+                    key={social.label}
+                    href={social.href}
                     className="p-3 bg-black/5 rounded-full text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] hover:bg-white transition-all shadow-sm"
                     whileTap={{ scale: 0.9 }}
                   >
@@ -273,8 +273,8 @@ export default function Navbar() {
                   </motion.a>
                 ))}
               </div>
-              <div className="text-right">
-                <p className="text-[10px] font-medium text-[var(--color-text-secondary)] opacity-50 uppercase tracking-widest">© 2024 Folkode Studio</p>
+              <div className="text-center">
+                <p className="text-[10px] font-medium text-[var(--color-text-secondary)] opacity-50 uppercase tracking-widest">© 2026 Folkode Todos los derechos reservados.</p>
               </div>
             </div>
           </motion.div>
