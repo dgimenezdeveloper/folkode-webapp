@@ -132,17 +132,17 @@ const History: React.FC = () => {
                 </div>
               </div>
               <div className="grid md:grid-cols-2 gap-2 mt-12 !mb-8 justify-items-center">
-                <div className="flex gap-6 items-start card !p-4 w-80 !border-[var(--color-primary)]">
+                <div className="flex gap-4 md:gap-6 items-start card !p-4 !mx-0 md:mx-[2rem] w-full md:w-80 !border-[var(--color-primary)]">
                   <div className="w-4 h-22 bg-[var(--color-primary)] rounded-full shrink-0" />
                   <div>
-                    <h6 className="text-white font-bold mb-2">Verde Folkode</h6>
+                    <h6 className="text-white font-bold !mb-2">Verde Folkode</h6>
                     <p className="text-[var(--color-text-secondary)] text-sm !m-0">Innovación, crecimiento y conexión con la naturaleza. Desarrollo sostenible y evolución constante.</p>
                   </div>
                 </div>
-                <div className="flex gap-6 items-start card !p-4 w-80 !border-[var(--color-secondary)]">
+                <div className="flex gap-4 md:gap-6 items-start card !p-4 !mx-0 md:mx-[2rem] w-full md:w-80 !border-[var(--color-secondary)]">
                   <div className="w-4 h-22 bg-[var(--color-secondary)] rounded-full shrink-0" />
                   <div>
-                    <h6 className="text-white font-bold mb-2">Azul Petrolito</h6>
+                    <h6 className="text-white font-bold !mb-2">Azul Petrolito</h6>
                     <p className="text-[var(--color-text-secondary)] text-sm !m-0">Confianza, tecnología y visión de futuro. Los cimientos de cada proyecto que emprendemos.</p>
                   </div>
                 </div>
