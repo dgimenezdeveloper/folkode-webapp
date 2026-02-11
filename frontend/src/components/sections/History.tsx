@@ -10,8 +10,8 @@ const History: React.FC = () => {
         <div className="grid lg:grid-cols-2 gap-20 items-center !mb-40">
           <div className="relative">
             <div className="section-title mb-8">
-              <h5 className="text-gradient text-[10px] font-black !tracking-[0.5em] uppercase mb-4 text-start">Origen de Folkode</h5>
-              <h3 className="text-5xl md:text-7xl font-black text-white tracking-tighter mb-8 leading-[0.9] text-center md:text-left">
+              <h5 className="text-gradient text-[10px] font-black !tracking-[0.5em] uppercase mb-4 text-center lg:text-start">Origen de Folkode</h5>
+              <h3 className="text-5xl md:text-7xl font-black text-white tracking-tighter mb-8 leading-[0.9] text-center lg:text-left !mx-0">
                 NUESTRA <br />
                 <span className="text-white/20">HISTORIA</span>
               </h3>
