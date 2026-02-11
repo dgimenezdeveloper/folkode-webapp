@@ -72,7 +72,7 @@ const platforms = [
 
 export default function Technologies() {
   return (
-    <section className="!py-40 relative bg-black/40 flex justify-center items-center w-full">
+    <section className="!pt-40 !pb-20 md:!py-40 relative bg-[linear-gradient(to_bottom,rgba(0,0,0,0.4),transparent)] md:bg-black/40 flex justify-center items-center w-full">
       <div className="max-w-7xl w-full flex flex-col items-center !px-6">
         <div className="text-center !mb-24 w-full">
           <h2 className="text-[#a3b18a] font-black tracking-[0.5em] text-[10px] uppercase !mb-6">
@@ -116,8 +116,8 @@ export default function Technologies() {
             ))}
           </div>
           {/* Edge Fades */}
-          <div className="absolute inset-y-0 left-0 w-64 bg-gradient-to-r from-black via-black/80 to-transparent z-10" />
-          <div className="absolute inset-y-0 right-0 w-64 bg-gradient-to-l from-black via-black/80 to-transparent z-10" />
+          <div className="absolute inset-y-0 left-0 w-64 bg-gradient-to-r sm:from-black sm:via-black/80 sm:to-transparent z-10" />
+          <div className="absolute inset-y-0 right-0 w-64 bg-gradient-to-l sm:from-black sm:via-black/80 sm:to-transparent z-10" />
         </div>
       </div>
     </section>
