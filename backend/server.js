@@ -1,43 +1,93 @@
+import jwt from "jsonwebtoken";
+
 import express from "express";
 import cors from "cors";
 import { PrismaClient } from "./prisma/generated/prisma/index.js";
 import bcrypt from "bcryptjs";
+
+
 
 const app = express();
 const prisma = new PrismaClient();
 
 app.use(cors());
 app.use(express.json());
+async function requireAdmin(req, res, next) {
+  try {
+    const header = req.headers.authorization || "";
+    const [type, token] = header.split(" ");
+
+    if (type !== "Bearer" || !token) {
+      return res.status(401).json({ error: "No autorizado" });
+    }
+
+    const payload = jwt.verify(token, process.env.AUTH_SECRET);
+
+    const user = await prisma.user.findUnique({
+      where: { id: payload.userId },
+      select: { id: true, email: true, role: true },
+    });
+
+    if (!user) return res.status(401).json({ error: "No autorizado" });
+
+    if (user.role !== "ADMIN") {
+      return res.status(403).json({ error: "Solo ADMIN" });
+    }
+
+    req.user = user;
+    next();
+  } catch (err) {
+    return res.status(401).json({ error: "Token inválido o expirado" });
+  }
+}
+
 
 // Endpoint de login
 app.post("/api/auth/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-    
+
+    // 1) Validación básica
     if (!email || !password) {
       return res.status(400).json({ error: "Email y contraseña requeridos" });
     }
 
+    // 2) Buscar usuario por email
     const user = await prisma.user.findUnique({
       where: { email },
     });
 
+    // 3) Si no existe o no tiene password guardada -> credenciales inválidas
     if (!user || !user.password) {
       return res.status(401).json({ error: "Credenciales inválidas" });
     }
 
+    // 4) Comparar password
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
       return res.status(401).json({ error: "Credenciales inválidas" });
     }
 
-    // No devolver la contraseña
+    // 5) Quitar password del objeto antes de devolver
     const { password: _, ...userWithoutPassword } = user;
-    res.json(userWithoutPassword);
+
+    // 6) Crear token JWT (Bearer Token)
+    if (!process.env.AUTH_SECRET) {
+      return res.status(500).json({ error: "AUTH_SECRET no configurado" });
+    }
+
+    const token = jwt.sign(
+      { userId: user.id, role: user.role }, // role se usa después para ADMIN
+      process.env.AUTH_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    // 7) Respuesta final
+    return res.json({ user: userWithoutPassword, token });
   } catch (error) {
     console.error("Error en login:", error);
-    res.status(500).json({ error: "Error en el servidor" });
+    return res.status(500).json({ error: "Error en el servidor" });
   }
 });
 
@@ -95,21 +145,57 @@ app.get("/api/stats", async (req, res) => {
 });
 
 // Ejemplo de endpoint: obtener proyectos
-app.get("/api/projects", async (req, res) => {
+  app.get("/api/projects", requireAdmin, async (req, res) => {
   try {
-    const projects = await prisma.project.findMany({
-      include: {
-        client: true,
-        images: { orderBy: { order: 'asc' } }
+    const page = Number.parseInt(req.query.page, 10) || 1;
+    const limit = Number.parseInt(req.query.limit, 10) || 10;
+
+    const safePage = page < 1 ? 1 : page;
+    const safeLimit = limit < 1 ? 10 : Math.min(limit, 100);
+    const skip = (safePage - 1) * safeLimit;
+
+    // filtros opcionales
+    const status = req.query.status ? String(req.query.status) : undefined;
+    const search = req.query.search ? String(req.query.search) : undefined;
+
+    const where = {};
+
+    if (status) where.status = status;
+
+    if (search) {
+      // asume que existe Project.title (si no existe, lo ajustamos)
+      where.title = { contains: search, mode: "insensitive" };
+    }
+
+    const [total, projects] = await Promise.all([
+      prisma.project.count({ where }),
+      prisma.project.findMany({
+        where,
+        skip,
+        take: safeLimit,
+        include: {
+          client: true,
+          images: { orderBy: { order: "asc" } },
+        },
+        orderBy: { updatedAt: "desc" },
+      }),
+    ]);
+
+    return res.json({
+      data: projects,
+      pagination: {
+        total,
+        page: safePage,
+        limit: safeLimit,
+        totalPages: Math.ceil(total / safeLimit),
       },
-      orderBy: { updatedAt: 'desc' }
     });
-    res.json(projects);
   } catch (error) {
     console.error("Error al obtener proyectos:", error);
-    res.status(500).json({ error: "Error al obtener proyectos" });
+    return res.status(500).json({ error: "Error al obtener proyectos" });
   }
 });
+
 
 // Endpoint de prueba
 app.get("/api/health", (req, res) => {
