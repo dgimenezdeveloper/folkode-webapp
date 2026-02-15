@@ -1,17 +1,11 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
-  output   = "./generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  // url      = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
-
-// ==================== AUTH.JS MODELS ====================
 
 model User {
   id            String    @id @default(cuid())
@@ -21,10 +15,10 @@ model User {
   image         String?
   password      String?
   role          Role      @default(VIEWER)
-  accounts      Account[]
-  sessions      Session[]
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+  accounts      Account[]
+  sessions      Session[]
 }
 
 model Account {
@@ -39,11 +33,9 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([provider, providerAccountId])
 }
@@ -52,10 +44,9 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model VerificationToken {
@@ -66,34 +57,26 @@ model VerificationToken {
   @@id([identifier, token])
 }
 
-enum Role {
-  ADMIN
-  EDITOR
-  VIEWER
-}
-
-// ==================== BUSINESS MODELS ====================
-
 model Project {
-  id          String         @id @default(cuid())
-  title       String
-  slug        String         @unique
-  description String
-  shortDesc   String?
-  category    ProjectCategory
-  status      ProjectStatus  @default(IN_DEVELOPMENT)
-  featured    Boolean        @default(false)
-  demoUrl     String?
-  liveUrl     String?
-  githubUrl   String?
-  technologies String         @default("[]") // JSON array stored as string
-  images      ProjectImage[]
-  sections    ProjectSection[]
-  client      Client?        @relation(fields: [clientId], references: [id])
-  clientId    String?
+  id           String           @id @default(cuid())
+  title        String
+  slug         String           @unique
+  description  String
+  shortDesc    String?
+  category     ProjectCategory
+  status       ProjectStatus    @default(IN_DEVELOPMENT)
+  featured     Boolean          @default(false)
+  demoUrl      String?
+  liveUrl      String?
+  githubUrl    String?
+  technologies String           @default("[]")
+  clientId     String?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  client       Client?          @relation(fields: [clientId], references: [id])
+  images       ProjectImage[]
+  sections     ProjectSection[]
   transactions Transaction[]
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
 }
 
 model ProjectImage {
@@ -101,9 +84,9 @@ model ProjectImage {
   url       String
   alt       String?
   order     Int      @default(0)
-  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId String
   createdAt DateTime @default(now())
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }
 
 model ProjectSection {
@@ -112,11 +95,11 @@ model ProjectSection {
   title       String
   description String
   order       Int                 @default(0)
-  images      String              @default("[]") // JSON array stored as string
-  subsections ProjectSubsection[]
-  project     Project             @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  images      String              @default("[]")
   projectId   String
   createdAt   DateTime            @default(now())
+  project     Project             @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  subsections ProjectSubsection[]
 }
 
 model ProjectSubsection {
@@ -124,11 +107,86 @@ model ProjectSubsection {
   key         String
   title       String
   description String
-  images      String         @default("[]") // JSON array stored as string
+  images      String         @default("[]")
   order       Int            @default(0)
-  section     ProjectSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
   sectionId   String
   createdAt   DateTime       @default(now())
+  section     ProjectSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+}
+
+model Client {
+  id           String        @id @default(cuid())
+  name         String
+  email        String?
+  phone        String?
+  company      String?
+  website      String?
+  avatar       String?
+  notes        String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  projects     Project[]
+  testimonials Testimonial[]
+  transactions Transaction[]
+}
+
+model Transaction {
+  id          String          @id @default(cuid())
+  type        TransactionType
+  amount      Float
+  description String
+  date        DateTime        @default(now())
+  category    String?
+  projectId   String?
+  clientId    String?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  client      Client?         @relation(fields: [clientId], references: [id])
+  project     Project?        @relation(fields: [projectId], references: [id])
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  content   String
+  rating    Int      @default(5)
+  featured  Boolean  @default(false)
+  clientId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  client    Client   @relation(fields: [clientId], references: [id])
+}
+
+model ContactMessage {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  company   String?
+  message   String
+  status    MessageStatus @default(PENDING)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  bio       String?
+  image     String?
+  order     Int      @default(0)
+  github    String?
+  linkedin  String?
+  twitter   String?
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  VIEWER
 }
 
 enum ProjectCategory {
@@ -147,63 +205,9 @@ enum ProjectStatus {
   PAUSED
 }
 
-model Client {
-  id           String        @id @default(cuid())
-  name         String
-  email        String?
-  phone        String?
-  company      String?
-  website      String?
-  avatar       String?
-  notes        String?
-  projects     Project[]
-  transactions Transaction[]
-  testimonials Testimonial[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-}
-
-model Transaction {
-  id          String          @id @default(cuid())
-  type        TransactionType
-  amount      Float
-  description String
-  date        DateTime        @default(now())
-  category    String?
-  project     Project?        @relation(fields: [projectId], references: [id])
-  projectId   String?
-  client      Client?         @relation(fields: [clientId], references: [id])
-  clientId    String?
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
-}
-
 enum TransactionType {
   INCOME
   EXPENSE
-}
-
-model Testimonial {
-  id        String   @id @default(cuid())
-  content   String
-  rating    Int      @default(5)
-  featured  Boolean  @default(false)
-  client    Client   @relation(fields: [clientId], references: [id])
-  clientId  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model ContactMessage {
-  id        String        @id @default(cuid())
-  name      String
-  email     String
-  phone     String?
-  company   String?
-  message   String
-  status    MessageStatus @default(PENDING)
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
 }
 
 enum MessageStatus {
@@ -211,19 +215,4 @@ enum MessageStatus {
   READ
   REPLIED
   ARCHIVED
-}
-
-model TeamMember {
-  id        String   @id @default(cuid())
-  name      String
-  role      String
-  bio       String?
-  image     String?
-  order     Int      @default(0)
-  github    String?
-  linkedin  String?
-  twitter   String?
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
