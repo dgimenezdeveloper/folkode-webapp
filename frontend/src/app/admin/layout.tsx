@@ -237,24 +237,23 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
       {/* Main content */}
       <div className="flex-1 transition-all duration-300">
         {/* Top header */}
-        <header className="sticky top-0 z-30 flex items-center h-20 px-6 bg-[#0a0f1a]/80 backdrop-blur-xl border-b border-[#1e2a3a]">
+        <header className="sticky top-0 z-30 inline-flex wrap flex-wrap items-center content-center gap-2 h-20 !px-6 !py-2 w-full bg-[#0a0f1a]/80 backdrop-blur-xl border-b border-[#1e2a3a]">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-[#1e2a3a] mr-4 transition-colors"
+            className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-[#1e2a3a] !mr-4 transition-colors"
           >
             <FiMenu size={22} />
           </button>
-          
+
           <div className="flex-1">
-            
-            <h1 className="text-sm text-gray-500">
+            <h1 className="!text-lg sm:!text-[1.5rem] md:!text-[2rem] text-gray-500 min-w-[200px]">
               Panel de administración
             </h1>
           </div>
 
           <div className="flex items-center gap-4">
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               target="_blank"
               className="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white bg-[#1e2a3a] hover:bg-[#2a3a4a] rounded-lg transition-all duration-200"
             >
