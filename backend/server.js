@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 import express from "express";
 import cors from "cors";
-import { PrismaClient } from "./prisma/generated/prisma/index.js";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 
@@ -193,6 +193,36 @@ app.get("/api/stats", async (req, res) => {
   } catch (error) {
     console.error("Error al obtener proyectos:", error);
     return res.status(500).json({ error: "Error al obtener proyectos" });
+  }
+});
+// GET /api/projects/:id - Obtener un proyecto por ID (detalle)
+app.get("/api/projects/:id", requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const project = await prisma.project.findUnique({
+      where: { id },
+      include: {
+        client: true,
+        images: { orderBy: { order: "asc" } },
+        sections: {
+          orderBy: { order: "asc" },
+          include: {
+            subsections: { orderBy: { order: "asc" } },
+          },
+        },
+        transactions: { orderBy: { date: "desc" } },
+      },
+    });
+
+    if (!project) {
+      return res.status(404).json({ error: "Proyecto no encontrado" });
+    }
+
+    return res.json(project);
+  } catch (error) {
+    console.error("Error al obtener proyecto por ID:", error);
+    return res.status(500).json({ error: "Error al obtener el proyecto" });
   }
 });
 
