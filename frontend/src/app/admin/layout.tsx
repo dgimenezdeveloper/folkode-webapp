@@ -15,7 +15,8 @@ import {
   FiLogOut,
   FiMenu,
   FiX,
-  FiChevronDown
+  FiChevronDown,
+  FiExternalLink
 } from 'react-icons/fi'
 import { signOut } from 'next-auth/react'
 
