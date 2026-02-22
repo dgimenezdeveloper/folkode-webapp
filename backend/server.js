@@ -236,3 +236,80 @@ const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Backend corriendo en http://localhost:${PORT}`);
 });
+// POST /api/projects - Crear nuevo proyecto
+app.post("/api/projects", requireAdmin, async (req, res) => {
+  try {
+    const {
+      title,
+      slug,
+      description,
+      shortDesc,
+      category,
+      status,
+      featured,
+      clientId,
+      demoUrl,
+      liveUrl,
+      githubUrl,
+      technologies,
+    } = req.body;
+
+    // 1) Validación required (evita error Prisma por campos faltantes)
+    if (!title || !slug || !description || !category || !status) {
+      return res.status(400).json({
+        error: "Campos requeridos: title, slug, description, category, status",
+      });
+    }
+
+    // 2) Validación enums (evita error Prisma por valores inválidos)
+    const allowedCategories = [
+      "ECOMMERCE",
+      "LANDING_PAGE",
+      "CORPORATIVO",
+      "MULTIMEDIA",
+      "WEB",
+      "SOFTWARE",
+    ];
+    const allowedStatuses = ["IN_DEVELOPMENT", "COMPLETED", "MAINTENANCE", "PAUSED"];
+
+    if (!allowedCategories.includes(category)) {
+      return res.status(400).json({ error: "category inválido", allowed: allowedCategories });
+    }
+    if (!allowedStatuses.includes(status)) {
+      return res.status(400).json({ error: "status inválido", allowed: allowedStatuses });
+    }
+
+    // 3) Unicidad de slug
+    const existing = await prisma.project.findUnique({ where: { slug } });
+    if (existing) {
+      return res.status(409).json({ error: "El slug ya existe" });
+    }
+
+    // 4) Crear
+    const created = await prisma.project.create({
+      data: {
+        title,
+        slug,
+        description,
+        shortDesc: shortDesc ?? null,
+        category,
+        status,
+        featured: featured ?? false,
+        clientId: clientId ?? null,
+        demoUrl: demoUrl ?? null,
+        liveUrl: liveUrl ?? null,
+        githubUrl: githubUrl ?? null,
+        technologies: technologies ?? "[]",
+      },
+      include: {
+        client: true,
+        images: { orderBy: { order: "asc" } },
+      },
+    });
+
+    return res.status(201).json(created);
+  } catch (error) {
+    console.error("Error al crear proyecto:", error);
+    return res.status(500).json({ error: "Error al crear el proyecto" });
+  }
+});
