@@ -240,7 +240,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
         <header className="sticky top-0 z-30 inline-flex wrap flex-wrap items-center content-center gap-2 h-20 !px-6 !py-2 w-full bg-[#0a0f1a]/80 backdrop-blur-xl border-b border-[#1e2a3a]">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden p-2 rounded-lg text-[--color-text-primary] hover:text-white hover:bg-[#1e2a3a] !mr-4 transition-colors"
+            className="lg:hidden p-2 rounded-lg btn-text hover:text-white hover:bg-[#1e2a3a] !mr-4 transition-colors"
           >
             <FiMenu size={22} />
           </button>
