@@ -56,24 +56,23 @@ function StatCard({
   href?: string
 }) {
   const content = (
-    <div className="bg-[#0f1520] rounded-2xl p-6 border-2 border-[#1e2a3a] hover:border-[#86A869]/30 transition-all duration-300 group">
-      <div className="flex items-start justify-between">
-        <div>
+    <div className="bg-[#0f1520] rounded-2xl !p-6 !pb-0 border-2 border-[#1e2a3a] h-full hover:border-[#86A869]/30 transition-all duration-300 group">
+      <div className="flex items-start md:items-start lg:items-end justify-between lg:flex-wrap-reverse ">
+        <div className='!w-full lg:!w-auto'>
           <p className="text-sm font-medium text-gray-500">{title}</p>
           <p className="text-2xl font-bold text-white mt-2">{value}</p>
           {change && (
-            <div className={`flex items-center gap-1.5 mt-3 text-sm font-medium ${
-              changeType === 'positive' ? 'text-green-400' :
+            <div className={`flex items-center gap-1.5 mt-3 text-sm font-medium ${changeType === 'positive' ? 'text-green-400' :
               changeType === 'negative' ? 'text-red-400' :
-              'text-gray-400'
-            }`}>
-              {changeType === 'positive' && <FiTrendingUp className="w-4 h-4" />}
-              {changeType === 'negative' && <FiTrendingDown className="w-4 h-4" />}
-              <span>{change}</span>
+                'text-gray-400'
+              }`}>
+              {changeType === 'positive' && <FiTrendingUp className="w-4 h-4 !mt-1" />}
+              {changeType === 'negative' && <FiTrendingDown className="w-4 h-4 !mt-1" />}
+              <span className='!w-full flex items-center'>{change}</span>
             </div>
           )}
         </div>
-        <div className="p-4 bg-gradient-to-br from-[#86A869]/20 to-[#3383B7]/20 rounded-xl group-hover:scale-110 transition-transform duration-300">
+        <div className="!p-4 bg-gradient-to-br from-[#86A869]/20 to-[#3383B7]/20 rounded-xl group-hover:scale-110 transition-transform duration-300">
           <Icon className="w-6 h-6 text-[#86A869]" />
         </div>
       </div>
@@ -110,7 +109,7 @@ async function DashboardContent() {
   return (
     <div className="space-y-12">
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 !py-4">
         <StatCard
           title="Proyectos Totales"
           value={stats.totalProjects}
