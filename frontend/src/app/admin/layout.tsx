@@ -241,13 +241,13 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
         <header className="sticky top-0 z-30 inline-flex wrap flex-wrap items-center content-center gap-2 h-20 !px-3 sm:!px-6 !py-2 w-full bg-[#0a0f1a]/80 backdrop-blur-xl border-b border-[#1e2a3a]">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-[#1e2a3a] !mr-[.5rem] transition-colors"
+            className="lg:hidden p-2 rounded-lg button-text hover:text-white hover:bg-[#1e2a3a] !mr-4 transition-colors"
           >
             <FiMenu size={25} />
           </button>
 
           <div className="flex-1">
-            <h1 className="!text-lg sm:!text-[1.5rem] md:!text-[2rem] !text-white text-center md:text-left  min-w-[200px]">
+            <h1 className="!text-lg sm:!text-[1.5rem] md:!text-[2rem] !text-[--color-text-primary] min-w-[200px]">
               Panel de administración
             </h1>
           </div>
@@ -256,7 +256,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
             <Link
               href="/"
               target="_blank"
-              className="!px-[.5rem] sm:!px-[1rem] !py-2 flex items-center gap-2 text-sm font-medium !text-white bg-gradient-to-br from-[#86A869] to-[#3383B7] hover:from-[#2a3a4a] rounded-lg transition-all duration-200"
+              className="px-4 py-2 text-sm font-medium button-text btn-gradient btn-gradient:hover button-text button-text:hover rounded-lg transition-all duration-200"
             >
               <span className='hidden sm:block !w-full !h-full'>Ver sitio</span>
               <FiExternalLink size={22} />
