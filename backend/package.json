@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "postinstall": "DATABASE_URL=\"${DATABASE_URL:-postgresql://user:pass@localhost:5432/db}\" prisma generate --schema=prisma/schema.prisma",
+    "postinstall": "node scripts/generate.js",
     "dev": "node server.js",
     "start": "node server.js",
     "setup": "prisma generate --schema=prisma/schema.prisma && prisma migrate dev --schema=prisma/schema.prisma",
@@ -13,9 +13,6 @@
     "prisma:studio": "prisma studio --schema=prisma/schema.prisma",
     "seed": "dotenv -e .env -- tsx seed.ts",
     "test": "jest"
-  },
-  "prisma": {
-    "seed": "dotenv -e .env -- tsx seed.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.4.0",
