@@ -32,8 +32,12 @@ prisma/*.db
 prisma/*.db-journal
 
 # ==================== PRISMA GENERATED ====================
-/prisma/generated/
-/src/generated/
+# Ignorar carpetas generadas por Prisma en cualquier subcarpeta del proyecto
+# (cada dev debe correr `prisma generate` en su propio SO para generar el binario correcto)
+**/prisma/generated/
+**/src/generated/
+# Ignorar binarios nativos de Prisma explícitamente
+*.node
 
 # ==================== ENVIRONMENT ====================
 .env
