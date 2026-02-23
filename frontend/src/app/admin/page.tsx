@@ -143,13 +143,13 @@ async function DashboardContent() {
         />
       </div>
 
-      {/* Recent Activity */}
+            {/* Recent Activity */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Recent Projects */}
         <div className="bg-[#10182a] rounded-3xl border-2 border-[#1e2a3a] shadow-xl overflow-hidden">
-          <div className="px-8 py-6 border-b border-[#1e2a3a] flex items-center justify-between">
-            <h3 className="font-bold text-xl text-white">Proyectos Recientes</h3>
-            <Link href="/admin/proyectos" className="text-sm text-[#86A869] hover:text-[#9BC277] font-medium transition-colors">
+          <div className="!px-4 !py-2 border-b border-[#1e2a3a] flex items-center justify-between">
+            <h3 className="font-bold !text-4xl !my-[2rem] !mx-4  text-white">Proyectos Recientes</h3>
+            <Link href="/admin/proyectos" className="text-sm !m-2 text-[#86A869] hover:text-[#9BC277] font-medium transition-colors">
               Ver todos →
             </Link>
           </div>
@@ -165,46 +165,43 @@ async function DashboardContent() {
                 <Link
                   key={project.id}
                   href={`/admin/proyectos/${project.id}`}
-                  className="flex items-center gap-4 px-8 py-5 hover:bg-[#1e2a3a]/60 transition-colors"
+                  className="flex items-center gap-4 !px-8 !py-5 hover:bg-[#1e2a3a]/60 transition-colors"
                 >
-                  <div className={`p-3 rounded-xl ${
-                    project.status === 'COMPLETED' ? 'bg-green-500/15' :
+                  <div className={`!p-3 rounded-xl ${project.status === 'COMPLETED' ? 'bg-green-500/15' :
                     project.status === 'IN_DEVELOPMENT' ? 'bg-blue-500/15' :
-                    project.status === 'MAINTENANCE' ? 'bg-yellow-500/15' :
-                    'bg-gray-500/15'
-                  }`}>
+                      project.status === 'MAINTENANCE' ? 'bg-yellow-500/15' :
+                        'bg-gray-500/15'
+                    }`}>
                     {project.status === 'COMPLETED' ? (
-                      <FiCheckCircle className={`w-5 h-5 ${
-                        project.status === 'COMPLETED' ? 'text-green-400' :
+                      <FiCheckCircle className={`w-5 h-5 ${project.status === 'COMPLETED' ? 'text-green-400' :
                         project.status === 'IN_DEVELOPMENT' ? 'text-blue-400' :
-                        project.status === 'MAINTENANCE' ? 'text-yellow-400' :
-                        'text-gray-400'
-                      }`} />
+                          project.status === 'MAINTENANCE' ? 'text-yellow-400' :
+                            'text-gray-400'
+                        }`} />
                     ) : (
                       <FiClock className="w-5 h-5 text-blue-400" />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-white truncate text-lg">{project.title}</p>
-                    <p className="text-sm text-gray-400">
+                    <p className="font-semibold !text-white truncate !mb-1 !text-lg">{project.title}</p>
+                    <p className="!text-sm text-gray-400">
                       {project.client?.name || 'Sin cliente'} • {formatDate(typeof project.updatedAt === 'string' ? new Date(project.updatedAt) : project.updatedAt)}
                     </p>
                   </div>
-                  <span className={`text-xs font-semibold px-3 py-1.5 rounded-lg ${
-                    project.status === 'COMPLETED' ? 'bg-green-500/15 text-green-400' :
+                  <span className={`!text-xs font-semibold !px-3 !py-1.5 flex items-center justify-center rounded-lg ${project.status === 'COMPLETED' ? 'bg-green-500/15 text-green-400' :
                     project.status === 'IN_DEVELOPMENT' ? 'bg-blue-500/15 text-blue-400' :
-                    project.status === 'MAINTENANCE' ? 'bg-yellow-500/15 text-yellow-400' :
-                    'bg-gray-500/15 text-gray-400'
-                  }`}>
+                      project.status === 'MAINTENANCE' ? 'bg-yellow-500/15 text-yellow-400' :
+                        'bg-gray-500/15 text-gray-400'
+                    }`}>
                     {project.status === 'COMPLETED' ? 'Completado' :
-                     project.status === 'IN_DEVELOPMENT' ? 'En desarrollo' :
-                     project.status === 'MAINTENANCE' ? 'Mantenimiento' :
-                     'Pausado'}
+                      project.status === 'IN_DEVELOPMENT' ? 'En desarrollo' :
+                        project.status === 'MAINTENANCE' ? 'Mantenimiento' :
+                          'Pausado'}
                   </span>
                 </Link>
               ))
             ) : (
-              <div className="px-8 py-12 text-center">
+              <div className="!px-8 !py-12 text-center">
                 <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-[#1e2a3a] flex items-center justify-center">
                   <FiFolder className="w-8 h-8 text-gray-500" />
                 </div>
@@ -219,9 +216,9 @@ async function DashboardContent() {
 
         {/* Recent Transactions */}
         <div className="bg-[#10182a] rounded-3xl border-2 border-[#1e2a3a] shadow-xl overflow-hidden">
-          <div className="px-8 py-6 border-b border-[#1e2a3a] flex items-center justify-between">
-            <h3 className="font-bold text-xl text-white">Transacciones Recientes</h3>
-            <Link href="/admin/finanzas" className="text-sm text-[#86A869] hover:text-[#9BC277] font-medium transition-colors">
+          <div className="!px-4 !py-2 border-b border-[#1e2a3a] flex items-center justify-between">
+            <h3 className="font-bold !text-4xl !my-[2rem] !mx-4  text-white">Transacciones Recientes</h3>
+            <Link href="/admin/finanzas" className="text-sm !m-2 text-[#86A869] hover:text-[#9BC277] font-medium transition-colors">
               Ver todas →
             </Link>
           </div>
@@ -238,11 +235,10 @@ async function DashboardContent() {
               }) => (
                 <div
                   key={transaction.id}
-                  className="flex items-center gap-4 px-8 py-5"
+                  className="flex items-center gap-4 !px-8 !py-5"
                 >
-                  <div className={`p-3 rounded-xl ${
-                    transaction.type === 'INCOME' ? 'bg-green-500/15' : 'bg-red-500/15'
-                  }`}>
+                  <div className={`!p-3 rounded-xl ${transaction.type === 'INCOME' ? 'bg-green-500/15' : 'bg-red-500/15'
+                    }`}>
                     {transaction.type === 'INCOME' ? (
                       <FiTrendingUp className="w-5 h-5 text-green-400" />
                     ) : (
@@ -250,20 +246,19 @@ async function DashboardContent() {
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-white truncate text-lg">{transaction.description}</p>
-                    <p className="text-sm text-gray-400">
+                    <p className="font-semibold text-white truncate !text-lg !mb-1">{transaction.description}</p>
+                    <p className="!text-sm text-gray-400">
                       {transaction.client?.name || transaction.project?.title || 'General'} • {formatDate(typeof transaction.date === 'string' ? new Date(transaction.date) : transaction.date)}
                     </p>
                   </div>
-                  <span className={`font-bold ${
-                    transaction.type === 'INCOME' ? 'text-green-400' : 'text-red-400'
-                  }`}>
+                  <span className={`font-bold !w-fit ${transaction.type === 'INCOME' ? 'text-green-400' : 'text-red-400'
+                    }`}>
                     {transaction.type === 'INCOME' ? '+' : '-'}{formatCurrency(transaction.amount)}
                   </span>
                 </div>
               ))
             ) : (
-              <div className="px-8 py-12 text-center">
+              <div className="!px-8 !py-12 text-center">
                 <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-[#1e2a3a] flex items-center justify-center">
                   <FiDollarSign className="w-8 h-8 text-gray-500" />
                 </div>
