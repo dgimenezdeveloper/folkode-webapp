@@ -1,23 +1,25 @@
 # Folkode Backend
 
+
 ## ⚙️ Setup inicial (todos los SO: Windows, Linux, macOS)
 
 > **Importante:** La carpeta `prisma/generated/` **no está en el repositorio** porque los binarios de Prisma son específicos del sistema operativo. Cada desarrollador debe generarlos localmente.
 
 ### Pasos para levantar el backend
 
-1. **Instalar dependencias** (esto también genera automáticamente el cliente Prisma):
+1. **Configura tus variables de entorno antes de instalar dependencias:**
+   - Copia el archivo `.env.example` a `.env` en la carpeta `backend/` y edítalo con tus datos reales.
    ```bash
    cd backend
+   cp .env.example .env
+   # Edita .env con tus credenciales
+   ```
+
+2. **Instala dependencias** (esto también genera automáticamente el cliente Prisma):
+   ```bash
    npm install
    ```
-   > El script `postinstall` ejecuta `prisma generate` automáticamente. El cliente se genera para tu SO.
-
-2. **Configurar variables de entorno:**
-   Crear un archivo `.env` en la carpeta `backend/` con el siguiente contenido:
-   ```env
-   DATABASE_URL="postgresql://usuario:contraseña@host:5432/nombre_db"
-   ```
+   > El script `postinstall` ejecuta `prisma generate` automáticamente. El cliente se genera para tu SO. Si no tienes `.env`, se usará una variable dummy solo para generación, pero no funcionará para migraciones ni uso real.
 
 3. **Ejecutar migraciones:**
    ```bash

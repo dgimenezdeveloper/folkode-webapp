@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "postinstall": "prisma generate --schema=prisma/schema.prisma",
+    "postinstall": "DATABASE_URL=\"${DATABASE_URL:-postgresql://user:pass@localhost:5432/db}\" prisma generate --schema=prisma/schema.prisma",
     "dev": "node server.js",
     "start": "node server.js",
     "setup": "prisma generate --schema=prisma/schema.prisma && prisma migrate dev --schema=prisma/schema.prisma",
