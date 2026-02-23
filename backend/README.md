@@ -1,5 +1,36 @@
 # Folkode Backend
 
+## ⚙️ Setup inicial (todos los SO: Windows, Linux, macOS)
+
+> **Importante:** La carpeta `prisma/generated/` **no está en el repositorio** porque los binarios de Prisma son específicos del sistema operativo. Cada desarrollador debe generarlos localmente.
+
+### Pasos para levantar el backend
+
+1. **Instalar dependencias** (esto también genera automáticamente el cliente Prisma):
+   ```bash
+   cd backend
+   npm install
+   ```
+   > El script `postinstall` ejecuta `prisma generate` automáticamente. El cliente se genera para tu SO.
+
+2. **Configurar variables de entorno:**
+   Crear un archivo `.env` en la carpeta `backend/` con el siguiente contenido:
+   ```env
+   DATABASE_URL="postgresql://usuario:contraseña@host:5432/nombre_db"
+   ```
+
+3. **Ejecutar migraciones:**
+   ```bash
+   npm run prisma:migrate
+   ```
+
+4. **Iniciar el servidor:**
+   ```bash
+   npm run dev
+   ```
+
+---
+
 ## Estructura
 - `prisma/` — Esquema y migraciones de base de datos
 - `prisma.config.ts` — Configuración de Prisma
@@ -8,14 +39,18 @@
 - `package.json` — Dependencias y scripts
 
 ## Scripts útiles
-- `npm run dev` — Inicia el servidor Express
-- `npm run prisma:migrate` — Ejecuta migraciones Prisma
-- `npm run prisma:generate` — Genera el cliente Prisma
-- `npm run prisma:studio` — Abre Prisma Studio
-- `npm run seed` — Ejecuta el seed de la base de datos
+| Script | Descripción |
+|---|---|
+| `npm install` | Instala dependencias **y genera el cliente Prisma** automáticamente |
+| `npm run dev` | Inicia el servidor Express |
+| `npm run setup` | Genera el cliente y ejecuta migraciones |
+| `npm run prisma:migrate` | Ejecuta migraciones Prisma |
+| `npm run prisma:generate` | Regenera el cliente Prisma manualmente |
+| `npm run prisma:studio` | Abre Prisma Studio |
+| `npm run seed` | Ejecuta el seed de la base de datos |
 
 ## Variables de entorno
-- `.env` debe estar en la raíz del proyecto (o copiar a `/backend` si se prefiere separar)
+- Crear `.env` dentro de `/backend` con la variable `DATABASE_URL`
 
 ## Despliegue
 - Subir `/backend` como servicio independiente en Render (Node.js)
@@ -23,9 +58,7 @@
 
 ---
 
-# Folkode Backend API
+## API Endpoints
 
-- `/api/projects` — Lista todos los proyectos
-- `/api/health` — Endpoint de salud
-
-Puedes agregar más endpoints según la lógica de negocio.
+- `GET /api/projects` — Lista todos los proyectos
+- `GET /api/health` — Endpoint de salud
