@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { FiArrowLeft, FiSave, FiLoader, FiPlus, FiX, FiImage } from 'react-icons/fi'
 import { ProjectCategory, ProjectStatus } from '@/lib/db/types'
+import { useSession } from 'next-auth/react'
+import { clientService } from '@/services/client.service'
+import { projectService } from '@/services/project.service'
 
 interface Client {
   id: string
@@ -43,12 +46,18 @@ export default function NewProjectPage() {
   const [newTech, setNewTech] = useState('')
   const [imageUrls, setImageUrls] = useState<string[]>([''])
 
+  const { data: session } = useSession()
+  const token = (session as any)?.accessToken
+
   useEffect(() => {
-    fetch('/api/clients')
-      .then(res => res.json())
-      .then(data => setClients(data))
-      .catch(console.error)
-  }, [])
+    if (token) {
+      clientService.getClients(token)
+        .then(data => {
+          if (Array.isArray(data)) setClients(data)
+        })
+        .catch(console.error)
+    }
+  }, [token])
 
   const addTechnology = (tech: string) => {
     if (tech && !technologies.includes(tech)) {
@@ -80,7 +89,7 @@ export default function NewProjectPage() {
     setIsLoading(true)
 
     const formData = new FormData(e.currentTarget)
-    
+
     const data = {
       title: formData.get('title') as string,
       slug: formData.get('slug') as string,
@@ -102,18 +111,7 @@ export default function NewProjectPage() {
     }
 
     try {
-      const response = await fetch('/api/projects', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-
-      if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.message || 'Error al crear el proyecto')
-      }
-
-      const project = await response.json()
+      const project = await projectService.createProject(data as any, token)
       router.push(`/admin/proyectos/${project.id}`)
     } catch (error) {
       console.error('Error creating project:', error)
@@ -323,7 +321,7 @@ export default function NewProjectPage() {
         {/* Technologies */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Tecnologías</h2>
-          
+
           {/* Selected technologies */}
           {technologies.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-4">

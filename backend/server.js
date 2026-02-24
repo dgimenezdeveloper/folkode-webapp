@@ -145,7 +145,7 @@ app.get("/api/stats", async (req, res) => {
 });
 
 // Ejemplo de endpoint: obtener proyectos
-  app.get("/api/projects", requireAdmin, async (req, res) => {
+app.get("/api/projects", requireAdmin, async (req, res) => {
   try {
     const page = Number.parseInt(req.query.page, 10) || 1;
     const limit = Number.parseInt(req.query.limit, 10) || 10;
@@ -227,6 +227,19 @@ app.get("/api/projects/:id", requireAdmin, async (req, res) => {
 });
 
 
+// GET /api/clients - Obtener lista de clientes
+app.get("/api/clients", requireAdmin, async (req, res) => {
+  try {
+    const clients = await prisma.client.findMany({
+      orderBy: { name: "asc" }
+    });
+    return res.json(clients);
+  } catch (error) {
+    console.error("Error al obtener clientes:", error);
+    return res.status(500).json({ error: "Error al obtener clientes" });
+  }
+});
+
 // Endpoint de prueba
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok" });
@@ -252,6 +265,7 @@ app.post("/api/projects", requireAdmin, async (req, res) => {
       liveUrl,
       githubUrl,
       technologies,
+      images,
     } = req.body;
 
     // 1) Validación required (evita error Prisma por campos faltantes)
@@ -299,7 +313,14 @@ app.post("/api/projects", requireAdmin, async (req, res) => {
         demoUrl: demoUrl ?? null,
         liveUrl: liveUrl ?? null,
         githubUrl: githubUrl ?? null,
-        technologies: technologies ?? "[]",
+        technologies: Array.isArray(technologies) ? JSON.stringify(technologies) : (technologies ?? "[]"),
+        images: Array.isArray(images) && images.length > 0 ? {
+          create: images.map((img) => ({
+            url: img.url,
+            alt: img.alt || title,
+            order: img.order || 0
+          }))
+        } : undefined
       },
       include: {
         client: true,
