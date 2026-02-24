@@ -5,20 +5,13 @@ import { FiPlus, FiSearch, FiEdit2, FiExternalLink, FiEye, FiFolder } from 'reac
 import { ProjectCategory, ProjectStatus } from '@/lib/db/types'
 import DeleteProjectButton from './DeleteProjectButton'
 
+import { projectService } from '@/services/project.service'
+import { auth } from '@/lib/auth/auth'
+
 interface SearchParams {
   search?: string
   category?: ProjectCategory
   status?: ProjectStatus
-}
-
-async function getProjects(searchParams: SearchParams) {
-  const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/projects`)
-  if (searchParams.search) url.searchParams.append('search', searchParams.search)
-  if (searchParams.category) url.searchParams.append('category', searchParams.category)
-  if (searchParams.status) url.searchParams.append('status', searchParams.status)
-  const res = await fetch(url.toString())
-  if (!res.ok) return []
-  return res.json()
 }
 
 const statusLabels: Record<ProjectStatus, string> = {
@@ -45,7 +38,16 @@ const statusColors: Record<ProjectStatus, string> = {
 }
 
 async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
-  const projects = await getProjects(searchParams)
+  const session = await auth()
+  const token = (session as any)?.accessToken
+
+  let projects: any[] = []
+  try {
+    const response = await projectService.getProjects(searchParams, token)
+    projects = 'data' in response ? response.data : response
+  } catch (error) {
+    console.error('Error fetching projects:', error)
+  }
 
   if (projects.length === 0) {
     return (
@@ -88,8 +90,8 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
                       {project.images[0] ? (
-                        <Image 
-                          src={project.images[0].url} 
+                        <Image
+                          src={project.images[0].url}
                           alt={project.title}
                           width={48}
                           height={48}
@@ -182,7 +184,7 @@ export default async function ProjectsPage({
   searchParams: Promise<SearchParams>
 }) {
   const params = await searchParams
-  
+
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">

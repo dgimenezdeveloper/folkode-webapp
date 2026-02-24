@@ -38,7 +38,7 @@ export interface ProjectCardData {
   images: { url: string; alt?: string }[]
 }
 
-export type ProjectCategory = 
+export type ProjectCategory =
   | 'ECOMMERCE'
   | 'LANDING_PAGE'
   | 'CORPORATIVO'
@@ -46,11 +46,78 @@ export type ProjectCategory =
   | 'WEB'
   | 'SOFTWARE'
 
-export type ProjectStatus = 
+export type ProjectStatus =
   | 'IN_DEVELOPMENT'
   | 'COMPLETED'
   | 'MAINTENANCE'
   | 'PAUSED'
+
+export interface ProjectImage {
+  id: string
+  url: string
+  alt?: string | null
+  order: number
+}
+
+export interface ProjectSubsection {
+  id: string
+  key: string
+  title: string
+  description: string
+  images: string // Guardado como JSON en DB
+  order: number
+}
+
+export interface ProjectSection {
+  id: string
+  key: string
+  title: string
+  description: string
+  order: number
+  images: string // Guardado como JSON en DB
+  subsections?: ProjectSubsection[]
+}
+
+// Interfaz para recibir el Proyecto completo desde el GET del Backend
+export interface Project {
+  id: string
+  title: string
+  slug: string
+  description: string
+  shortDesc?: string | null
+  category: ProjectCategory
+  status: ProjectStatus
+  featured: boolean
+  demoUrl?: string | null
+  liveUrl?: string | null
+  githubUrl?: string | null
+  technologies: string // Guardado como JSON en DB "['react', 'node']"
+  clientId?: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  images?: ProjectImage[]
+  sections?: ProjectSection[]
+}
+
+// DTO para enviar al crear un Proyecto
+export interface CreateProjectDTO {
+  title: string
+  slug: string
+  description: string
+  shortDesc?: string
+  category: ProjectCategory
+  status?: ProjectStatus
+  featured?: boolean
+  demoUrl?: string
+  liveUrl?: string
+  githubUrl?: string
+  technologies?: string // JSON string array
+  clientId?: string
+  // Usualmente imagenes y secciones se envían separados o como Stringified JSON si es FormData
+}
+
+// DTO para editar
+export interface UpdateProjectDTO extends Partial<CreateProjectDTO> { }
 
 export const PROJECT_CATEGORIES: Record<ProjectCategory, string> = {
   ECOMMERCE: 'E-commerce',
@@ -60,6 +127,7 @@ export const PROJECT_CATEGORIES: Record<ProjectCategory, string> = {
   WEB: 'Web',
   SOFTWARE: 'Software',
 }
+
 
 export const PROJECT_STATUS: Record<ProjectStatus, string> = {
   IN_DEVELOPMENT: 'En desarrollo',

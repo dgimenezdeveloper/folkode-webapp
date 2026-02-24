@@ -35,14 +35,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             return null
           }
 
-          const user = await response.json()
+          const data = await response.json()
+
+          if (!data.user) return null
 
           return {
-            id: user.id,
-            email: user.email,
-            name: user.name,
-            role: user.role,
-            image: user.image,
+            id: data.user.id,
+            email: data.user.email,
+            name: data.user.name,
+            role: data.user.role,
+            image: data.user.image,
+            accessToken: data.token,
           }
         } catch (error) {
           console.error('Error en autenticación:', error)
@@ -57,6 +60,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (user) {
         token.role = user.role
         token.id = user.id
+        token.accessToken = (user as any).accessToken
       }
       return token
     },
@@ -65,6 +69,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         session.user.role = token.role as Role
         session.user.id = token.id as string
       }
+      // @ts-ignore
+      session.accessToken = token.accessToken
       return session
     },
   },
