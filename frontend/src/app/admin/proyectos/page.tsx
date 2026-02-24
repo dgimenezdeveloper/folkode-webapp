@@ -47,6 +47,7 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
     projects = 'data' in response ? response.data : response
   } catch (error) {
     console.error('Error fetching projects:', error)
+    throw new Error('No se pudieron cargar los proyectos. Por favor, intenta nuevamente.')
   }
 
   if (projects.length === 0) {
@@ -159,24 +160,6 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
   )
 }
 
-function LoadingTable() {
-  return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      <div className="animate-pulse">
-        <div className="h-14 bg-gray-50 border-b border-gray-100"></div>
-        {[...Array(5)].map((_, i) => (
-          <div key={i} className="px-6 py-4 border-b border-gray-100 flex items-center gap-4">
-            <div className="w-12 h-12 bg-gray-200 rounded-lg"></div>
-            <div className="flex-1 space-y-2">
-              <div className="h-4 w-48 bg-gray-200 rounded"></div>
-              <div className="h-3 w-32 bg-gray-200 rounded"></div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
 
 export default async function ProjectsPage({
   searchParams
@@ -243,9 +226,7 @@ export default async function ProjectsPage({
         </form>
       </div>
 
-      <Suspense fallback={<LoadingTable />}>
-        <ProjectsTable searchParams={params} />
-      </Suspense>
+      <ProjectsTable searchParams={params} />
     </div>
   )
 }
