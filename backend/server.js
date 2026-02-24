@@ -245,11 +245,6 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`Backend corriendo en http://localhost:${PORT}`);
-});
-// POST /api/projects - Crear nuevo proyecto
 app.post("/api/projects", requireAdmin, async (req, res) => {
   try {
     const {
@@ -334,3 +329,80 @@ app.post("/api/projects", requireAdmin, async (req, res) => {
     return res.status(500).json({ error: "Error al crear el proyecto" });
   }
 });
+
+// PUT /api/projects/:id - Actualizar proyecto existente
+app.put("/api/projects/:id", requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      title,
+      slug,
+      description,
+      shortDesc,
+      category,
+      status,
+      featured,
+      clientId,
+      demoUrl,
+      liveUrl,
+      githubUrl,
+      technologies,
+      images,
+    } = req.body;
+
+    // Verificar existencia
+    const existing = await prisma.project.findUnique({ where: { id } });
+    if (!existing) {
+      return res.status(404).json({ error: "Proyecto no encontrado" });
+    }
+
+    // Prepare update data
+    const updateData = {
+      title,
+      slug,
+      description,
+      shortDesc: shortDesc ?? null,
+      category,
+      status,
+      featured: featured ?? false,
+      clientId: clientId ?? null,
+      demoUrl: demoUrl ?? null,
+      liveUrl: liveUrl ?? null,
+      githubUrl: githubUrl ?? null,
+      technologies: Array.isArray(technologies) ? JSON.stringify(technologies) : (technologies ?? "[]"),
+    };
+
+    // Si mandan nuevas imágenes, borra las viejas y recrea
+    // Esto es simple y funciona para reemplazar galería
+    if (images && Array.isArray(images)) {
+      updateData.images = {
+        deleteMany: {}, // Borra previas
+        create: images.map((img) => ({
+          url: img.url,
+          alt: img.alt || title,
+          order: img.order || 0
+        }))
+      };
+    }
+
+    const updated = await prisma.project.update({
+      where: { id },
+      data: updateData,
+      include: {
+        client: true,
+        images: { orderBy: { order: "asc" } },
+      },
+    });
+
+    return res.json(updated);
+  } catch (error) {
+    console.error("Error al editar proyecto:", error);
+    return res.status(500).json({ error: "Error al actualizar el proyecto" });
+  }
+});
+
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`Backend corriendo en http://localhost:${PORT}`);
+});
+

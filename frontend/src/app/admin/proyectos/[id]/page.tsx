@@ -1,17 +1,19 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { 
-  FiArrowLeft, 
-  FiEdit2, 
-  FiExternalLink, 
-  FiGithub, 
+import {
+  FiArrowLeft,
+  FiEdit2,
+  FiExternalLink,
+  FiGithub,
   FiCalendar,
   FiUser,
   FiFolder,
   FiGlobe
 } from 'react-icons/fi'
 import { ProjectStatus, ProjectCategory } from '@/lib/db/types'
+import { auth } from '@/lib/auth/auth'
+import { projectService } from '@/services/project.service'
 import DeleteProjectButton from '../DeleteProjectButton'
 
 interface PageProps {
@@ -41,15 +43,17 @@ const statusColors: Record<ProjectStatus, string> = {
   [ProjectStatus.PAUSED]: 'bg-gray-100 text-gray-700'
 }
 
-async function getProject(id: string) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects/${id}`)
-  if (!res.ok) return null
-  return res.json()
-}
-
 export default async function ProjectDetailPage({ params }: PageProps) {
   const { id } = await params
-  const project = await getProject(id)
+  const session = await auth()
+  const token = (session as any)?.accessToken
+
+  let project: any = null
+  try {
+    project = await projectService.getProject(id, token)
+  } catch (error) {
+    console.error('Error fetching project:', error)
+  }
 
   if (!project) {
     notFound()
@@ -236,7 +240,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">Cliente</p>
-                    <Link 
+                    <Link
                       href={`/admin/clientes/${project.client.id}`}
                       className="font-medium text-primary hover:underline mt-0.5 block"
                     >
@@ -328,9 +332,8 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                       <p className="text-sm font-medium text-gray-900">{transaction.description}</p>
                       <p className="text-xs text-gray-500 mt-1">{formatDate(transaction.date)}</p>
                     </div>
-                    <span className={`font-semibold ${
-                      transaction.type === 'INCOME' ? 'text-green-600' : 'text-red-600'
-                    }`}>
+                    <span className={`font-semibold ${transaction.type === 'INCOME' ? 'text-green-600' : 'text-red-600'
+                      }`}>
                       {transaction.type === 'INCOME' ? '+' : '-'}{formatCurrency(transaction.amount)}
                     </span>
                   </div>

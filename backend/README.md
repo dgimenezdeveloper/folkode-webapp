@@ -33,6 +33,10 @@ La API requiere autenticación para todas las operaciones sobre `/api/projects`.
 - **`GET /api/projects`**: Lista todos los proyectos. Soporta paginación (`?page=1&limit=10`) y filtros (`?status=COMPLETED&search=texto`). Requiere Bearer Token (Admin).
 - **`GET /api/projects/:id`**: Obtiene el detalle de un proyecto, incluyendo sus secciones, subsecciones e imágenes ordenadas. Requiere Bearer Token (Admin).
 - **`POST /api/projects`**: Crea un proyecto nuevo. Valida campos obligatorios y la unicidad del `slug`. Los campos `category` y `status` deben coincidir estrictamente con los Enums definidos en la base de datos. Requiere Bearer Token (Admin).
+- **`PUT /api/projects/:id`**: Edita un proyecto existente. Reemplaza por completo el array de imágenes si se detectan cambios en la galería. Requiere Bearer Token (Admin).
+
+### 👥 Clientes (`server.js`)
+- **`GET /api/clients`**: Devuelve una lista plana con el ID y nombre de todos los clientes activos, ordenados de la A a la Z. Útil para rellenar Selects. Requiere Bearer Token (Admin).
 
 ---
 

@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { FiArrowLeft, FiSave, FiLoader, FiPlus, FiX, FiImage } from 'react-icons/fi'
 import { ProjectCategory, ProjectStatus } from '@/lib/db/types'
+import { useSession } from 'next-auth/react'
+import { clientService } from '@/services/client.service'
+import { projectService } from '@/services/project.service'
 
 interface Client {
   id: string
@@ -70,21 +73,30 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
   const [newTech, setNewTech] = useState('')
   const [imageUrls, setImageUrls] = useState<string[]>([''])
 
+  const { data: session } = useSession()
+  const token = (session as any)?.accessToken
+
   useEffect(() => {
+    if (!token) return
     Promise.all([
-      fetch('/api/clients').then(res => res.json()),
-      fetch(`/api/projects/${id}`).then(res => res.json())
-    ]).then(([clientsData, projectData]) => {
-      setClients(clientsData)
+      clientService.getClients(token),
+      projectService.getProject(id, token)
+    ]).then(([clientsData, projectData]: any) => {
+      if (Array.isArray(clientsData)) setClients(clientsData)
       setProject(projectData)
-      setTechnologies(projectData.technologies || [])
+
+      const techParsed = typeof projectData.technologies === 'string'
+        ? JSON.parse(projectData.technologies)
+        : (projectData.technologies || [])
+      setTechnologies(techParsed)
+
       setImageUrls(projectData.images?.map((img: ProjectImage) => img.url) || [''])
       setIsFetching(false)
     }).catch(error => {
       console.error('Error fetching data:', error)
       setIsFetching(false)
     })
-  }, [id])
+  }, [id, token])
 
   const addTechnology = (tech: string) => {
     if (tech && !technologies.includes(tech)) {
@@ -116,7 +128,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
     setIsLoading(true)
 
     const formData = new FormData(e.currentTarget)
-    
+
     const data = {
       title: formData.get('title') as string,
       slug: formData.get('slug') as string,
@@ -138,16 +150,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
     }
 
     try {
-      const response = await fetch(`/api/projects/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-
-      if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.message || 'Error al actualizar el proyecto')
-      }
+      await projectService.updateProject(id, data as any, token)
 
       router.push(`/admin/proyectos/${id}`)
       router.refresh()
@@ -366,7 +369,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
         {/* Technologies */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Tecnologías</h2>
-          
+
           {technologies.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-4">
               {technologies.map(tech => (
