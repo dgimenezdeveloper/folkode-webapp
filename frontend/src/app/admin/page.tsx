@@ -1,9 +1,9 @@
 import { Suspense } from 'react'
 import Link from 'next/link'
-import { 
-  FiFolder, 
-  FiUsers, 
-  FiDollarSign, 
+import {
+  FiFolder,
+  FiUsers,
+  FiDollarSign,
   FiMessageSquare,
   FiTrendingUp,
   FiTrendingDown,
@@ -18,11 +18,11 @@ async function getStats() {
     const response = await fetch(`${API_URL}/api/stats`, {
       cache: 'no-store',
     })
-    
+
     if (!response.ok) {
       throw new Error('Error al obtener estadísticas')
     }
-    
+
     return await response.json()
   } catch (error) {
     console.error('Error fetching stats:', error)
@@ -40,14 +40,14 @@ async function getStats() {
 }
 
 
-function StatCard({ 
-  title, 
-  value, 
-  icon: Icon, 
-  change, 
+function StatCard({
+  title,
+  value,
+  icon: Icon,
+  change,
   changeType,
   href
-}: { 
+}: {
   title: string
   value: string | number
   icon: React.ComponentType<{ className?: string }>
@@ -142,13 +142,13 @@ async function DashboardContent() {
         />
       </div>
 
-            {/* Recent Activity */}
+      {/* Recent Activity */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Recent Projects */}
-        <div className="bg-[#10182a] rounded-3xl border-2 border-[#1e2a3a] shadow-xl overflow-hidden">
-          <div className="!px-4 !py-2 border-b border-[#1e2a3a] flex items-center justify-between">
-            <h3 className="font-bold !text-4xl !my-[2rem] !mx-4  text-white">Proyectos Recientes</h3>
-            <Link href="/admin/proyectos" className="text-sm !m-2 text-[#86A869] hover:text-[#9BC277] font-medium transition-colors">
+        <div className="bg-[#10182a] rounded-3xl border-2 border-[#1e2a3a] shadow-xl overflow-hidden ">
+          <div className="!px-4 !py-2 border-b border-[#1e2a3a] flex flex-wrap lg:flex-nowrap items-center justify-between">
+            <h3 className="font-bold !text-2xl md:!text-4xl md:!mb-auto md:!mt-[2rem] !my-4  md:!my-[2rem] text-start !mx-4  text-white">Proyectos Recientes</h3>
+            <Link href="/admin/proyectos" className="min-w-fit text-sm !m-4 text-[#86A869] hover:text-[#9BC277] font-medium transition-colors">
               Ver todos →
             </Link>
           </div>
@@ -164,7 +164,7 @@ async function DashboardContent() {
                 <Link
                   key={project.id}
                   href={`/admin/proyectos/${project.id}`}
-                  className="flex items-center gap-4 !px-8 !py-5 hover:bg-[#1e2a3a]/60 transition-colors"
+                  className="!w-full flex items-start flex-wrap md:items-center gap-y-2 gap-x-5 lg:gap-4 !px-8 !py-8 hover:bg-[#1e2a3a]/60 transition-colors"
                 >
                   <div className={`!p-3 rounded-xl ${project.status === 'COMPLETED' ? 'bg-green-500/15' :
                     project.status === 'IN_DEVELOPMENT' ? 'bg-blue-500/15' :
@@ -181,9 +181,9 @@ async function DashboardContent() {
                       <FiClock className="w-5 h-5 text-blue-400" />
                     )}
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold !text-white truncate !mb-1 !text-lg">{project.title}</p>
-                    <p className="!text-sm text-gray-400">
+                  <div className="flex-1 min-w-50 !w-full">
+                    <p className="font-semibold !text-white truncate !mb-1 !text-lg !w-full">{project.title}</p>
+                    <p className="!text-sm text-gray-400 w-fit">
                       {project.client?.name || 'Sin cliente'} • {formatDate(typeof project.updatedAt === 'string' ? new Date(project.updatedAt) : project.updatedAt)}
                     </p>
                   </div>
@@ -215,13 +215,13 @@ async function DashboardContent() {
 
         {/* Recent Transactions */}
         <div className="bg-[#10182a] rounded-3xl border-2 border-[#1e2a3a] shadow-xl overflow-hidden">
-          <div className="!px-4 !py-2 border-b border-[#1e2a3a] flex items-center justify-between">
-            <h3 className="font-bold !text-4xl !my-[2rem] !mx-4  text-white">Transacciones Recientes</h3>
-            <Link href="/admin/finanzas" className="text-sm !m-2 text-[#86A869] hover:text-[#9BC277] font-medium transition-colors">
+          <div className="!px-4 !py-2 border-b border-[#1e2a3a] flex flex-wrap xl:flex-nowrap items-center justify-between">
+            <h3 className="font-bold !text-2xl md:!text-4xl md:!mb-auto md:!mt-[2rem] !my-4  md:!my-[2rem] text-start !mx-4  text-white">Transacciones Recientes</h3>
+            <Link href="/admin/finanzas" className="min-w-fit text-sm !m-4 text-[#86A869] hover:text-[#9BC277] font-medium transition-colors">
               Ver todas →
             </Link>
           </div>
-          <div className="divide-y divide-[#1e2a3a]">
+          <div className="divide-y divide-[#1e2a3a] w-full">
             {stats.recentTransactions.length > 0 ? (
               stats.recentTransactions.map((transaction: {
                 id: string;
@@ -234,7 +234,7 @@ async function DashboardContent() {
               }) => (
                 <div
                   key={transaction.id}
-                  className="flex items-center gap-4 !px-8 !py-5"
+                  className="w-full flex items-start flex-wrap md:items-center gap-y-2 md:flex-row gap-x-5 lg:gap-4 !px-8 !py-8"
                 >
                   <div className={`!p-3 rounded-xl ${transaction.type === 'INCOME' ? 'bg-green-500/15' : 'bg-red-500/15'
                     }`}>
@@ -244,13 +244,13 @@ async function DashboardContent() {
                       <FiTrendingDown className="w-5 h-5 text-red-400" />
                     )}
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-white truncate !text-lg !mb-1">{transaction.description}</p>
-                    <p className="!text-sm text-gray-400">
+                  <div className="flex-1 min-w-10 !w-full">
+                    <p className="font-semibold text-white truncate !text-lg !mb-1 !w-full">{transaction.description}</p>
+                    <p className="!text-sm text-gray-400 !w-fit">
                       {transaction.client?.name || transaction.project?.title || 'General'} • {formatDate(typeof transaction.date === 'string' ? new Date(transaction.date) : transaction.date)}
                     </p>
                   </div>
-                  <span className={`font-bold !w-fit ${transaction.type === 'INCOME' ? 'text-green-400' : 'text-red-400'
+                  <span className={`font-bold !w-fit self-end md:self-auto ${transaction.type === 'INCOME' ? 'text-green-400' : 'text-red-400'
                     }`}>
                     {transaction.type === 'INCOME' ? '+' : '-'}{formatCurrency(transaction.amount)}
                   </span>
@@ -345,7 +345,7 @@ export default function AdminDashboard() {
       <div className="mb-6">
         <p className="text-gray-500 mt-1">Bienvenido al panel de administración de Folkode</p>
       </div>
-      
+
       <Suspense fallback={<LoadingState />}>
         <DashboardContent />
       </Suspense>
