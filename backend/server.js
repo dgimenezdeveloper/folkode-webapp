@@ -245,6 +245,96 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
+
+// PUT /api/projects/:id - Actualizar proyecto
+app.put("/api/projects/:id", requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const {
+      title,
+      slug,
+      description,
+      shortDesc,
+      category,
+      status,
+      featured,
+      clientId,
+      demoUrl,
+      liveUrl,
+      githubUrl,
+      technologies,
+    } = req.body;
+
+    //  Verificar existencia
+    const existingProject = await prisma.project.findUnique({ where: { id } });
+    if (!existingProject) {
+      return res.status(404).json({ error: "Proyecto no encontrado" });
+    }
+
+    //  Validaciones básicas
+    if (!title || !slug || !description || !category || !status) {
+      return res.status(400).json({
+        error: "Campos requeridos: title, slug, description, category, status",
+      });
+    }
+
+    const allowedCategories = [
+      "ECOMMERCE",
+      "LANDING_PAGE",
+      "CORPORATIVO",
+      "MULTIMEDIA",
+      "WEB",
+      "SOFTWARE",
+    ];
+    const allowedStatuses = ["IN_DEVELOPMENT", "COMPLETED", "MAINTENANCE", "PAUSED"];
+
+    if (!allowedCategories.includes(category)) {
+      return res.status(400).json({ error: "category inválido", allowed: allowedCategories });
+    }
+
+    if (!allowedStatuses.includes(status)) {
+      return res.status(400).json({ error: "status inválido", allowed: allowedStatuses });
+    }
+
+    // Validar slug único (si cambia)
+    if (slug !== existingProject.slug) {
+      const slugExists = await prisma.project.findUnique({ where: { slug } });
+      if (slugExists) {
+        return res.status(409).json({ error: "El slug ya existe" });
+      }
+    }
+
+    // Actualizar
+    const updated = await prisma.project.update({
+      where: { id },
+      data: {
+        title,
+        slug,
+        description,
+        shortDesc: shortDesc ?? null,
+        category,
+        status,
+        featured: featured ?? false,
+        clientId: clientId ?? null,
+        demoUrl: demoUrl ?? null,
+        liveUrl: liveUrl ?? null,
+        githubUrl: githubUrl ?? null,
+        technologies: technologies ?? "[]",
+      },
+      include: {
+        client: true,
+        images: { orderBy: { order: "asc" } },
+      },
+    });
+
+    return res.json(updated);
+  } catch (error) {
+    console.error("Error al actualizar proyecto:", error);
+    return res.status(500).json({ error: "Error al actualizar el proyecto" });
+  }
+});
+// POST /api/projects - Crear nuevo proyecto
 app.post("/api/projects", requireAdmin, async (req, res) => {
   try {
     const {
@@ -264,14 +354,12 @@ app.post("/api/projects", requireAdmin, async (req, res) => {
       sections,
     } = req.body;
 
-    // 1) Validación required (evita error Prisma por campos faltantes)
     if (!title || !slug || !description || !category || !status) {
       return res.status(400).json({
         error: "Campos requeridos: title, slug, description, category, status",
       });
     }
 
-    // 2) Validación enums (evita error Prisma por valores inválidos)
     const allowedCategories = [
       "ECOMMERCE",
       "LANDING_PAGE",
@@ -289,13 +377,11 @@ app.post("/api/projects", requireAdmin, async (req, res) => {
       return res.status(400).json({ error: "status inválido", allowed: allowedStatuses });
     }
 
-    // 3) Unicidad de slug
     const existing = await prisma.project.findUnique({ where: { slug } });
     if (existing) {
       return res.status(409).json({ error: "El slug ya existe" });
     }
 
-    // 4) Crear
     const created = await prisma.project.create({
       data: {
         title,
@@ -341,95 +427,7 @@ app.post("/api/projects", requireAdmin, async (req, res) => {
   }
 });
 
-// PUT /api/projects/:id - Actualizar proyecto existente
-app.put("/api/projects/:id", requireAdmin, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const {
-      title,
-      slug,
-      description,
-      shortDesc,
-      category,
-      status,
-      featured,
-      clientId,
-      demoUrl,
-      liveUrl,
-      githubUrl,
-      technologies,
-      images,
-      sections,
-    } = req.body;
-
-    // Verificar existencia
-    const existing = await prisma.project.findUnique({ where: { id } });
-    if (!existing) {
-      return res.status(404).json({ error: "Proyecto no encontrado" });
-    }
-
-    // Prepare update data
-    const updateData = {
-      title,
-      slug,
-      description,
-      shortDesc: shortDesc ?? null,
-      category,
-      status,
-      featured: featured ?? false,
-      clientId: clientId ?? null,
-      demoUrl: demoUrl ?? null,
-      liveUrl: liveUrl ?? null,
-      githubUrl: githubUrl ?? null,
-      technologies: Array.isArray(technologies) ? JSON.stringify(technologies) : (technologies ?? "[]"),
-    };
-
-    // Si mandan nuevas imágenes, borra las viejas y recrea
-    // Esto es simple y funciona para reemplazar galería
-    if (images && Array.isArray(images)) {
-      updateData.images = {
-        deleteMany: {}, // Borra previas
-        create: images.map((img) => ({
-          url: img.url,
-          alt: img.alt || title,
-          order: img.order || 0
-        }))
-      };
-    }
-
-    // Igual para secciones
-    if (sections && Array.isArray(sections)) {
-      updateData.sections = {
-        deleteMany: {},
-        create: sections.map((sec, idx) => ({
-          key: sec.key || `sec_${idx}`,
-          title: sec.title,
-          description: sec.description,
-          order: sec.order || idx,
-          images: Array.isArray(sec.images) ? JSON.stringify(sec.images) : (sec.images || "[]")
-        }))
-      };
-    }
-
-    const updated = await prisma.project.update({
-      where: { id },
-      data: updateData,
-      include: {
-        client: true,
-        images: { orderBy: { order: "asc" } },
-        sections: { orderBy: { order: "asc" } },
-      },
-    });
-
-    return res.json(updated);
-  } catch (error) {
-    console.error("Error al editar proyecto:", error);
-    return res.status(500).json({ error: "Error al actualizar el proyecto" });
-  }
-});
-
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Backend corriendo en http://localhost:${PORT}`);
 });
-

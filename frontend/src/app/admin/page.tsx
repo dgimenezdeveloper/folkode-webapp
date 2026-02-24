@@ -1,9 +1,9 @@
 import { Suspense } from 'react'
 import Link from 'next/link'
-import { 
-  FiFolder, 
-  FiUsers, 
-  FiDollarSign, 
+import {
+  FiFolder,
+  FiUsers,
+  FiDollarSign,
   FiMessageSquare,
   FiTrendingUp,
   FiTrendingDown,
@@ -18,11 +18,11 @@ async function getStats() {
     const response = await fetch(`${API_URL}/api/stats`, {
       cache: 'no-store',
     })
-    
+
     if (!response.ok) {
       throw new Error('Error al obtener estadísticas')
     }
-    
+
     return await response.json()
   } catch (error) {
     console.error('Error fetching stats:', error)
@@ -40,14 +40,14 @@ async function getStats() {
 }
 
 
-function StatCard({ 
-  title, 
-  value, 
-  icon: Icon, 
-  change, 
+function StatCard({
+  title,
+  value,
+  icon: Icon,
+  change,
   changeType,
   href
-}: { 
+}: {
   title: string
   value: string | number
   icon: React.ComponentType<{ className?: string }>
@@ -56,24 +56,23 @@ function StatCard({
   href?: string
 }) {
   const content = (
-    <div className="bg-[#0f1520] rounded-2xl p-6 border-2 border-[#1e2a3a] hover:border-[#86A869]/30 transition-all duration-300 group">
-      <div className="flex items-start justify-between">
-        <div>
+    <div className="bg-[#0f1520] rounded-2xl !p-6 !pb-0 border-2 border-[#1e2a3a] h-full hover:border-[#86A869]/30 transition-all duration-300 group">
+      <div className="flex items-start md:items-start lg:items-end justify-between lg:flex-wrap-reverse ">
+        <div className='!w-full lg:!w-auto'>
           <p className="text-sm font-medium text-gray-500">{title}</p>
           <p className="text-2xl font-bold text-white mt-2">{value}</p>
           {change && (
-            <div className={`flex items-center gap-1.5 mt-3 text-sm font-medium ${
-              changeType === 'positive' ? 'text-green-400' :
+            <div className={`flex items-center gap-1.5 mt-3 text-sm font-medium ${changeType === 'positive' ? 'text-green-400' :
               changeType === 'negative' ? 'text-red-400' :
-              'text-gray-400'
-            }`}>
-              {changeType === 'positive' && <FiTrendingUp className="w-4 h-4" />}
-              {changeType === 'negative' && <FiTrendingDown className="w-4 h-4" />}
-              <span>{change}</span>
+                'text-gray-400'
+              }`}>
+              {changeType === 'positive' && <FiTrendingUp className="w-4 h-4 !mt-1" />}
+              {changeType === 'negative' && <FiTrendingDown className="w-4 h-4 !mt-1" />}
+              <span className='!w-full flex items-center'>{change}</span>
             </div>
           )}
         </div>
-        <div className="p-4 bg-gradient-to-br from-[#86A869]/20 to-[#3383B7]/20 rounded-xl group-hover:scale-110 transition-transform duration-300">
+        <div className="!p-4 bg-gradient-to-br from-[#86A869]/20 to-[#3383B7]/20 rounded-xl group-hover:scale-110 transition-transform duration-300">
           <Icon className="w-6 h-6 text-[#86A869]" />
         </div>
       </div>
@@ -110,7 +109,7 @@ async function DashboardContent() {
   return (
     <div className="space-y-12">
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 !py-4">
         <StatCard
           title="Proyectos Totales"
           value={stats.totalProjects}
@@ -147,10 +146,10 @@ async function DashboardContent() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Recent Projects */}
         <div className="bg-[#10182a] rounded-3xl border-2 border-[#1e2a3a] shadow-xl overflow-hidden">
-          <div className="px-8 py-6 border-b border-[#1e2a3a] flex items-center justify-between">
-            <h3 className="font-bold text-xl text-white">Proyectos Recientes</h3>
-            <Link href="/admin/proyectos" className="text-sm text-[#86A869] hover:text-[#9BC277] font-medium transition-colors">
-              Ver todos →
+          <div className="!px-4 !py-2 border-b border-[#1e2a3a] flex items-center justify-between">
+            <h3 className="font-bold !text-4xl !my-[2rem] !mx-4  text-white">Proyectos Recientes</h3>
+            <Link href="/admin/proyectos" className="text-sm !px-4 !py-2 rounded-xl border border-[--color-border-subtle] !m-2 text-[#86A869] hover:text-[#9BC277] font-medium transition-colors">
+              Ver todos
             </Link>
           </div>
           <div className="divide-y divide-[#1e2a3a]">
@@ -165,46 +164,42 @@ async function DashboardContent() {
                 <Link
                   key={project.id}
                   href={`/admin/proyectos/${project.id}`}
-                  className="flex items-center gap-4 px-8 py-5 hover:bg-[#1e2a3a]/60 transition-colors"
+                  className="flex items-center gap-4 !px-8 !py-8 hover:bg-[#1e2a3a]/60 transition-colors"
                 >
-                  <div className={`p-3 rounded-xl ${
-                    project.status === 'COMPLETED' ? 'bg-green-500/15' :
+                  <div className={`!p-3 rounded-full ${project.status === 'COMPLETED' ? 'bg-green-500/15' :
                     project.status === 'IN_DEVELOPMENT' ? 'bg-blue-500/15' :
-                    project.status === 'MAINTENANCE' ? 'bg-yellow-500/15' :
-                    'bg-gray-500/15'
-                  }`}>
+                      project.status === 'MAINTENANCE' ? 'bg-yellow-500/15' :
+                        'bg-gray-500/15'
+                    }`}>
                     {project.status === 'COMPLETED' ? (
-                      <FiCheckCircle className={`w-5 h-5 ${
-                        project.status === 'COMPLETED' ? 'text-green-400' :
+                      <FiCheckCircle className={`w-6 h-6 ${project.status === 'COMPLETED' ? 'text-green-400' :
                         project.status === 'IN_DEVELOPMENT' ? 'text-blue-400' :
-                        project.status === 'MAINTENANCE' ? 'text-yellow-400' :
-                        'text-gray-400'
-                      }`} />
-                    ) : (
-                      <FiClock className="w-5 h-5 text-blue-400" />
-                    )}
+                          project.status === 'MAINTENANCE' ? 'text-yellow-500' :
+                            'text-gray-400'
+                        }`} />
+                    ) : (<FiClock className={`w-6 h-6 ${project.status === 'MAINTENANCE' ? 'text-yellow-500' : 'text-blue-400'}`} />)
+                    }
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-white truncate text-lg">{project.title}</p>
-                    <p className="text-sm text-gray-400">
+                    <p className="font-semibold !text-white truncate !mb-0 !text-lg">{project.title}</p>
+                    <p className="!text-sm text-gray-400 !mb-0">
                       {project.client?.name || 'Sin cliente'} • {formatDate(typeof project.updatedAt === 'string' ? new Date(project.updatedAt) : project.updatedAt)}
                     </p>
                   </div>
-                  <span className={`text-xs font-semibold px-3 py-1.5 rounded-lg ${
-                    project.status === 'COMPLETED' ? 'bg-green-500/15 text-green-400' :
-                    project.status === 'IN_DEVELOPMENT' ? 'bg-blue-500/15 text-blue-400' :
-                    project.status === 'MAINTENANCE' ? 'bg-yellow-500/15 text-yellow-400' :
-                    'bg-gray-500/15 text-gray-400'
-                  }`}>
+                  <span className={`!text-xs font-semibold border-1  !px-3 !py-1.5 flex items-center justify-center rounded-lg ${project.status === 'COMPLETED' ? 'bg-green-500/15 text-green-400 border-green-400/15' :
+                    project.status === 'IN_DEVELOPMENT' ? 'bg-blue-500/15 text-blue-400 border-blue-400/15' :
+                      project.status === 'MAINTENANCE' ? 'bg-yellow-500/15 text-yellow-400 border-yellow-500/15' :
+                        'bg-gray-500/15 text-gray-400 border-gray-400/15'
+                    }`}>
                     {project.status === 'COMPLETED' ? 'Completado' :
-                     project.status === 'IN_DEVELOPMENT' ? 'En desarrollo' :
-                     project.status === 'MAINTENANCE' ? 'Mantenimiento' :
-                     'Pausado'}
+                      project.status === 'IN_DEVELOPMENT' ? 'En desarrollo' :
+                        project.status === 'MAINTENANCE' ? 'Mantenimiento' :
+                          'Pausado'}
                   </span>
                 </Link>
               ))
             ) : (
-              <div className="px-8 py-12 text-center">
+              <div className="!px-8 !py-12 text-center">
                 <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-[#1e2a3a] flex items-center justify-center">
                   <FiFolder className="w-8 h-8 text-gray-500" />
                 </div>
@@ -219,10 +214,10 @@ async function DashboardContent() {
 
         {/* Recent Transactions */}
         <div className="bg-[#10182a] rounded-3xl border-2 border-[#1e2a3a] shadow-xl overflow-hidden">
-          <div className="px-8 py-6 border-b border-[#1e2a3a] flex items-center justify-between">
-            <h3 className="font-bold text-xl text-white">Transacciones Recientes</h3>
-            <Link href="/admin/finanzas" className="text-sm text-[#86A869] hover:text-[#9BC277] font-medium transition-colors">
-              Ver todas →
+          <div className="!px-4 !py-2 border-b border-[#1e2a3a] flex items-center justify-between">
+            <h3 className="font-bold !text-4xl !my-[2rem] !mx-4  text-white">Transacciones Recientes</h3>
+            <Link href="/admin/finanzas" className="text-sm !px-4 !py-2 rounded-xl border border-[--color-border-subtle] !m-2 text-[#86A869] hover:text-[#9BC277] font-medium transition-colors">
+              Ver todas
             </Link>
           </div>
           <div className="divide-y divide-[#1e2a3a]">
@@ -238,11 +233,10 @@ async function DashboardContent() {
               }) => (
                 <div
                   key={transaction.id}
-                  className="flex items-center gap-4 px-8 py-5"
+                  className="flex items-center gap-4 !px-8 !py-8"
                 >
-                  <div className={`p-3 rounded-xl ${
-                    transaction.type === 'INCOME' ? 'bg-green-500/15' : 'bg-red-500/15'
-                  }`}>
+                  <div className={`!p-3 rounded-xl ${transaction.type === 'INCOME' ? 'bg-green-500/15' : 'bg-red-500/15'
+                    }`}>
                     {transaction.type === 'INCOME' ? (
                       <FiTrendingUp className="w-5 h-5 text-green-400" />
                     ) : (
@@ -250,20 +244,19 @@ async function DashboardContent() {
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-white truncate text-lg">{transaction.description}</p>
-                    <p className="text-sm text-gray-400">
+                    <p className="font-semibold !text-white truncate !text-lg !mb-0">{transaction.description}</p>
+                    <p className="!text-sm text-gray-400 !mb-0">
                       {transaction.client?.name || transaction.project?.title || 'General'} • {formatDate(typeof transaction.date === 'string' ? new Date(transaction.date) : transaction.date)}
                     </p>
                   </div>
-                  <span className={`font-bold ${
-                    transaction.type === 'INCOME' ? 'text-green-400' : 'text-red-400'
-                  }`}>
+                  <span className={`font-bold !w-fit !h-full ${transaction.type === 'INCOME' ? 'text-green-400' : 'text-red-400'
+                    }`}>
                     {transaction.type === 'INCOME' ? '+' : '-'}{formatCurrency(transaction.amount)}
                   </span>
                 </div>
               ))
             ) : (
-              <div className="px-8 py-12 text-center">
+              <div className="!px-8 !py-12 text-center">
                 <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-[#1e2a3a] flex items-center justify-center">
                   <FiDollarSign className="w-8 h-8 text-gray-500" />
                 </div>
@@ -351,7 +344,7 @@ export default function AdminDashboard() {
       <div className="mb-6">
         <p className="text-gray-500 mt-1">Bienvenido al panel de administración de Folkode</p>
       </div>
-      
+
       <Suspense fallback={<LoadingState />}>
         <DashboardContent />
       </Suspense>
