@@ -193,23 +193,33 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               <div className="px-6 py-5 border-b border-gray-100">
                 <h2 className="text-lg font-semibold text-gray-900">Secciones del proyecto</h2>
               </div>
-              <div className="p-6 space-y-4">
-                {project.sections.map((section: import('@/types').Section, idx: number) => (
-                  <div key={section.key || idx} className="border border-gray-200 rounded-lg p-5">
-                    <h3 className="font-medium text-gray-900">{section.title}</h3>
-                    <p className="text-gray-600 text-sm mt-2">{section.description}</p>
-                    {Array.isArray(section.subsections) && section.subsections.length > 0 && (
-                      <ul className="mt-4 space-y-2">
-                        {section.subsections.map((sub: import('@/types').Subsection, subIdx: number) => (
-                          <li key={sub.key || subIdx} className="text-sm text-gray-600 flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 bg-primary rounded-full flex-shrink-0"></span>
-                            {sub.title}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                ))}
+              <div className="p-6 space-y-6">
+                {project.sections.map((section: any, idx: number) => {
+                  const hasImages = section.images && section.images !== '[]'
+                  const parsedImages = hasImages ? JSON.parse(section.images) : []
+                  return (
+                    <div key={section.key || idx} className="border border-gray-200 rounded-lg p-5">
+                      <h3 className="font-medium text-gray-900">{section.title}</h3>
+                      <p className="text-gray-700 mt-2 whitespace-pre-wrap leading-relaxed">{section.description}</p>
+
+                      {/* Section Images Gallery */}
+                      {parsedImages.length > 0 && (
+                        <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-3">
+                          {parsedImages.map((imgUrl: string, imgIdx: number) => (
+                            <div key={imgIdx} className="aspect-video rounded-lg overflow-hidden border border-gray-200 relative">
+                              <Image
+                                src={imgUrl}
+                                alt={`${section.title} imagen ${imgIdx + 1}`}
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
               </div>
             </div>
           )}

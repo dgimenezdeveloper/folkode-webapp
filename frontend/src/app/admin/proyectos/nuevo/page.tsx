@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { FiArrowLeft, FiSave, FiLoader, FiPlus, FiX, FiImage } from 'react-icons/fi'
+import { FiArrowLeft, FiSave, FiLoader, FiPlus, FiX, FiImage, FiAlignLeft } from 'react-icons/fi'
 import { ProjectCategory, ProjectStatus } from '@/lib/db/types'
 import { useSession } from 'next-auth/react'
 import { clientService } from '@/services/client.service'
@@ -45,6 +45,7 @@ export default function NewProjectPage() {
   const [technologies, setTechnologies] = useState<string[]>([])
   const [newTech, setNewTech] = useState('')
   const [imageUrls, setImageUrls] = useState<string[]>([''])
+  const [sections, setSections] = useState([{ title: '', description: '', images: [''] }])
 
   const { data: session } = useSession()
   const token = (session as any)?.accessToken
@@ -84,6 +85,39 @@ export default function NewProjectPage() {
     setImageUrls(imageUrls.filter((_, i) => i !== index))
   }
 
+  // --- Manejo de Secciones ---
+  const addSection = () => {
+    setSections([...sections, { title: '', description: '', images: [''] }])
+  }
+
+  const removeSection = (index: number) => {
+    setSections(sections.filter((_, i) => i !== index))
+  }
+
+  const updateSection = (index: number, field: 'title' | 'description', value: string) => {
+    const newSections = [...sections]
+    newSections[index][field] = value
+    setSections(newSections)
+  }
+
+  const addSectionImage = (sectionIndex: number) => {
+    const newSections = [...sections]
+    newSections[sectionIndex].images.push('')
+    setSections(newSections)
+  }
+
+  const removeSectionImage = (sectionIndex: number, imageIndex: number) => {
+    const newSections = [...sections]
+    newSections[sectionIndex].images.splice(imageIndex, 1)
+    setSections(newSections)
+  }
+
+  const updateSectionImage = (sectionIndex: number, imageIndex: number, value: string) => {
+    const newSections = [...sections]
+    newSections[sectionIndex].images[imageIndex] = value
+    setSections(newSections)
+  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsLoading(true)
@@ -107,6 +141,16 @@ export default function NewProjectPage() {
         url,
         alt: formData.get('title') as string,
         order: index
+      })),
+      sections: sections.filter(sec => sec.title.trim() !== '').map((sec, index) => ({
+        title: sec.title,
+        description: sec.description,
+        order: index,
+        images: sec.images.filter(img => img.trim() !== '').join(',') // Prisma las guarda como Stringified JSON array si es string, simplifiquemos a CSV o armemos un JSON
+      })).map(sec => ({
+        ...sec,
+        // Convertimos el join(',') a JSON real porque el backend espera un string que sea JSON parseable `["url", "url"]` o lo convertirá él.
+        images: JSON.stringify(sec.images ? sec.images.split(',') : [])
       }))
     }
 
@@ -416,6 +460,102 @@ export default function NewProjectPage() {
             >
               <FiPlus className="w-5 h-5" />
               Agregar otra imagen
+            </button>
+          </div>
+        </div>
+        {/* Sections */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Secciones Detalladas</h2>
+          <p className="text-sm text-gray-500 mb-6">Agrega casos de estudio, explicaciones técnicas o características específicas de tu proyecto.</p>
+
+          <div className="space-y-8">
+            {sections.map((section, sIndex) => (
+              <div key={sIndex} className="p-5 border border-gray-200 rounded-lg bg-gray-50 relative">
+                {sections.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeSection(sIndex)}
+                    className="absolute top-4 right-4 p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                  >
+                    <FiX className="w-5 h-5" />
+                  </button>
+                )}
+
+                <h3 className="font-medium text-gray-700 mb-4 flex items-center gap-2">
+                  <FiAlignLeft className="w-4 h-4" />
+                  Sección {sIndex + 1}
+                </h3>
+
+                <div className="grid grid-cols-1 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Título de la sección
+                    </label>
+                    <input
+                      type="text"
+                      value={section.title}
+                      onChange={(e) => updateSection(sIndex, 'title', e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors bg-white"
+                      placeholder="Ej. El Desafío Principal"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Descripción
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={section.description}
+                      onChange={(e) => updateSection(sIndex, 'description', e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors resize-none bg-white"
+                      placeholder="Explica este apartado del proyecto..."
+                    />
+                  </div>
+
+                  {/* Section Images */}
+                  <div className="mt-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-2 text-primary">
+                      Imágenes de esta sección
+                    </label>
+                    <div className="space-y-2">
+                      {section.images.map((url, imgIndex) => (
+                        <div key={imgIndex} className="flex gap-2">
+                          <input
+                            type="url"
+                            value={url}
+                            onChange={(e) => updateSectionImage(sIndex, imgIndex, e.target.value)}
+                            className="flex-1 px-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary bg-white"
+                            placeholder="Link de imagen"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeSectionImage(sIndex, imgIndex)}
+                            className="p-2 text-gray-400 hover:text-red-500 rounded transition-colors"
+                          >
+                            <FiX className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                      <button
+                        type="button"
+                        onClick={() => addSectionImage(sIndex)}
+                        className="text-sm font-medium text-primary hover:text-primary-600 transition-colors flex items-center gap-1"
+                      >
+                        <FiPlus className="w-4 h-4" /> Agregar imagen a la sección
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            <button
+              type="button"
+              onClick={addSection}
+              className="w-full py-3 border-2 border-dashed border-primary/30 text-primary bg-primary/5 rounded-lg hover:border-primary hover:bg-primary/10 transition-all flex items-center justify-center gap-2 font-medium"
+            >
+              <FiPlus className="w-5 h-5" />
+              Añadir bloque de sección
             </button>
           </div>
         </div>

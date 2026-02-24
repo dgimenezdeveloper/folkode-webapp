@@ -113,11 +113,28 @@ export interface CreateProjectDTO {
   githubUrl?: string
   technologies?: string // JSON string array
   clientId?: string
-  // Usualmente imagenes y secciones se envían separados o como Stringified JSON si es FormData
+  images?: { url: string; alt?: string; order?: number }[]
+  sections?: {
+    title: string;
+    description: string;
+    key?: string; // Para mantener la referencia en React
+    images?: string; // JSON de URLs
+    order?: number
+  }[]
 }
 
 // DTO para editar
-export interface UpdateProjectDTO extends Partial<CreateProjectDTO> { }
+export interface UpdateProjectDTO extends Partial<CreateProjectDTO> {
+  images?: { id?: string; url: string; alt?: string; order?: number }[]
+  sections?: {
+    id?: string;
+    title: string;
+    description: string;
+    key?: string;
+    images?: string;
+    order?: number
+  }[]
+}
 
 export const PROJECT_CATEGORIES: Record<ProjectCategory, string> = {
   ECOMMERCE: 'E-commerce',

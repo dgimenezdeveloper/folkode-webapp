@@ -261,6 +261,7 @@ app.post("/api/projects", requireAdmin, async (req, res) => {
       githubUrl,
       technologies,
       images,
+      sections,
     } = req.body;
 
     // 1) Validación required (evita error Prisma por campos faltantes)
@@ -315,11 +316,21 @@ app.post("/api/projects", requireAdmin, async (req, res) => {
             alt: img.alt || title,
             order: img.order || 0
           }))
+        } : undefined,
+        sections: Array.isArray(sections) && sections.length > 0 ? {
+          create: sections.map((sec, idx) => ({
+            key: sec.key || `sec_${idx}`,
+            title: sec.title,
+            description: sec.description,
+            order: sec.order || idx,
+            images: Array.isArray(sec.images) ? JSON.stringify(sec.images) : (sec.images || "[]")
+          }))
         } : undefined
       },
       include: {
         client: true,
         images: { orderBy: { order: "asc" } },
+        sections: { orderBy: { order: "asc" } },
       },
     });
 
@@ -348,6 +359,7 @@ app.put("/api/projects/:id", requireAdmin, async (req, res) => {
       githubUrl,
       technologies,
       images,
+      sections,
     } = req.body;
 
     // Verificar existencia
@@ -385,12 +397,27 @@ app.put("/api/projects/:id", requireAdmin, async (req, res) => {
       };
     }
 
+    // Igual para secciones
+    if (sections && Array.isArray(sections)) {
+      updateData.sections = {
+        deleteMany: {},
+        create: sections.map((sec, idx) => ({
+          key: sec.key || `sec_${idx}`,
+          title: sec.title,
+          description: sec.description,
+          order: sec.order || idx,
+          images: Array.isArray(sec.images) ? JSON.stringify(sec.images) : (sec.images || "[]")
+        }))
+      };
+    }
+
     const updated = await prisma.project.update({
       where: { id },
       data: updateData,
       include: {
         client: true,
         images: { orderBy: { order: "asc" } },
+        sections: { orderBy: { order: "asc" } },
       },
     });
 
