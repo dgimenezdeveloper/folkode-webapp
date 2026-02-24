@@ -60,7 +60,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (user) {
         token.role = user.role
         token.id = user.id
-        token.accessToken = (user as any).accessToken
+        token.accessToken = (user as { accessToken?: string }).accessToken
       }
       return token
     },
@@ -69,7 +69,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         session.user.role = token.role as Role
         session.user.id = token.id as string
       }
-      // @ts-ignore
+      // @ts-expect-error NextAuth session type does not include accessToken by default
       session.accessToken = token.accessToken
       return session
     },

@@ -48,7 +48,7 @@ export default function NewProjectPage() {
   const [sections, setSections] = useState([{ title: '', description: '', images: [''] }])
 
   const { data: session } = useSession()
-  const token = (session as any)?.accessToken
+  const token = (session as { accessToken?: string })?.accessToken
 
   useEffect(() => {
     if (token) {
@@ -155,7 +155,7 @@ export default function NewProjectPage() {
     }
 
     try {
-      const project = await projectService.createProject(data as any, token)
+      const project = await projectService.createProject(data as unknown as Parameters<typeof projectService.createProject>[0], token)
       router.push(`/admin/proyectos/${project.id}`)
     } catch (error) {
       console.error('Error creating project:', error)

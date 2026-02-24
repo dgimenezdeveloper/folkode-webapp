@@ -46,8 +46,9 @@ const statusColors: Record<ProjectStatus, string> = {
 export default async function ProjectDetailPage({ params }: PageProps) {
   const { id } = await params
   const session = await auth()
-  const token = (session as any)?.accessToken
+  const token = (session as { accessToken?: string })?.accessToken
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let project: any = null
   try {
     project = await projectService.getProject(id, token)
@@ -194,9 +195,9 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 <h2 className="text-lg font-semibold text-gray-900">Secciones del proyecto</h2>
               </div>
               <div className="p-6 space-y-6">
-                {project.sections.map((section: any, idx: number) => {
+                {project.sections.map((section: { key?: string, title: string, description: string, images?: string }, idx: number) => {
                   const hasImages = section.images && section.images !== '[]'
-                  const parsedImages = hasImages ? JSON.parse(section.images) : []
+                  const parsedImages = hasImages ? JSON.parse(section.images as string) : []
                   return (
                     <div key={section.key || idx} className="border border-gray-200 rounded-lg p-5">
                       <h3 className="font-medium text-gray-900">{section.title}</h3>

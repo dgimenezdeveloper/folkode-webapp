@@ -26,7 +26,7 @@ interface Project {
   title: string
   slug: string
   description: string
-  shortDesc: string | null
+  shortDesc?: string | null
   category: ProjectCategory
   status: ProjectStatus
   featured: boolean
@@ -83,26 +83,26 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
   const [sections, setSections] = useState<{ title: string, description: string, images: string[] }[]>([])
 
   const { data: session } = useSession()
-  const token = (session as any)?.accessToken
+  const token = (session as { accessToken?: string })?.accessToken
 
   useEffect(() => {
     if (!token) return
     Promise.all([
       clientService.getClients(token),
       projectService.getProject(id, token)
-    ]).then(([clientsData, projectData]: any) => {
+    ]).then(([clientsData, projectData]) => {
       if (Array.isArray(clientsData)) setClients(clientsData)
-      setProject(projectData)
+      setProject(projectData as unknown as Project)
 
       const techParsed = typeof projectData.technologies === 'string'
         ? JSON.parse(projectData.technologies)
         : (projectData.technologies || [])
       setTechnologies(techParsed)
 
-      setImageUrls(projectData.images?.map((img: ProjectImage) => img.url) || [''])
+      setImageUrls(projectData.images?.map((img: { url: string }) => img.url) || [''])
 
       if (projectData.sections && projectData.sections.length > 0) {
-        setSections(projectData.sections.map((sec: any) => ({
+        setSections(projectData.sections.map((sec: { title: string, description: string, images?: string | null }) => ({
           title: sec.title,
           description: sec.description,
           images: sec.images ? JSON.parse(sec.images) : []
@@ -212,7 +212,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
     }
 
     try {
-      await projectService.updateProject(id, data as any, token)
+      await projectService.updateProject(id, data as unknown as Parameters<typeof projectService.updateProject>[1], token)
 
       router.push(`/admin/proyectos/${id}`)
       router.refresh()

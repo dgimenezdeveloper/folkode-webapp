@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+
 import Link from 'next/link'
 import Image from 'next/image'
 import { FiPlus, FiSearch, FiEdit2, FiExternalLink, FiEye, FiFolder } from 'react-icons/fi'
@@ -39,9 +39,9 @@ const statusColors: Record<ProjectStatus, string> = {
 
 async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
   const session = await auth()
-  const token = (session as any)?.accessToken
+  const token = (session as { accessToken?: string })?.accessToken
 
-  let projects: any[] = []
+  let projects: import('@/types').Project[] = []
   try {
     const response = await projectService.getProjects(searchParams, token)
     projects = 'data' in response ? response.data : response
@@ -85,12 +85,12 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {projects.map((project: import('@/types').ProjectCardData) => (
+            {projects.map((project: import('@/types').Project) => (
               <tr key={project.id} className="hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
-                      {project.images[0] ? (
+                      {project.images && project.images[0] ? (
                         <Image
                           src={project.images[0].url}
                           alt={project.title}
