@@ -8,7 +8,6 @@ import {
     FiPhone,
     FiGlobe,
     FiBriefcase,
-    FiUser,
     FiCalendar,
     FiFolder
 } from 'react-icons/fi'
@@ -26,7 +25,10 @@ export default async function ClientDetailPage({ params }: PageProps) {
     const session = await auth()
     const token = (session as { accessToken?: string })?.accessToken
 
-    let client: any = null
+    let client: Client & {
+        projects?: { id: string; title: string; category: string }[];
+        transactions?: { id: string; description: string; date: string | Date; type: 'INCOME' | 'EXPENSE'; amount: number }[];
+    } | null = null
     try {
         client = await clientService.getClientById(id, token)
     } catch (error) {
@@ -127,7 +129,7 @@ export default async function ClientDetailPage({ params }: PageProps) {
                                 <h2 className="text-lg font-semibold text-gray-900">Proyectos asociados ({client.projects.length})</h2>
                             </div>
                             <div className="divide-y divide-gray-100">
-                                {client.projects.map((project: any) => (
+                                {client.projects.map((project: { id: string; title: string; category: string }) => (
                                     <div key={project.id} className="p-5 flex items-center justify-between">
                                         <div className="flex items-center gap-3">
                                             <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
@@ -231,7 +233,7 @@ export default async function ClientDetailPage({ params }: PageProps) {
                                 <h2 className="text-lg font-semibold text-gray-900">Últimas transacciones</h2>
                             </div>
                             <div className="divide-y divide-gray-100">
-                                {client.transactions.slice(0, 5).map((transaction: any) => (
+                                {client.transactions.slice(0, 5).map((transaction: { id: string; description: string; date: string | Date; type: 'INCOME' | 'EXPENSE'; amount: number }) => (
                                     <div key={transaction.id} className="flex items-center justify-between px-5 py-3">
                                         <div>
                                             <p className="text-sm font-medium text-gray-900 truncate max-w-[120px]">{transaction.description}</p>
