@@ -7,9 +7,11 @@ import { FiTrash2, FiAlertTriangle, FiX, FiLoader } from 'react-icons/fi'
 interface DeleteProjectButtonProps {
   projectId: string
   projectTitle: string
+  text?: string
+  styles?: string
 }
 
-export default function DeleteProjectButton({ projectId, projectTitle }: DeleteProjectButtonProps) {
+export default function DeleteProjectButton({ projectId, projectTitle, text, styles }: DeleteProjectButtonProps) {
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
@@ -39,10 +41,11 @@ export default function DeleteProjectButton({ projectId, projectTitle }: DeleteP
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+        className={`p-2 hover:text-red-600 hover:bg-red-50 ${styles || "text-gray-500 text-sm"} flex gap-2 items-center rounded-lg transition-colors`}
         title="Eliminar"
       >
         <FiTrash2 className="w-4 h-4" />
+        {text && <p className="!w-fit !text-[inherit] !m-0">{text}</p>}
       </button>
 
       {isOpen && (
@@ -67,7 +70,7 @@ export default function DeleteProjectButton({ projectId, projectTitle }: DeleteP
             </div>
 
             <p className="text-gray-700 mb-6">
-              ¿Estás seguro de que deseas eliminar el proyecto <strong>&quot;{projectTitle}&quot;</strong>? 
+              ¿Estás seguro de que deseas eliminar el proyecto <strong>&quot;{projectTitle}&quot;</strong>?
               Se eliminarán todas las imágenes y secciones asociadas.
             </p>
 

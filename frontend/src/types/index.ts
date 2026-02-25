@@ -36,9 +36,11 @@ export interface ProjectCardData {
   liveUrl?: string
   technologies: string[]
   images: { url: string; alt?: string }[]
+  client?: string
+  createdAt: string
 }
 
-export type ProjectCategory = 
+export type ProjectCategory =
   | 'ECOMMERCE'
   | 'LANDING_PAGE'
   | 'CORPORATIVO'
@@ -46,7 +48,7 @@ export type ProjectCategory =
   | 'WEB'
   | 'SOFTWARE'
 
-export type ProjectStatus = 
+export type ProjectStatus =
   | 'IN_DEVELOPMENT'
   | 'COMPLETED'
   | 'MAINTENANCE'
