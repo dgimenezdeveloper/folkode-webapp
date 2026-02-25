@@ -357,6 +357,8 @@ app.put("/api/projects/:id", requireAdmin, async (req, res) => {
       liveUrl,
       githubUrl,
       technologies,
+      images,
+      sections,
     } = req.body;
 
     //  Verificar existencia
@@ -413,11 +415,30 @@ app.put("/api/projects/:id", requireAdmin, async (req, res) => {
         demoUrl: demoUrl ?? null,
         liveUrl: liveUrl ?? null,
         githubUrl: githubUrl ?? null,
-        technologies: technologies ?? "[]",
+        technologies: Array.isArray(technologies) ? JSON.stringify(technologies) : (technologies ?? "[]"),
+        images: Array.isArray(images) ? {
+          deleteMany: {},
+          create: images.map((img) => ({
+            url: img.url,
+            alt: img.alt || title,
+            order: img.order || 0
+          }))
+        } : undefined,
+        sections: Array.isArray(sections) ? {
+          deleteMany: {},
+          create: sections.map((sec, idx) => ({
+            key: sec.key || `sec_${idx}`,
+            title: sec.title,
+            description: sec.description,
+            order: sec.order || idx,
+            images: Array.isArray(sec.images) ? JSON.stringify(sec.images) : (sec.images || "[]")
+          }))
+        } : undefined,
       },
       include: {
         client: true,
         images: { orderBy: { order: "asc" } },
+        sections: { orderBy: { order: "asc" } },
       },
     });
 
