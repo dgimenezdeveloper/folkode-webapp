@@ -3,10 +3,15 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useSession } from 'next-auth/react'
 import { FiArrowLeft, FiSave, FiLoader, FiUser, FiMail, FiPhone, FiGlobe, FiBriefcase } from 'react-icons/fi'
+import { clientService } from '@/services/client.service'
 
 export default function NewClientPage() {
   const router = useRouter()
+  const { data: session } = useSession()
+  const token = (session as { accessToken?: string })?.accessToken
+
   const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -14,7 +19,7 @@ export default function NewClientPage() {
     setIsLoading(true)
 
     const formData = new FormData(e.currentTarget)
-    
+
     const data = {
       name: formData.get('name') as string,
       email: formData.get('email') as string || null,
@@ -26,18 +31,7 @@ export default function NewClientPage() {
     }
 
     try {
-      const response = await fetch('/api/clients', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-
-      if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.message || 'Error al crear el cliente')
-      }
-
-      const client = await response.json()
+      const client = await clientService.createClient(data, token)
       router.push(`/admin/clientes/${client.id}/editar`)
     } catch (error) {
       console.error('Error creating client:', error)

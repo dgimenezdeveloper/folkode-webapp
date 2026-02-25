@@ -230,13 +230,106 @@ app.get("/api/projects/:id", requireAdmin, async (req, res) => {
 // GET /api/clients - Obtener lista de clientes
 app.get("/api/clients", requireAdmin, async (req, res) => {
   try {
+    const search = req.query.search ? String(req.query.search) : undefined;
+    const where = {};
+    if (search) {
+      where.OR = [
+        { name: { contains: search, mode: "insensitive" } },
+        { email: { contains: search, mode: "insensitive" } },
+        { company: { contains: search, mode: "insensitive" } },
+      ];
+    }
     const clients = await prisma.client.findMany({
-      orderBy: { name: "asc" }
+      where,
+      orderBy: { name: "asc" },
+      include: {
+        projects: true,
+        transactions: true,
+      }
     });
     return res.json(clients);
   } catch (error) {
     console.error("Error al obtener clientes:", error);
     return res.status(500).json({ error: "Error al obtener clientes" });
+  }
+});
+
+// GET /api/clients/:id - Obtener un cliente por ID
+app.get("/api/clients/:id", requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const client = await prisma.client.findUnique({
+      where: { id },
+      include: {
+        projects: true,
+        transactions: true,
+      }
+    });
+
+    if (!client) {
+      return res.status(404).json({ error: "Cliente no encontrado" });
+    }
+    return res.json(client);
+  } catch (error) {
+    console.error("Error al obtener cliente:", error);
+    return res.status(500).json({ error: "Error al obtener el cliente" });
+  }
+});
+
+// POST /api/clients - Crear un nuevo cliente
+app.post("/api/clients", requireAdmin, async (req, res) => {
+  try {
+    const { name, email, phone, company, website, avatar, notes } = req.body;
+    if (!name) {
+      return res.status(400).json({ error: "El nombre es requerido" });
+    }
+
+    const created = await prisma.client.create({
+      data: { name, email, phone, company, website, avatar, notes }
+    });
+    return res.status(201).json(created);
+  } catch (error) {
+    console.error("Error al crear cliente:", error);
+    return res.status(500).json({ error: "Error al crear el cliente" });
+  }
+});
+
+// PUT /api/clients/:id - Actualizar un cliente
+app.put("/api/clients/:id", requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, email, phone, company, website, avatar, notes } = req.body;
+
+    if (!name) {
+      return res.status(400).json({ error: "El nombre es requerido" });
+    }
+
+    const updated = await prisma.client.update({
+      where: { id },
+      data: { name, email, phone, company, website, avatar, notes }
+    });
+    return res.json(updated);
+  } catch (error) {
+    console.error("Error al actualizar cliente:", error);
+    return res.status(500).json({ error: "Error al actualizar el cliente" });
+  }
+});
+
+// DELETE /api/clients/:id - Eliminar un cliente
+app.delete("/api/clients/:id", requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    // Comprobar si existe
+    const existing = await prisma.client.findUnique({ where: { id } });
+    if (!existing) {
+      return res.status(404).json({ error: "Cliente no encontrado" });
+    }
+
+    await prisma.client.delete({ where: { id } });
+    return res.status(204).send();
+  } catch (error) {
+    console.error("Error al eliminar cliente:", error);
+    return res.status(500).json({ error: "Error al eliminar el cliente" });
   }
 });
 
