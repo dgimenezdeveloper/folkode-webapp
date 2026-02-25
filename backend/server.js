@@ -227,6 +227,19 @@ app.get("/api/projects/:id", requireAdmin, async (req, res) => {
 });
 
 
+// GET /api/clients - Obtener lista de clientes
+app.get("/api/clients", requireAdmin, async (req, res) => {
+  try {
+    const clients = await prisma.client.findMany({
+      orderBy: { name: "asc" }
+    });
+    return res.json(clients);
+  } catch (error) {
+    console.error("Error al obtener clientes:", error);
+    return res.status(500).json({ error: "Error al obtener clientes" });
+  }
+});
+
 // Endpoint de prueba
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok" });
@@ -337,6 +350,8 @@ app.post("/api/projects", requireAdmin, async (req, res) => {
       liveUrl,
       githubUrl,
       technologies,
+      images,
+      sections,
     } = req.body;
 
     if (!title || !slug || !description || !category || !status) {
@@ -380,11 +395,28 @@ app.post("/api/projects", requireAdmin, async (req, res) => {
         demoUrl: demoUrl ?? null,
         liveUrl: liveUrl ?? null,
         githubUrl: githubUrl ?? null,
-        technologies: technologies ?? "[]",
+        technologies: Array.isArray(technologies) ? JSON.stringify(technologies) : (technologies ?? "[]"),
+        images: Array.isArray(images) && images.length > 0 ? {
+          create: images.map((img) => ({
+            url: img.url,
+            alt: img.alt || title,
+            order: img.order || 0
+          }))
+        } : undefined,
+        sections: Array.isArray(sections) && sections.length > 0 ? {
+          create: sections.map((sec, idx) => ({
+            key: sec.key || `sec_${idx}`,
+            title: sec.title,
+            description: sec.description,
+            order: sec.order || idx,
+            images: Array.isArray(sec.images) ? JSON.stringify(sec.images) : (sec.images || "[]")
+          }))
+        } : undefined
       },
       include: {
         client: true,
         images: { orderBy: { order: "asc" } },
+        sections: { orderBy: { order: "asc" } },
       },
     });
 

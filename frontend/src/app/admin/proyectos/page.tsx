@@ -1,24 +1,17 @@
-import { Suspense } from 'react'
+
 import Link from 'next/link'
 import Image from 'next/image'
 import { FiPlus, FiSearch, FiEdit2, FiExternalLink, FiEye, FiFolder } from 'react-icons/fi'
 import { ProjectCategory, ProjectStatus } from '@/lib/db/types'
 import DeleteProjectButton from './DeleteProjectButton'
 
+import { projectService } from '@/services/project.service'
+import { auth } from '@/lib/auth/auth'
+
 interface SearchParams {
   search?: string
   category?: ProjectCategory
   status?: ProjectStatus
-}
-
-async function getProjects(searchParams: SearchParams) {
-  const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/projects`)
-  if (searchParams.search) url.searchParams.append('search', searchParams.search)
-  if (searchParams.category) url.searchParams.append('category', searchParams.category)
-  if (searchParams.status) url.searchParams.append('status', searchParams.status)
-  const res = await fetch(url.toString())
-  if (!res.ok) return []
-  return res.json()
 }
 
 const statusLabels: Record<ProjectStatus, string> = {
@@ -45,7 +38,17 @@ const statusColors: Record<ProjectStatus, string> = {
 }
 
 async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
-  const projects = await getProjects(searchParams)
+  const session = await auth()
+  const token = (session as { accessToken?: string })?.accessToken
+
+  let projects: import('@/types').Project[] = []
+  try {
+    const response = await projectService.getProjects(searchParams, token)
+    projects = 'data' in response ? response.data : response
+  } catch (error) {
+    console.error('Error fetching projects:', error)
+    throw new Error('No se pudieron cargar los proyectos. Por favor, intenta nuevamente.')
+  }
 
   if (projects.length === 0) {
     return (
@@ -82,14 +85,14 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {projects.map((project: import('@/types').ProjectCardData) => (
+            {projects.map((project: import('@/types').Project) => (
               <tr key={project.id} className="hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
-                      {project.images[0] ? (
-                        <Image 
-                          src={project.images[0].url} 
+                      {project.images && project.images[0] ? (
+                        <Image
+                          src={project.images[0].url}
                           alt={project.title}
                           width={48}
                           height={48}
@@ -157,24 +160,6 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
   )
 }
 
-function LoadingTable() {
-  return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      <div className="animate-pulse">
-        <div className="h-14 bg-gray-50 border-b border-gray-100"></div>
-        {[...Array(5)].map((_, i) => (
-          <div key={i} className="px-6 py-4 border-b border-gray-100 flex items-center gap-4">
-            <div className="w-12 h-12 bg-gray-200 rounded-lg"></div>
-            <div className="flex-1 space-y-2">
-              <div className="h-4 w-48 bg-gray-200 rounded"></div>
-              <div className="h-3 w-32 bg-gray-200 rounded"></div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
 
 export default async function ProjectsPage({
   searchParams
@@ -182,7 +167,7 @@ export default async function ProjectsPage({
   searchParams: Promise<SearchParams>
 }) {
   const params = await searchParams
-  
+
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
@@ -241,9 +226,7 @@ export default async function ProjectsPage({
         </form>
       </div>
 
-      <Suspense fallback={<LoadingTable />}>
-        <ProjectsTable searchParams={params} />
-      </Suspense>
+      <ProjectsTable searchParams={params} />
     </div>
   )
 }
