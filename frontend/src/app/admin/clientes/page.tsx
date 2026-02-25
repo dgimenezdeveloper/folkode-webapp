@@ -5,6 +5,7 @@ import { FiPlus, FiSearch, FiEdit2, FiMail, FiPhone, FiUsers, FiExternalLink } f
 import DeleteClientButton from './DeleteClientButton'
 import { clientService } from '@/services/client.service'
 import { auth } from '@/lib/auth/auth'
+import { Client } from '@/lib/db/types'
 
 interface SearchParams {
   search?: string
@@ -14,7 +15,7 @@ async function ClientsTable({ searchParams }: { searchParams: SearchParams }) {
   const session = await auth()
   const token = (session as { accessToken?: string })?.accessToken
 
-  let clients: any[] = []
+  let clients: Client[] = []
   try {
     clients = await clientService.getClients(token, searchParams.search)
   } catch (error) {
@@ -57,7 +58,7 @@ async function ClientsTable({ searchParams }: { searchParams: SearchParams }) {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {clients.map((client: { id: string; name: string; avatar?: string; company?: string; email?: string; phone?: string; website?: string; projects?: { id: string; name: string }[]; transactions?: { id: string; amount: number }[] }) => (
+            {clients.map((client: Client & { projects?: { id: string; name: string }[]; transactions?: { id: string; amount: number }[] }) => (
               <tr key={client.id} className="hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
