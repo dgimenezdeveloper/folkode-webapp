@@ -1,16 +1,18 @@
 import { Suspense } from 'react'
 import Link from 'next/link'
-import { 
-  FiPlus, 
-  FiSearch, 
-  FiEdit2, 
-  FiTrendingUp, 
-  FiTrendingDown, 
+import {
+  FiPlus,
+  FiSearch,
+  FiEdit2,
+  FiTrendingUp,
+  FiTrendingDown,
   FiDollarSign,
   FiCalendar
 } from 'react-icons/fi'
-import { TransactionType } from '@/lib/db/types'
+import { TransactionType, Transaction, Project, Client } from '@/lib/db/types'
 import DeleteTransactionButton from './DeleteTransactionButton'
+import { transactionService } from '@/services/transactions.service'
+import { auth } from '@/lib/auth/auth'
 
 interface SearchParams {
   search?: string
@@ -19,30 +21,46 @@ interface SearchParams {
   clientId?: string
 }
 
-async function getTransactions(searchParams: SearchParams) {
-  const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/transactions`)
-  if (searchParams.search) url.searchParams.append('search', searchParams.search)
-  if (searchParams.type) url.searchParams.append('type', searchParams.type)
-  if (searchParams.projectId) url.searchParams.append('projectId', searchParams.projectId)
-  if (searchParams.clientId) url.searchParams.append('clientId', searchParams.clientId)
-  const res = await fetch(url.toString())
-  if (!res.ok) return []
-  return res.json()
+
+
+async function getFilterData(token?: string) {
+  try {
+    const [projectsRes, clientsRes] = await Promise.all([
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects?select=id,title&orderBy=title`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
+      }),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/clients?select=id,name&orderBy=name`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
+      })
+    ])
+
+    const projectsData = await projectsRes.json()
+    const clientsData = await clientsRes.json()
+
+    // /api/projects returns { data: [...], pagination: {...} } or an array directly
+    // Also handling potential error objects if unauthorized
+    const projects = Array.isArray(projectsData) ? projectsData : (projectsData.data || [])
+    const clients = Array.isArray(clientsData) ? clientsData : (clientsData.data || [])
+
+    return { projects, clients }
+  } catch (error) {
+    return { projects: [], clients: [] }
+  }
 }
 
-async function getFilterData() {
-  const [projectsRes, clientsRes] = await Promise.all([
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects?select=id,title&orderBy=title`),
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/clients?select=id,name&orderBy=name`)
-  ])
-  const projects = await projectsRes.json()
-  const clients = await clientsRes.json()
-  return { projects, clients }
-}
-
-async function getSummary() {
-  // TODO: Implementar endpoint real en backend para resumen financiero
-  return { income: 0, expenses: 0, balance: 0 }
+async function getSummary(token?: string) {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stats`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {}
+    })
+    if (!res.ok) return { income: 0, expenses: 0, balance: 0 }
+    const data = await res.json()
+    const income = data.totalIncome || 0
+    const expenses = data.totalExpenses || 0
+    return { income, expenses, balance: income - expenses }
+  } catch (error) {
+    return { income: 0, expenses: 0, balance: 0 }
+  }
 }
 
 function formatCurrency(amount: number) {
@@ -61,8 +79,29 @@ function formatDate(date: Date) {
   }).format(new Date(date))
 }
 
+type TransactionWithRelations = Transaction & { project?: Project; client?: Client };
+
 async function TransactionsTable({ searchParams }: { searchParams: SearchParams }) {
-  const transactions = await getTransactions(searchParams)
+  const session = await auth()
+  const token = (session as { accessToken?: string })?.accessToken
+
+  let transactions: TransactionWithRelations[] = []
+  try {
+    transactions = await transactionService.getTransactions(token, searchParams.clientId, searchParams.projectId)
+
+    if (searchParams.type) {
+      transactions = transactions.filter(t => t.type === searchParams.type)
+    }
+    if (searchParams.search) {
+      const q = searchParams.search.toLowerCase()
+      transactions = transactions.filter(t =>
+        t.description.toLowerCase().includes(q) ||
+        (t.category && t.category.toLowerCase().includes(q))
+      )
+    }
+  } catch (error) {
+    console.error("Error fetching transactions:", error)
+  }
 
   if (transactions.length === 0) {
     return (
@@ -100,13 +139,12 @@ async function TransactionsTable({ searchParams }: { searchParams: SearchParams 
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {transactions.map((transaction: import('@/types').TransactionData) => (
+            {transactions.map((transaction) => (
               <tr key={transaction.id} className="hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
-                    <div className={`p-2 rounded-lg ${
-                      transaction.type === 'INCOME' ? 'bg-green-100' : 'bg-red-100'
-                    }`}>
+                    <div className={`p-2 rounded-lg ${transaction.type === 'INCOME' ? 'bg-green-100' : 'bg-red-100'
+                      }`}>
                       {transaction.type === 'INCOME' ? (
                         <FiTrendingUp className="w-5 h-5 text-green-600" />
                       ) : (
@@ -152,9 +190,8 @@ async function TransactionsTable({ searchParams }: { searchParams: SearchParams 
                   )}
                 </td>
                 <td className="px-6 py-4 text-right">
-                  <span className={`font-semibold ${
-                    transaction.type === 'INCOME' ? 'text-green-600' : 'text-red-600'
-                  }`}>
+                  <span className={`font-semibold ${transaction.type === 'INCOME' ? 'text-green-600' : 'text-red-600'
+                    }`}>
                     {transaction.type === 'INCOME' ? '+' : '-'}{formatCurrency(transaction.amount)}
                   </span>
                 </td>
@@ -167,9 +204,9 @@ async function TransactionsTable({ searchParams }: { searchParams: SearchParams 
                     >
                       <FiEdit2 className="w-4 h-4" />
                     </Link>
-                    <DeleteTransactionButton 
-                      transactionId={transaction.id} 
-                      transactionDescription={transaction.description} 
+                    <DeleteTransactionButton
+                      transactionId={transaction.id}
+                      transactionDescription={transaction.description}
                     />
                   </div>
                 </td>
@@ -207,11 +244,14 @@ export default async function FinancesPage({
   searchParams: Promise<SearchParams>
 }) {
   const params = await searchParams
+  const session = await auth()
+  const token = (session as { accessToken?: string })?.accessToken
+
   const [filterData, summary] = await Promise.all([
-    getFilterData(),
-    getSummary()
+    getFilterData(token),
+    getSummary(token)
   ])
-  
+
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
@@ -295,7 +335,7 @@ export default async function FinancesPage({
             className="px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
           >
             <option value="">Todos los proyectos</option>
-            {(filterData.projects as Array<{id: string, title: string}>).map((project) => (
+            {(filterData.projects as Array<{ id: string, title: string }>).map((project) => (
               <option key={project.id} value={project.id}>{project.title}</option>
             ))}
           </select>
@@ -305,7 +345,7 @@ export default async function FinancesPage({
             className="px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
           >
             <option value="">Todos los clientes</option>
-            {(filterData.clients as Array<{id: string, name: string}>).map((client) => (
+            {(filterData.clients as Array<{ id: string, name: string }>).map((client) => (
               <option key={client.id} value={client.id}>{client.name}</option>
             ))}
           </select>

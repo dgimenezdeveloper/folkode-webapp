@@ -3,8 +3,12 @@
 import { useState, useEffect, use } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useSession } from 'next-auth/react'
 import { FiArrowLeft, FiSave, FiLoader, FiDollarSign, FiCalendar } from 'react-icons/fi'
-import { TransactionType } from '@/lib/db/types'
+import { TransactionType, Transaction } from '@/lib/db/types'
+import { transactionService } from '@/services/transactions.service'
+import { projectService } from '@/services/project.service'
+import { clientService } from '@/services/client.service'
 
 interface Project {
   id: string
@@ -14,17 +18,6 @@ interface Project {
 interface Client {
   id: string
   name: string
-}
-
-interface Transaction {
-  id: string
-  type: TransactionType
-  amount: number
-  description: string
-  date: string
-  category: string | null
-  projectId: string | null
-  clientId: string | null
 }
 
 const commonCategories = [
@@ -46,6 +39,9 @@ const commonCategories = [
 export default function EditTransactionPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
   const router = useRouter()
+  const { data: session } = useSession()
+  const token = (session as { accessToken?: string })?.accessToken
+
   const [isLoading, setIsLoading] = useState(false)
   const [isFetching, setIsFetching] = useState(true)
   const [projects, setProjects] = useState<Project[]>([])
@@ -54,11 +50,14 @@ export default function EditTransactionPage({ params }: { params: Promise<{ id: 
   const [transactionType, setTransactionType] = useState<TransactionType>(TransactionType.INCOME)
 
   useEffect(() => {
+    if (!token) return
+
     Promise.all([
-      fetch('/api/projects').then(res => res.json()),
-      fetch('/api/clients').then(res => res.json()),
-      fetch(`/api/transactions/${id}`).then(res => res.json())
-    ]).then(([projectsData, clientsData, transactionData]) => {
+      projectService.getProjects({}, token),
+      clientService.getClients(token),
+      transactionService.getTransactionById(id, token)
+    ]).then(([projectsRes, clientsData, transactionData]) => {
+      const projectsData = Array.isArray(projectsRes) ? projectsRes : projectsRes.data;
       setProjects(projectsData)
       setClients(clientsData)
       setTransaction(transactionData)
@@ -68,35 +67,26 @@ export default function EditTransactionPage({ params }: { params: Promise<{ id: 
       console.error('Error fetching data:', error)
       setIsFetching(false)
     })
-  }, [id])
+  }, [id, token])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsLoading(true)
 
     const formData = new FormData(e.currentTarget)
-    
+
     const data = {
       type: formData.get('type') as TransactionType,
       amount: parseFloat(formData.get('amount') as string),
       description: formData.get('description') as string,
-      date: formData.get('date') as string,
+      date: new Date(formData.get('date') as string),
       category: formData.get('category') as string || null,
       projectId: formData.get('projectId') as string || null,
       clientId: formData.get('clientId') as string || null,
     }
 
     try {
-      const response = await fetch(`/api/transactions/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-
-      if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.message || 'Error al actualizar la transacción')
-      }
+      await transactionService.updateTransaction(id, data, token)
 
       router.push('/admin/finanzas')
       router.refresh()
@@ -127,8 +117,8 @@ export default function EditTransactionPage({ params }: { params: Promise<{ id: 
     )
   }
 
-  const formatDateForInput = (dateStr: string) => {
-    const date = new Date(dateStr)
+  const formatDateForInput = (dateInput: Date | string) => {
+    const date = new Date(dateInput)
     return date.toISOString().split('T')[0]
   }
 
@@ -152,11 +142,10 @@ export default function EditTransactionPage({ params }: { params: Promise<{ id: 
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Tipo de transacción</h2>
           <div className="grid grid-cols-2 gap-4">
-            <label className={`relative flex flex-col items-center p-4 border-2 rounded-xl cursor-pointer transition-colors ${
-              transactionType === 'INCOME' 
-                ? 'border-green-500 bg-green-50' 
+            <label className={`relative flex flex-col items-center p-4 border-2 rounded-xl cursor-pointer transition-colors ${transactionType === 'INCOME'
+                ? 'border-green-500 bg-green-50'
                 : 'border-gray-200 hover:border-gray-300'
-            }`}>
+              }`}>
               <input
                 type="radio"
                 name="type"
@@ -165,23 +154,19 @@ export default function EditTransactionPage({ params }: { params: Promise<{ id: 
                 onChange={(e) => setTransactionType(e.target.value as TransactionType)}
                 className="sr-only"
               />
-              <div className={`p-3 rounded-full mb-2 ${
-                transactionType === 'INCOME' ? 'bg-green-100' : 'bg-gray-100'
-              }`}>
-                <FiDollarSign className={`w-6 h-6 ${
-                  transactionType === 'INCOME' ? 'text-green-600' : 'text-gray-600'
-                }`} />
+              <div className={`p-3 rounded-full mb-2 ${transactionType === 'INCOME' ? 'bg-green-100' : 'bg-gray-100'
+                }`}>
+                <FiDollarSign className={`w-6 h-6 ${transactionType === 'INCOME' ? 'text-green-600' : 'text-gray-600'
+                  }`} />
               </div>
-              <span className={`font-medium ${
-                transactionType === 'INCOME' ? 'text-green-700' : 'text-gray-700'
-              }`}>Ingreso</span>
+              <span className={`font-medium ${transactionType === 'INCOME' ? 'text-green-700' : 'text-gray-700'
+                }`}>Ingreso</span>
             </label>
 
-            <label className={`relative flex flex-col items-center p-4 border-2 rounded-xl cursor-pointer transition-colors ${
-              transactionType === 'EXPENSE' 
-                ? 'border-red-500 bg-red-50' 
+            <label className={`relative flex flex-col items-center p-4 border-2 rounded-xl cursor-pointer transition-colors ${transactionType === 'EXPENSE'
+                ? 'border-red-500 bg-red-50'
                 : 'border-gray-200 hover:border-gray-300'
-            }`}>
+              }`}>
               <input
                 type="radio"
                 name="type"
@@ -190,16 +175,13 @@ export default function EditTransactionPage({ params }: { params: Promise<{ id: 
                 onChange={(e) => setTransactionType(e.target.value as TransactionType)}
                 className="sr-only"
               />
-              <div className={`p-3 rounded-full mb-2 ${
-                transactionType === 'EXPENSE' ? 'bg-red-100' : 'bg-gray-100'
-              }`}>
-                <FiDollarSign className={`w-6 h-6 ${
-                  transactionType === 'EXPENSE' ? 'text-red-600' : 'text-gray-600'
-                }`} />
+              <div className={`p-3 rounded-full mb-2 ${transactionType === 'EXPENSE' ? 'bg-red-100' : 'bg-gray-100'
+                }`}>
+                <FiDollarSign className={`w-6 h-6 ${transactionType === 'EXPENSE' ? 'text-red-600' : 'text-gray-600'
+                  }`} />
               </div>
-              <span className={`font-medium ${
-                transactionType === 'EXPENSE' ? 'text-red-700' : 'text-gray-700'
-              }`}>Gasto</span>
+              <span className={`font-medium ${transactionType === 'EXPENSE' ? 'text-red-700' : 'text-gray-700'
+                }`}>Gasto</span>
             </label>
           </div>
         </div>

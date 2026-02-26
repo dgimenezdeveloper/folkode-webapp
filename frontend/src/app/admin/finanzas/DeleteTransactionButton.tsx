@@ -2,7 +2,9 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 import { FiTrash2, FiAlertTriangle, FiX, FiLoader } from 'react-icons/fi'
+import { transactionService } from '@/services/transactions.service'
 
 interface DeleteTransactionButtonProps {
   transactionId: string
@@ -11,19 +13,18 @@ interface DeleteTransactionButtonProps {
 
 export default function DeleteTransactionButton({ transactionId, transactionDescription }: DeleteTransactionButtonProps) {
   const router = useRouter()
+  const { data: session } = useSession()
+  const token = (session as { accessToken?: string })?.accessToken
+
   const [isOpen, setIsOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
 
   const handleDelete = async () => {
     setIsDeleting(true)
     try {
-      const response = await fetch(`/api/transactions/${transactionId}`, {
-        method: 'DELETE',
-      })
+      if (!token) throw new Error('No autorizado')
 
-      if (!response.ok) {
-        throw new Error('Error al eliminar la transacción')
-      }
+      await transactionService.deleteTransaction(transactionId, token)
 
       router.refresh()
       setIsOpen(false)

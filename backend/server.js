@@ -333,6 +333,134 @@ app.delete("/api/clients/:id", requireAdmin, async (req, res) => {
   }
 });
 
+// ============================================================================
+// TRANSACTIONS
+// ============================================================================
+
+// GET /api/transactions - Obtener lista de transacciones
+app.get("/api/transactions", requireAdmin, async (req, res) => {
+  try {
+    const clientId = req.query.clientId ? String(req.query.clientId) : undefined;
+    const projectId = req.query.projectId ? String(req.query.projectId) : undefined;
+
+    const where = {};
+    if (clientId) where.clientId = clientId;
+    if (projectId) where.projectId = projectId;
+
+    const transactions = await prisma.transaction.findMany({
+      where,
+      orderBy: { date: "desc" },
+      include: {
+        client: true,
+        project: true,
+      }
+    });
+
+    return res.json(transactions);
+  } catch (error) {
+    console.error("Error al obtener transacciones:", error);
+    return res.status(500).json({ error: "Error al obtener transacciones" });
+  }
+});
+
+// GET /api/transactions/:id - Obtener una transacción por ID
+app.get("/api/transactions/:id", requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const transaction = await prisma.transaction.findUnique({
+      where: { id },
+      include: {
+        client: true,
+        project: true,
+      }
+    });
+
+    if (!transaction) {
+      return res.status(404).json({ error: "Transacción no encontrada" });
+    }
+    return res.json(transaction);
+  } catch (error) {
+    console.error("Error al obtener transacción:", error);
+    return res.status(500).json({ error: "Error al obtener la transacción" });
+  }
+});
+
+// POST /api/transactions - Crear una nueva transacción
+app.post("/api/transactions", requireAdmin, async (req, res) => {
+  try {
+    const { type, amount, description, date, category, projectId, clientId } = req.body;
+
+    if (!type || amount === undefined || !description) {
+      return res.status(400).json({ error: "Campos requeridos: type, amount, description" });
+    }
+
+    const created = await prisma.transaction.create({
+      data: {
+        type,
+        amount: parseFloat(amount),
+        description,
+        date: date ? new Date(date) : undefined,
+        category,
+        projectId: projectId || null,
+        clientId: clientId || null,
+      },
+      include: { client: true, project: true }
+    });
+    return res.status(201).json(created);
+  } catch (error) {
+    console.error("Error al crear transacción:", error);
+    return res.status(500).json({ error: "Error al crear la transacción" });
+  }
+});
+
+// PUT /api/transactions/:id - Actualizar una transacción
+app.put("/api/transactions/:id", requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { type, amount, description, date, category, projectId, clientId } = req.body;
+
+    if (!type || amount === undefined || !description) {
+      return res.status(400).json({ error: "Campos requeridos: type, amount, description" });
+    }
+
+    const updated = await prisma.transaction.update({
+      where: { id },
+      data: {
+        type,
+        amount: parseFloat(amount),
+        description,
+        date: date ? new Date(date) : undefined,
+        category,
+        projectId: projectId || null,
+        clientId: clientId || null,
+      },
+      include: { client: true, project: true }
+    });
+    return res.json(updated);
+  } catch (error) {
+    console.error("Error al actualizar transacción:", error);
+    return res.status(500).json({ error: "Error al actualizar la transacción" });
+  }
+});
+
+// DELETE /api/transactions/:id - Eliminar una transacción
+app.delete("/api/transactions/:id", requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const existing = await prisma.transaction.findUnique({ where: { id } });
+    if (!existing) {
+      return res.status(404).json({ error: "Transacción no encontrada" });
+    }
+
+    await prisma.transaction.delete({ where: { id } });
+    return res.status(204).send();
+  } catch (error) {
+    console.error("Error al eliminar transacción:", error);
+    return res.status(500).json({ error: "Error al eliminar la transacción" });
+  }
+});
+
 // Endpoint de prueba
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok" });
