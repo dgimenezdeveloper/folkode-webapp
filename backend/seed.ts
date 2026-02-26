@@ -1,3 +1,5 @@
+/// <reference types="node" />
+import process from 'process'
 import { PrismaClient, ProjectCategory, ProjectStatus, TransactionType, Role } from '@prisma/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 import bcrypt from 'bcryptjs'

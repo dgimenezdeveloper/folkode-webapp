@@ -1,13 +1,12 @@
+
 // login/page.tsx
 'use client'
-
 import { useState, Suspense } from 'react'
 import Link from 'next/link'
 import { signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import { FiMail, FiLock, FiAlertCircle, FiLoader, FiEye, FiEyeOff } from 'react-icons/fi'
-
 function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -62,22 +61,22 @@ function LoginForm() {
       return
     }
 
-    setIsLoading(true)
-    setLoginError(null)
+setIsLoading(true)
+setLoginError(null)
 
-    try {
-      const result = await signIn('credentials', {
-        email,
-        password,
-        rememberMe: rememberMe.toString(),
-        redirect: false,
-      })
+try {
+  const result = await signIn('credentials', {
+    email,
+    password,
+    rememberMe: rememberMe.toString(),
+    redirect: false,
+  })
 
-      if (result?.error) {
-        setLoginError('Email o contraseña incorrectos')
-        setIsLoading(false)
-        return
-      }
+  if (result?.error) {
+    setLoginError('Email o contraseña incorrectos')
+    setIsLoading(false)
+    return
+  }
 
       router.push(callbackUrl)
       router.refresh()
@@ -275,7 +274,6 @@ function LoginForm() {
     </div>
   )
 }
-
 function LoginLoading() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0a0f1a]">
@@ -286,11 +284,10 @@ function LoginLoading() {
     </div>
   )
 }
-
 export default function LoginPage() {
-  return (
-    <Suspense fallback={<LoginLoading />}>
-      <LoginForm />
-    </Suspense>
-  )
+return (
+<Suspense fallback={<LoginLoading />}>
+<LoginForm />
+</Suspense>
+)
 }
