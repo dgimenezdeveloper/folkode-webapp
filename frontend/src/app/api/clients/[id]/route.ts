@@ -10,7 +10,7 @@ interface RouteParams {
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const { id } = await params
-    
+
     const response = await fetch(`${API_URL}/api/clients/${id}`, {
       headers: {
         'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
     const { id } = await params
     const body = await request.json()
-    
+
     const response = await fetch(`${API_URL}/api/clients/${id}`, {
       method: 'PUT',
       headers: {
@@ -72,7 +72,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
     const { id } = await params
-    
+
     const response = await fetch(`${API_URL}/api/clients/${id}`, {
       method: 'DELETE',
       headers: {

@@ -10,11 +10,11 @@ export async function GET() {
         'Content-Type': 'application/json',
       },
     })
-    
+
     if (!response.ok) {
       throw new Error('Failed to fetch clients')
     }
-    
+
     const clients = await response.json()
     return NextResponse.json(clients)
   } catch (error) {
@@ -30,7 +30,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    
+
     const response = await fetch(`${API_URL}/api/clients`, {
       method: 'POST',
       headers: {
@@ -38,12 +38,12 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify(body),
     })
-    
+
     if (!response.ok) {
       const error = await response.json()
       return NextResponse.json(error, { status: response.status })
     }
-    
+
     const client = await response.json()
     return NextResponse.json(client, { status: 201 })
   } catch (error) {

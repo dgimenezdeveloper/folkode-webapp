@@ -3,21 +3,25 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { FiPlus, FiSearch, FiEdit2, FiMail, FiPhone, FiUsers, FiExternalLink } from 'react-icons/fi'
 import DeleteClientButton from './DeleteClientButton'
+import { clientService } from '@/services/client.service'
+import { auth } from '@/lib/auth/auth'
+import { Client } from '@/lib/db/types'
 
 interface SearchParams {
   search?: string
 }
 
-async function getClients(searchParams: SearchParams) {
-  const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/clients`)
-  if (searchParams.search) url.searchParams.append('search', searchParams.search)
-  const res = await fetch(url.toString())
-  if (!res.ok) return []
-  return res.json()
-}
-
 async function ClientsTable({ searchParams }: { searchParams: SearchParams }) {
-  const clients = await getClients(searchParams)
+  const session = await auth()
+  const token = (session as { accessToken?: string })?.accessToken
+
+  let clients: Client[] = []
+  try {
+    clients = await clientService.getClients(token, searchParams.search)
+  } catch (error) {
+    console.error("Error fetching clients:", error)
+    // Could display an error state here, but for now fallback to empty array
+  }
 
   if (clients.length === 0) {
     return (
@@ -54,14 +58,14 @@ async function ClientsTable({ searchParams }: { searchParams: SearchParams }) {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-              {clients.map((client: { id: string; name: string; avatar?: string; company?: string; email?: string; phone?: string; website?: string; projects?: { id: string; name: string }[]; transactions?: { id: string; amount: number }[] }) => (
+            {clients.map((client: Client & { projects?: { id: string; name: string }[]; transactions?: { id: string; amount: number }[] }) => (
               <tr key={client.id} className="hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                       {client.avatar ? (
-                        <Image 
-                          src={client.avatar} 
+                        <Image
+                          src={client.avatar}
                           alt={client.name}
                           width={40}
                           height={40}
@@ -168,7 +172,7 @@ export default async function ClientsPage({
   searchParams: Promise<SearchParams>
 }) {
   const params = await searchParams
-  
+
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
