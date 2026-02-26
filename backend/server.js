@@ -540,6 +540,35 @@ app.post("/api/projects", requireAdmin, async (req, res) => {
     return res.status(500).json({ error: "Error al crear el proyecto" });
   }
 });
+// DELETE /api/projects/:id - Eliminar proyecto
+app.delete("/api/projects/:id", requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Verificar existencia
+    const existingProject = await prisma.project.findUnique({
+      where: { id },
+    });
+
+    if (!existingProject) {
+      return res.status(404).json({ error: "Proyecto no encontrado" });
+    }
+
+    // Eliminar
+    await prisma.project.delete({
+      where: { id },
+    });
+
+    // Confirmación
+    return res.json({
+      message: "Proyecto eliminado correctamente",
+      id,
+    });
+  } catch (error) {
+    console.error("Error al eliminar proyecto:", error);
+    return res.status(500).json({ error: "Error al eliminar el proyecto" });
+  }
+});
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
