@@ -15,14 +15,14 @@ function LoginForm() {
   const error = searchParams.get('error')
 
   // Estados
-  const[email, setEmail] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const[showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const [rememberMe, setRememberMe] = useState(false)
 
   // Validaciones
   const [emailError, setEmailError] = useState('')
-  const[passwordError, setPasswordError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [loginError, setLoginError] = useState<string | null>(
     error === 'CredentialsSignin' ? 'Credenciales inválidas' : null
@@ -88,18 +88,19 @@ function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0a0f1a] px-4 relative overflow-hidden font-sans">
+    <div className="min-h-screen flex items-center justify-center bg-[#0a0f1a] px-4 relative overflow-hidden font-sans selection:bg-[#86A869]/30">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-[radial-gradient(circle_at_0%_0%,rgba(134,168,105,0.15),transparent_50%)]" />
-        <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-[radial-gradient(circle_at_100%_100%,rgba(51,131,183,0.15),transparent_50%)]" />
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_15%_15%,rgba(134,168,105,0.08),transparent_40%)]" />
+        <div className="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(circle_at_85%_85%,rgba(51,131,183,0.08),transparent_40%)]" />
       </div>
 
-      <div className="w-full max-w-md relative z-10 py-10">
+      <div className="w-full max-w-md relative z-10 py-10 animate-in fade-in zoom-in duration-500 slide-in-from-bottom-4">
         {/* Logo */}
-        <div className="text-center mb-10 flex flex-col items-center">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-[#86A869] to-[#3383B7] rounded-2xl p-0.5 shadow-2xl shadow-[#86A869]/20 mb-6">
-            <div className="w-full h-full bg-[#0f1520] rounded-[14px] flex items-center justify-center">
+        <div className="text-center mb-8 flex flex-col items-center">
+          <div className="relative group">
+            <div className="absolute -inset-1 bg-gradient-to-r from-[#86A869] to-[#3383B7] rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-500"></div>
+            <div className="relative inline-flex items-center justify-center w-20 h-20 bg-[#0f1520] rounded-2xl p-0.5 border border-white/10 mb-6">
               <Image
                 src="/folkode-logo.webp"
                 alt="Folkode"
@@ -110,34 +111,43 @@ function LoginForm() {
               />
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2" style={{ margin: '0 0 8px 0' }}>Panel de Administración</h1>
-          <p className="text-gray-500 m-0">Ingresa tus credenciales para continuar</p>
+          
+          <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/70 mb-2">
+            Panel de Administración
+          </h1>
+          <p className="text-gray-500 text-sm">Ingresa tus credenciales para continuar</p>
         </div>
 
-        {/* Tarjeta de Formulario Principal */}
-        <div className="bg-[#0f1520] rounded-3xl border-2 border-[#1e2a3a] shadow-2xl p-6 sm:p-8 w-full">
+        {/* Tarjeta de Formulario Principal - Glassmorphism */}
+        <div className="bg-[#0f1520]/60 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl p-6 sm:p-8 w-full relative overflow-hidden">
+          
+          {/* Luz superior decorativa */}
+          <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
           {loginError && (
-            <div className="mb-6 p-4 bg-red-500/10 border-2 border-red-500/30 rounded-xl flex items-center gap-3 text-red-400">
+            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center gap-3 text-red-400 animate-in fade-in slide-in-from-top-2">
               <FiAlertCircle className="w-5 h-5 flex-shrink-0" />
               <p className="text-sm font-medium m-0">{loginError}</p>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-6" noValidate>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5" noValidate>
             
             {/* Campo Correo */}
             <div className="flex flex-col gap-2">
-              <label htmlFor="email" className="text-sm font-semibold text-white">
+              <label htmlFor="email" className="text-sm font-medium text-gray-300 ml-1">
                 Correo electrónico
               </label>
-              <div className={`flex items-stretch h-[56px] bg-[#1e2a3a] border-2 rounded-xl overflow-hidden transition-all duration-300 focus-within:ring-2 focus-within:ring-[#86A869]/20 ${
-                emailError ? 'border-red-500 focus-within:border-red-500' : 'border-[#2a3a4a] focus-within:border-[#86A869]'
+              <div className={`group flex items-stretch h-[56px] bg-[#1e2a3a] border rounded-xl overflow-hidden transition-all duration-300 ${
+                emailError 
+                  ? 'border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.15)]' 
+                  : 'border-white/5 focus-within:border-[#86A869] focus-within:shadow-[0_0_15px_rgba(134,168,105,0.15)] hover:border-white/10'
               }`}>
-                {/* Ícono a la izquierda */}
                 <div className="flex items-center justify-center px-4 bg-transparent">
-                  <FiMail className={`w-5 h-5 ${emailError ? 'text-red-400' : 'text-gray-500'}`} />
+                  <FiMail className={`w-5 h-5 transition-colors duration-300 ${
+                    emailError ? 'text-red-400' : 'text-gray-500 group-focus-within:text-[#86A869]'
+                  }`} />
                 </div>
-                {/* Input con fondo blanco bloqueado */}
                 <input
                   type="email"
                   id="email"
@@ -145,19 +155,17 @@ function LoginForm() {
                   onChange={handleEmailChange}
                   onBlur={() => setEmailError(validateEmail(email))}
                   disabled={isLoading}
-                  className="flex-1 w-full h-full !bg-transparent border-none outline-none focus:ring-0 text-white placeholder:text-gray-500 focus:placeholder-transparent placeholder:transition-colors px-0 m-0"
-                  placeholder="admin@folkode.com.ar"
+                  className="flex-1 w-full h-full !bg-transparent border-none outline-none focus:ring-0 text-white placeholder:text-gray-600 focus:placeholder-transparent placeholder:transition-colors px-0 m-0"
+                  placeholder=" Correo electrónico"
                   style={{ 
-                    boxShadow: 'none', 
-                    /* ESTA LÍNEA MATA EL AUTOCOMPLETADO BLANCO DE CHROME */
                     WebkitBoxShadow: '0 0 0px 1000px #1e2a3a inset', 
                     WebkitTextFillColor: '#ffffff'
                   }}
                 />
               </div>
               {emailError && (
-                <p className="text-red-400 text-sm flex items-center gap-1.5 font-medium m-0">
-                  <FiAlertCircle className="w-4 h-4" />
+                <p className="text-red-400 text-xs flex items-center gap-1.5 font-medium ml-1 animate-in slide-in-from-left-1">
+                  <FiAlertCircle className="w-3.5 h-3.5" />
                   {emailError}
                 </p>
               )}
@@ -165,17 +173,19 @@ function LoginForm() {
 
             {/* Campo Contraseña */}
             <div className="flex flex-col gap-2">
-              <label htmlFor="password" className="text-sm font-semibold text-white">
+              <label htmlFor="password" className="text-sm font-medium text-gray-300 ml-1">
                 Contraseña
               </label>
-              <div className={`flex items-stretch h-[56px] bg-[#1e2a3a] border-2 rounded-xl overflow-hidden transition-all duration-300 focus-within:ring-2 focus-within:ring-[#86A869]/20 ${
-                passwordError ? 'border-red-500 focus-within:border-red-500' : 'border-[#2a3a4a] focus-within:border-[#86A869]'
+              <div className={`group flex items-stretch h-[56px] bg-[#1e2a3a] border rounded-xl overflow-hidden transition-all duration-300 ${
+                passwordError 
+                  ? 'border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.15)]' 
+                  : 'border-white/5 focus-within:border-[#86A869] focus-within:shadow-[0_0_15px_rgba(134,168,105,0.15)] hover:border-white/10'
               }`}>
-                {/* Ícono a la izquierda */}
                 <div className="flex items-center justify-center px-4 bg-transparent">
-                  <FiLock className={`w-5 h-5 ${passwordError ? 'text-red-400' : 'text-gray-500'}`} />
+                  <FiLock className={`w-5 h-5 transition-colors duration-300 ${
+                    passwordError ? 'text-red-400' : 'text-gray-500 group-focus-within:text-[#86A869]'
+                  }`} />
                 </div>
-                {/* Input con fondo blanco bloqueado */}
                 <input
                   type={showPassword ? 'text' : 'password'}
                   id="password"
@@ -183,36 +193,32 @@ function LoginForm() {
                   onChange={handlePasswordChange}
                   onBlur={() => setPasswordError(validatePassword(password))}
                   disabled={isLoading}
-                  className="flex-1 w-full h-full !bg-transparent border-none outline-none focus:ring-0 text-white placeholder:text-gray-500 focus:placeholder-transparent placeholder:transition-colors px-0 m-0 tracking-widest"
-                  placeholder="••••••••"
+                  className="flex-1 w-full h-full !bg-transparent border-none outline-none focus:ring-0 text-white placeholder:text-gray-600 focus:placeholder-transparent placeholder:transition-colors px-0 m-0 tracking-widest"
+                  placeholder=" Contraseña"
                   style={{ 
-                    boxShadow: 'none', 
-                    /* ESTA LÍNEA MATA EL AUTOCOMPLETADO BLANCO DE CHROME */
                     WebkitBoxShadow: '0 0 0px 1000px #1e2a3a inset', 
                     WebkitTextFillColor: '#ffffff'
                   }}
                 />
-                {/* Botón Ojito */}
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   disabled={isLoading}
                   className="flex items-center justify-center px-4 bg-transparent text-gray-500 hover:text-white transition-colors focus:outline-none disabled:opacity-50"
-                  aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                 >
                   {showPassword ? <FiEyeOff className="w-5 h-5" /> : <FiEye className="w-5 h-5" />}
                 </button>
               </div>
               {passwordError && (
-                <p className="text-red-400 text-sm flex items-center gap-1.5 font-medium m-0">
-                  <FiAlertCircle className="w-4 h-4" />
+                <p className="text-red-400 text-xs flex items-center gap-1.5 font-medium ml-1 animate-in slide-in-from-left-1">
+                  <FiAlertCircle className="w-3.5 h-3.5" />
                   {passwordError}
                 </p>
               )}
             </div>
 
             {/* Recordar Usuario */}
-            <div className="flex items-center mt-1">
+            <div className="flex items-center justify-between mt-1">
               <button
                 type="button"
                 role="checkbox"
@@ -221,13 +227,13 @@ function LoginForm() {
                 disabled={isLoading}
                 className="flex items-center gap-3 text-sm text-gray-400 hover:text-white transition-colors focus:outline-none group disabled:opacity-50"
               >
-                <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
+                <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${
                   rememberMe 
                     ? 'bg-[#86A869] border-[#86A869]' 
-                    : 'bg-[#1e2a3a] border-[#2a3a4a] group-hover:border-[#86A869]'
+                    : 'bg-transparent border-gray-600 group-hover:border-[#86A869]'
                 }`}>
                   {rememberMe && (
-                    <svg className="w-3.5 h-3.5 text-[#0a0f1a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <svg className="w-3 h-3 text-[#0a0f1a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                   )}
@@ -240,12 +246,12 @@ function LoginForm() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full h-[56px] mt-2 bg-gradient-to-r from-[#86A869] to-[#3383B7] hover:opacity-90 active:scale-[0.98] disabled:opacity-50 text-white font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-[#86A869]/20"
+              className="w-full h-[56px] mt-2 bg-gradient-to-r from-[#86A869] to-[#3383B7] hover:opacity-90 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-[#86A869]/20 hover:shadow-[#86A869]/30"
             >
               {isLoading ? (
                 <>
                   <FiLoader className="w-5 h-5 animate-spin" />
-                  Iniciando sesión...
+                  Iniciando...
                 </>
               ) : (
                 'Iniciar sesión'
@@ -254,15 +260,15 @@ function LoginForm() {
           </form>
 
           {/* Volver */}
-          <div className="mt-8 pt-6 border-t border-[#1e2a3a] text-center">
-            <Link href="/" className="inline-block text-sm text-gray-500 hover:text-[#86A869] transition-colors font-medium">
-              ← Volver al sitio
+          <div className="mt-8 pt-6 border-t border-white/5 text-center">
+            <Link href="/" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-[#86A869] transition-colors font-medium group">
+              <span className="group-hover:-translate-x-1 transition-transform">← Volver al sitio</span>
             </Link>
           </div>
         </div>
 
         {/* Footer */}
-        <p className="text-center text-gray-600 text-sm mt-8">
+        <p className="text-center text-gray-600 text-xs mt-8">
           © {new Date().getFullYear()} Folkode. Todos los derechos reservados.
         </p>
       </div>
@@ -274,8 +280,8 @@ function LoginLoading() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0a0f1a]">
       <div className="flex flex-col items-center gap-4">
-        <div className="w-14 h-14 border-4 border-[#86A869] border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-gray-400 font-medium">Cargando...</p>
+        <div className="w-14 h-14 border-4 border-[#86A869]/30 border-t-[#86A869] rounded-full animate-spin"></div>
+        <p className="text-gray-400 font-medium animate-pulse">Cargando...</p>
       </div>
     </div>
   )
