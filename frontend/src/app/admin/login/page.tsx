@@ -171,20 +171,24 @@ try {
             </div>
 
             {/* Campo Contraseña */}
-            <div className="flex flex-col gap-2">
-              <label htmlFor="password" className="text-sm font-medium text-gray-300 ml-1">
+            <div className="flex flex-col gap-1.5 sm:gap-2">
+              <label htmlFor="password" className="text-xs sm:text-sm font-medium text-gray-300 ml-1">
                 Contraseña
               </label>
-              <div className={`group flex items-stretch h-[56px] bg-[#1e2a3a] border rounded-xl overflow-hidden transition-all duration-300 ${
+              <div className={`group flex items-stretch h-[50px] sm:h-[56px] bg-[#1e2a3a] border rounded-xl overflow-hidden transition-all duration-300 ${
                 passwordError 
                   ? 'border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.15)]' 
                   : 'border-white/5 focus-within:border-[#86A869] focus-within:shadow-[0_0_15px_rgba(134,168,105,0.15)] hover:border-white/10'
               }`}>
-                <div className="flex items-center justify-center px-4 bg-transparent">
-                  <FiLock className={`w-5 h-5 transition-colors duration-300 ${
-                    passwordError ? 'text-red-400' : 'text-gray-500 group-focus-within:text-[#86A869]'
-                  }`} />
+                <div className="flex items-center justify-center pl-4 pr-3 sm:px-4 bg-transparent">
+                  <FiLock 
+                    className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors duration-300 ${
+                      passwordError ? 'text-red-400' : 'text-gray-500 group-focus-within:text-[#86A869]'
+                    }`} 
+                    aria-hidden="true" 
+                  />
                 </div>
+                
                 <input
                   type={showPassword ? 'text' : 'password'}
                   id="password"
@@ -192,26 +196,36 @@ try {
                   onChange={handlePasswordChange}
                   onBlur={() => setPasswordError(validatePassword(password))}
                   disabled={isLoading}
-                  className="flex-1 w-full h-full !bg-transparent border-none outline-none focus:ring-0 text-white placeholder:text-gray-600 focus:placeholder-transparent placeholder:transition-colors px-0 m-0 tracking-widest"
-                  placeholder=" Contraseña"
+                  className="flex-1 w-full h-full !bg-transparent border-none outline-none focus:ring-0 text-base sm:text-sm text-white placeholder:text-gray-600 focus:placeholder-transparent placeholder:transition-colors px-0 m-0 tracking-widest"
+                  placeholder="Contraseña"
                   style={{ 
                     WebkitBoxShadow: '0 0 0px 1000px #1e2a3a inset', 
                     WebkitTextFillColor: '#ffffff'
                   }}
                 />
+                
+                {/* Botón de alternar visibilidad (Accesible) */}
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  disabled={isLoading}
-                  className="flex items-center justify-center px-4 bg-transparent text-gray-500 hover:text-white transition-colors focus:outline-none disabled:opacity-50"
+                  disabled={isLoading || !password} // Opcional: deshabilitar si no hay texto
+                  className="flex items-center justify-center px-4 bg-transparent text-gray-500 hover:text-white transition-colors focus:outline-none focus-visible:text-[#86A869] disabled:opacity-50"
+                  aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                  aria-pressed={showPassword}
+                  aria-controls="password"
+                  title={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                 >
-                  {showPassword ? <FiEyeOff className="w-5 h-5" /> : <FiEye className="w-5 h-5" />}
+                  {showPassword ? (
+                    <FiEyeOff className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" />
+                  ) : (
+                    <FiEye className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" />
+                  )}
                 </button>
               </div>
               {passwordError && (
-                <p className="text-red-400 text-xs flex items-center gap-1.5 font-medium ml-1 animate-in slide-in-from-left-1">
-                  <FiAlertCircle className="w-3.5 h-3.5" />
-                  {passwordError}
+                <p className="text-red-400 text-xs flex items-center gap-1.5 font-medium ml-1 animate-in slide-in-from-left-1" role="alert">
+                  <FiAlertCircle className="w-3.5 h-3.5 flex-shrink-0" aria-hidden="true" />
+                  <span>{passwordError}</span>
                 </p>
               )}
             </div>
