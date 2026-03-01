@@ -119,8 +119,8 @@ function LoginForm() {
           </h1>
           <p className="text-gray-500 text-xs sm:text-sm px-4">Ingresa tus credenciales para continuar</p>
         </div>
-
-        {/* Tarjeta de Formulario Principal */}
+        
+        {/* Tarjeta de Formulario Principal - Glassmorphism */}
         <div className="bg-[#0f1520]/60 backdrop-blur-xl rounded-2xl sm:rounded-3xl border border-white/10 shadow-2xl p-5 sm:p-8 w-full relative overflow-hidden">
           
           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
@@ -149,6 +149,7 @@ function LoginForm() {
                     emailError ? 'text-red-400' : 'text-gray-500 group-focus-within:text-[#86A869]'
                   }`} aria-hidden="true" />
                 </div>
+                {/* Nota: text-base en móviles previene el zoom automático en iOS */}
                 <input
                   type="email"
                   id="email"
@@ -187,6 +188,7 @@ function LoginForm() {
                     passwordError ? 'text-red-400' : 'text-gray-500 group-focus-within:text-[#86A869]'
                   }`} aria-hidden="true" />
                 </div>
+                {/* Nota: text-base en móviles previene el zoom automático en iOS */}
                 <input
                   type={showPassword ? 'text' : 'password'}
                   id="password"
