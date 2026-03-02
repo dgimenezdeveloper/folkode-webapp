@@ -54,6 +54,90 @@ export type ProjectStatus =
   | 'MAINTENANCE'
   | 'PAUSED'
 
+export interface ProjectImage {
+  id: string
+  url: string
+  alt?: string | null
+  order: number
+}
+
+export interface ProjectSubsection {
+  id: string
+  key: string
+  title: string
+  description: string
+  images: string // Guardado como JSON en DB
+  order: number
+}
+
+export interface ProjectSection {
+  id: string
+  key: string
+  title: string
+  description: string
+  order: number
+  images: string // Guardado como JSON en DB
+  subsections?: ProjectSubsection[]
+}
+
+// Interfaz para recibir el Proyecto completo desde el GET del Backend
+export interface Project {
+  id: string
+  title: string
+  slug: string
+  description: string
+  shortDesc?: string | null
+  category: ProjectCategory
+  status: ProjectStatus
+  featured: boolean
+  demoUrl?: string | null
+  liveUrl?: string | null
+  githubUrl?: string | null
+  technologies: string // Guardado como JSON en DB "['react', 'node']"
+  clientId?: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  images?: ProjectImage[]
+  sections?: ProjectSection[]
+}
+
+// DTO para enviar al crear un Proyecto
+export interface CreateProjectDTO {
+  title: string
+  slug: string
+  description: string
+  shortDesc?: string
+  category: ProjectCategory
+  status?: ProjectStatus
+  featured?: boolean
+  demoUrl?: string
+  liveUrl?: string
+  githubUrl?: string
+  technologies?: string // JSON string array
+  clientId?: string
+  images?: { url: string; alt?: string; order?: number }[]
+  sections?: {
+    title: string;
+    description: string;
+    key?: string; // Para mantener la referencia en React
+    images?: string; // JSON de URLs
+    order?: number
+  }[]
+}
+
+// DTO para editar
+export interface UpdateProjectDTO extends Partial<CreateProjectDTO> {
+  images?: { id?: string; url: string; alt?: string; order?: number }[]
+  sections?: {
+    id?: string;
+    title: string;
+    description: string;
+    key?: string;
+    images?: string;
+    order?: number
+  }[]
+}
+
 export const PROJECT_CATEGORIES: Record<ProjectCategory, string> = {
   ECOMMERCE: 'E-commerce',
   LANDING_PAGE: 'Landing page',
@@ -62,6 +146,7 @@ export const PROJECT_CATEGORIES: Record<ProjectCategory, string> = {
   WEB: 'Web',
   SOFTWARE: 'Software',
 }
+
 
 export const PROJECT_STATUS: Record<ProjectStatus, string> = {
   IN_DEVELOPMENT: 'En desarrollo',

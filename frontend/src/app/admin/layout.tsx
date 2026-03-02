@@ -5,11 +5,11 @@ import { useSession, SessionProvider } from 'next-auth/react'
 import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { 
-  FiHome, 
-  FiFolder, 
-  FiUsers, 
-  FiDollarSign, 
+import {
+  FiHome,
+  FiFolder,
+  FiUsers,
+  FiDollarSign,
   FiMessageSquare,
   FiSettings,
   FiLogOut,
@@ -29,27 +29,27 @@ interface NavItem {
 
 const navigation: NavItem[] = [
   { name: 'Dashboard', href: '/admin', icon: FiHome },
-  { 
-    name: 'Proyectos', 
-    href: '/admin/proyectos', 
+  {
+    name: 'Proyectos',
+    href: '/admin/proyectos',
     icon: FiFolder,
     children: [
       { name: 'Todos los proyectos', href: '/admin/proyectos' },
       { name: 'Crear proyecto', href: '/admin/proyectos/nuevo' },
     ]
   },
-  { 
-    name: 'Clientes', 
-    href: '/admin/clientes', 
+  {
+    name: 'Clientes',
+    href: '/admin/clientes',
     icon: FiUsers,
     children: [
       { name: 'Todos los clientes', href: '/admin/clientes' },
       { name: 'Agregar cliente', href: '/admin/clientes/nuevo' },
     ]
   },
-  { 
-    name: 'Finanzas', 
-    href: '/admin/finanzas', 
+  {
+    name: 'Finanzas',
+    href: '/admin/finanzas',
     icon: FiDollarSign,
     children: [
       { name: 'Transacciones', href: '/admin/finanzas' },
@@ -70,12 +70,14 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (status === 'unauthenticated' && pathname !== '/admin/login') {
       router.push('/admin/login')
+    } else if (status === 'authenticated' && session?.user?.role !== 'ADMIN' && pathname !== '/admin/login') {
+      router.push('/') // O a una página de "Acceso Denegado"
     }
-  }, [status, router, pathname])
+  }, [status, session, router, pathname])
 
   const toggleExpanded = (name: string) => {
-    setExpandedItems(prev => 
-      prev.includes(name) 
+    setExpandedItems(prev =>
+      prev.includes(name)
         ? prev.filter(item => item !== name)
         : [...prev, name]
     )
@@ -112,7 +114,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen bg-[#0a0f1a] relative lg:flex">
       {/* Mobile sidebar backdrop */}
       {sidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
@@ -143,7 +145,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
               <p className="text-xs text-gray-500">Admin Panel</p>
             </div>
           </Link>
-          <button 
+          <button
             onClick={() => setSidebarOpen(false)}
             className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-[#1e2a3a] transition-colors"
           >
@@ -162,8 +164,8 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
                       onClick={() => toggleExpanded(item.name)}
                       className={`
                         w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200
-                        ${isActive(item.href) 
-                          ? 'bg-gradient-to-r from-[#86A869]/20 to-[#3383B7]/20 text-white border border-[#86A869]/30' 
+                        ${isActive(item.href)
+                          ? 'bg-gradient-to-r from-[#86A869]/20 to-[#3383B7]/20 text-white border border-[#86A869]/30'
                           : 'text-gray-400 hover:bg-[#1e2a3a] hover:text-white'}
                       `}
                     >
@@ -171,9 +173,8 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
                         <item.icon className={`w-5 h-5 ${isActive(item.href) ? 'text-[#86A869]' : ''}`} />
                         <span className="font-medium">{item.name}</span>
                       </div>
-                      <FiChevronDown className={`w-4 h-4 transition-transform duration-200 ${
-                        expandedItems.includes(item.name) ? 'rotate-180' : ''
-                      }`} />
+                      <FiChevronDown className={`w-4 h-4 transition-transform duration-200 ${expandedItems.includes(item.name) ? 'rotate-180' : ''
+                        }`} />
                     </button>
                     {expandedItems.includes(item.name) && (
                       <ul className="mt-2 ml-4 space-y-1 border-l-2 border-[#1e2a3a]">
@@ -183,8 +184,8 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
                               href={child.href}
                               className={`
                                 block px-4 py-2.5 ml-2 rounded-lg text-sm transition-all duration-200
-                                ${pathname === child.href 
-                                  ? 'bg-[#86A869]/15 text-[#86A869] font-medium' 
+                                ${pathname === child.href
+                                  ? 'bg-[#86A869]/15 text-[#86A869] font-medium'
                                   : 'text-gray-500 hover:text-white hover:bg-[#1e2a3a]'}
                               `}
                             >
@@ -200,8 +201,8 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
                     href={item.href}
                     className={`
                       flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200
-                      ${isActive(item.href) 
-                        ? 'bg-gradient-to-r from-[#86A869]/20 to-[#3383B7]/20 text-white border border-[#86A869]/30' 
+                      ${isActive(item.href)
+                        ? 'bg-gradient-to-r from-[#86A869]/20 to-[#3383B7]/20 text-white border border-[#86A869]/30'
                         : 'text-gray-400 hover:bg-[#1e2a3a] hover:text-white'}
                     `}
                   >

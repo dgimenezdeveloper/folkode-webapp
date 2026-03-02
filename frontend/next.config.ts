@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
         hostname: 'placehold.co',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'media.istockphoto.com',
+        pathname: '/**',
+      },
     ],
   },
   turbopack: {

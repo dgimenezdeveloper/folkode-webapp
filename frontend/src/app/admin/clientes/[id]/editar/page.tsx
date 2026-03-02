@@ -3,7 +3,9 @@
 import { useState, useEffect, use } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useSession } from 'next-auth/react'
 import { FiArrowLeft, FiSave, FiLoader, FiUser, FiMail, FiPhone, FiGlobe, FiBriefcase } from 'react-icons/fi'
+import { clientService } from '@/services/client.service'
 
 interface Client {
   id: string
@@ -19,13 +21,17 @@ interface Client {
 export default function EditClientPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
   const router = useRouter()
+  const { data: session } = useSession()
+  const token = (session as { accessToken?: string })?.accessToken
+
   const [isLoading, setIsLoading] = useState(false)
   const [isFetching, setIsFetching] = useState(true)
   const [client, setClient] = useState<Client | null>(null)
 
   useEffect(() => {
-    fetch(`/api/clients/${id}`)
-      .then(res => res.json())
+    if (!token) return; // Wait for token
+
+    clientService.getClientById(id, token)
       .then(data => {
         setClient(data)
         setIsFetching(false)
@@ -34,14 +40,14 @@ export default function EditClientPage({ params }: { params: Promise<{ id: strin
         console.error('Error fetching client:', error)
         setIsFetching(false)
       })
-  }, [id])
+  }, [id, token])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsLoading(true)
 
     const formData = new FormData(e.currentTarget)
-    
+
     const data = {
       name: formData.get('name') as string,
       email: formData.get('email') as string || null,
@@ -53,16 +59,7 @@ export default function EditClientPage({ params }: { params: Promise<{ id: strin
     }
 
     try {
-      const response = await fetch(`/api/clients/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-
-      if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.message || 'Error al actualizar el cliente')
-      }
+      await clientService.updateClient(id, data, token)
 
       router.push('/admin/clientes')
       router.refresh()

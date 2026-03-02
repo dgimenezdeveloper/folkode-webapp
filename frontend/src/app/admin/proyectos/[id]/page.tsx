@@ -1,17 +1,19 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { 
-  FiArrowLeft, 
-  FiEdit2, 
-  FiExternalLink, 
-  FiGithub, 
+import {
+  FiArrowLeft,
+  FiEdit2,
+  FiExternalLink,
+  FiGithub,
   FiCalendar,
   FiUser,
   FiFolder,
   FiGlobe
 } from 'react-icons/fi'
 import { ProjectStatus, ProjectCategory } from '@/lib/db/types'
+import { auth } from '@/lib/auth/auth'
+import { projectService } from '@/services/project.service'
 import DeleteProjectButton from '../DeleteProjectButton'
 
 interface PageProps {
@@ -41,15 +43,18 @@ const statusColors: Record<ProjectStatus, string> = {
   [ProjectStatus.PAUSED]: 'bg-gray-100 text-gray-700'
 }
 
-async function getProject(id: string) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects/${id}`)
-  if (!res.ok) return null
-  return res.json()
-}
-
 export default async function ProjectDetailPage({ params }: PageProps) {
   const { id } = await params
-  const project = await getProject(id)
+  const session = await auth()
+  const token = (session as { accessToken?: string })?.accessToken
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let project: any = null
+  try {
+    project = await projectService.getProject(id, token)
+  } catch (error) {
+    console.error('Error fetching project:', error)
+  }
 
   if (!project) {
     notFound()
@@ -189,23 +194,33 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               <div className="px-6 py-5 border-b border-gray-100">
                 <h2 className="text-lg font-semibold text-gray-900">Secciones del proyecto</h2>
               </div>
-              <div className="p-6 space-y-4">
-                {project.sections.map((section: import('@/types').Section, idx: number) => (
-                  <div key={section.key || idx} className="border border-gray-200 rounded-lg p-5">
-                    <h3 className="font-medium text-gray-900">{section.title}</h3>
-                    <p className="text-gray-600 text-sm mt-2">{section.description}</p>
-                    {Array.isArray(section.subsections) && section.subsections.length > 0 && (
-                      <ul className="mt-4 space-y-2">
-                        {section.subsections.map((sub: import('@/types').Subsection, subIdx: number) => (
-                          <li key={sub.key || subIdx} className="text-sm text-gray-600 flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 bg-primary rounded-full flex-shrink-0"></span>
-                            {sub.title}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                ))}
+              <div className="p-6 space-y-6">
+                {project.sections.map((section: { key?: string, title: string, description: string, images?: string }, idx: number) => {
+                  const hasImages = section.images && section.images !== '[]'
+                  const parsedImages = hasImages ? JSON.parse(section.images as string) : []
+                  return (
+                    <div key={section.key || idx} className="border border-gray-200 rounded-lg p-5">
+                      <h3 className="font-medium text-gray-900">{section.title}</h3>
+                      <p className="text-gray-700 mt-2 whitespace-pre-wrap leading-relaxed">{section.description}</p>
+
+                      {/* Section Images Gallery */}
+                      {parsedImages.length > 0 && (
+                        <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-3">
+                          {parsedImages.map((imgUrl: string, imgIdx: number) => (
+                            <div key={imgIdx} className="aspect-video rounded-lg overflow-hidden border border-gray-200 relative">
+                              <Image
+                                src={imgUrl}
+                                alt={`${section.title} imagen ${imgIdx + 1}`}
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
               </div>
             </div>
           )}
@@ -236,7 +251,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">Cliente</p>
-                    <Link 
+                    <Link
                       href={`/admin/clientes/${project.client.id}`}
                       className="font-medium text-primary hover:underline mt-0.5 block"
                     >
@@ -328,9 +343,8 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                       <p className="text-sm font-medium text-gray-900">{transaction.description}</p>
                       <p className="text-xs text-gray-500 mt-1">{formatDate(transaction.date)}</p>
                     </div>
-                    <span className={`font-semibold ${
-                      transaction.type === 'INCOME' ? 'text-green-600' : 'text-red-600'
-                    }`}>
+                    <span className={`font-semibold ${transaction.type === 'INCOME' ? 'text-green-600' : 'text-red-600'
+                      }`}>
                       {transaction.type === 'INCOME' ? '+' : '-'}{formatCurrency(transaction.amount)}
                     </span>
                   </div>

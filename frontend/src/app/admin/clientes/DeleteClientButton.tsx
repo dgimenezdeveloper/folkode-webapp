@@ -2,7 +2,9 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 import { FiTrash2, FiAlertTriangle, FiX, FiLoader } from 'react-icons/fi'
+import { clientService } from '@/services/client.service'
 
 interface DeleteClientButtonProps {
   clientId: string
@@ -11,19 +13,16 @@ interface DeleteClientButtonProps {
 
 export default function DeleteClientButton({ clientId, clientName }: DeleteClientButtonProps) {
   const router = useRouter()
+  const { data: session } = useSession()
+  const token = (session as { accessToken?: string })?.accessToken
+
   const [isOpen, setIsOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
 
   const handleDelete = async () => {
     setIsDeleting(true)
     try {
-      const response = await fetch(`/api/clients/${clientId}`, {
-        method: 'DELETE',
-      })
-
-      if (!response.ok) {
-        throw new Error('Error al eliminar el cliente')
-      }
+      await clientService.deleteClient(clientId, token)
 
       router.refresh()
       setIsOpen(false)
@@ -67,7 +66,7 @@ export default function DeleteClientButton({ clientId, clientName }: DeleteClien
             </div>
 
             <p className="text-gray-700 mb-6">
-              ¿Estás seguro de que deseas eliminar al cliente <strong>&quot;{clientName}&quot;</strong>? 
+              ¿Estás seguro de que deseas eliminar al cliente <strong>&quot;{clientName}&quot;</strong>?
               Esto no eliminará los proyectos asociados, pero se desvinculará la relación.
             </p>
 

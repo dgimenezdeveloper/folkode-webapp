@@ -3,8 +3,12 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useSession } from 'next-auth/react'
 import { FiArrowLeft, FiSave, FiLoader, FiDollarSign, FiCalendar } from 'react-icons/fi'
 import { TransactionType } from '@/lib/db/types'
+import { transactionService } from '@/services/transactions.service'
+import { projectService } from '@/services/project.service'
+import { clientService } from '@/services/client.service'
 
 interface Project {
   id: string
@@ -34,48 +38,46 @@ const commonCategories = [
 
 export default function NewTransactionPage() {
   const router = useRouter()
+  const { data: session } = useSession()
+  const token = (session as { accessToken?: string })?.accessToken
+
   const [isLoading, setIsLoading] = useState(false)
   const [projects, setProjects] = useState<Project[]>([])
   const [clients, setClients] = useState<Client[]>([])
   const [transactionType, setTransactionType] = useState<TransactionType>(TransactionType.INCOME)
 
   useEffect(() => {
+    if (!token) return;
+
     Promise.all([
-      fetch('/api/projects').then(res => res.json()),
-      fetch('/api/clients').then(res => res.json())
-    ]).then(([projectsData, clientsData]) => {
+      projectService.getProjects({}, token),
+      clientService.getClients(token)
+    ]).then(([projectsRes, clientsData]) => {
+      // projectService.getProjects returns PaginatedProjects | Project[]
+      const projectsData = Array.isArray(projectsRes) ? projectsRes : projectsRes.data;
       setProjects(projectsData)
       setClients(clientsData)
     }).catch(console.error)
-  }, [])
+  }, [token])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsLoading(true)
 
     const formData = new FormData(e.currentTarget)
-    
+
     const data = {
       type: formData.get('type') as TransactionType,
       amount: parseFloat(formData.get('amount') as string),
       description: formData.get('description') as string,
-      date: formData.get('date') as string,
+      date: new Date(formData.get('date') as string),
       category: formData.get('category') as string || null,
       projectId: formData.get('projectId') as string || null,
       clientId: formData.get('clientId') as string || null,
     }
 
     try {
-      const response = await fetch('/api/transactions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-
-      if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.message || 'Error al crear la transacción')
-      }
+      await transactionService.createTransaction(data, token)
 
       router.push('/admin/finanzas')
       router.refresh()
@@ -107,11 +109,10 @@ export default function NewTransactionPage() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Tipo de transacción</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <label className={`relative flex flex-col items-center p-4 border-2 rounded-xl cursor-pointer transition-colors truncate ${
-              transactionType === 'INCOME' 
-                ? 'border-green-500 bg-green-50' 
-                : 'border-gray-200 hover:border-gray-300'
-            }`}>
+            <label className={`relative flex flex-col items-center p-4 border-2 rounded-xl cursor-pointer transition-colors truncate ${transactionType === 'INCOME'
+              ? 'border-green-500 bg-green-50'
+              : 'border-gray-200 hover:border-gray-300'
+              }`}>
               <input
                 type="radio"
                 name="type"
@@ -120,24 +121,20 @@ export default function NewTransactionPage() {
                 onChange={(e) => setTransactionType(e.target.value as TransactionType)}
                 className="sr-only"
               />
-              <div className={`p-3 rounded-full mb-2 ${
-                transactionType === 'INCOME' ? 'bg-green-100' : 'bg-gray-100'
-              }`}>
-                <FiDollarSign className={`w-6 h-6 ${
-                  transactionType === 'INCOME' ? 'text-green-600' : 'text-gray-600'
-                }`} />
+              <div className={`p-3 rounded-full mb-2 ${transactionType === 'INCOME' ? 'bg-green-100' : 'bg-gray-100'
+                }`}>
+                <FiDollarSign className={`w-6 h-6 ${transactionType === 'INCOME' ? 'text-green-600' : 'text-gray-600'
+                  }`} />
               </div>
-              <span className={`font-medium ${
-                transactionType === 'INCOME' ? 'text-green-700' : 'text-gray-700'
-              }`}>Ingreso</span>
+              <span className={`font-medium ${transactionType === 'INCOME' ? 'text-green-700' : 'text-gray-700'
+                }`}>Ingreso</span>
               <span className="text-sm text-gray-500 mt-1 truncate">Dinero que entra</span>
             </label>
 
-            <label className={`relative flex flex-col items-center p-4 border-2 rounded-xl cursor-pointer transition-colors ${
-              transactionType === 'EXPENSE' 
-                ? 'border-red-500 bg-red-50' 
-                : 'border-gray-200 hover:border-gray-300'
-            }`}>
+            <label className={`relative flex flex-col items-center p-4 border-2 rounded-xl cursor-pointer transition-colors ${transactionType === 'EXPENSE'
+              ? 'border-red-500 bg-red-50'
+              : 'border-gray-200 hover:border-gray-300'
+              }`}>
               <input
                 type="radio"
                 name="type"
@@ -146,16 +143,13 @@ export default function NewTransactionPage() {
                 onChange={(e) => setTransactionType(e.target.value as TransactionType)}
                 className="sr-only"
               />
-              <div className={`p-3 rounded-full mb-2 ${
-                transactionType === 'EXPENSE' ? 'bg-red-100' : 'bg-gray-100'
-              }`}>
-                <FiDollarSign className={`w-6 h-6 ${
-                  transactionType === 'EXPENSE' ? 'text-red-600' : 'text-gray-600'
-                }`} />
+              <div className={`p-3 rounded-full mb-2 ${transactionType === 'EXPENSE' ? 'bg-red-100' : 'bg-gray-100'
+                }`}>
+                <FiDollarSign className={`w-6 h-6 ${transactionType === 'EXPENSE' ? 'text-red-600' : 'text-gray-600'
+                  }`} />
               </div>
-              <span className={`font-medium ${
-                transactionType === 'EXPENSE' ? 'text-red-700' : 'text-gray-700'
-              }`}>Gasto</span>
+              <span className={`font-medium ${transactionType === 'EXPENSE' ? 'text-red-700' : 'text-gray-700'
+                }`}>Gasto</span>
               <span className="text-sm text-gray-500 mt-1 truncate">Dinero que sale</span>
             </label>
           </div>
