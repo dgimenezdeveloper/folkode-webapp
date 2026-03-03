@@ -10,6 +10,13 @@ import ProjectsFilters from './ProjectsFilters'
 import { auth } from '@/lib/auth/auth'
 import type { Project } from '@/types'
 
+type SortableProjectFields =
+  | 'title'
+  | 'category'
+  | 'status'
+  | 'createdAt'
+  | 'clientName'
+
 interface SearchParams {
   search?: string
   category?: ProjectCategory
@@ -17,7 +24,7 @@ interface SearchParams {
   client?: string
   from?: string
   to?: string
-  sort?: string
+  sort?: SortableProjectFields
   order?: 'asc' | 'desc'
   page?: string
   limit?: string
@@ -121,12 +128,25 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
   // 🔃 Ordenamiento dinámico
   if (sort) {
     projects.sort((a, b) => {
-      const valueA = a[sort as keyof typeof a]
-      const valueB = b[sort as keyof typeof b]
+      const getValue = (project: Project) => {
+        if (sort === 'clientName') {
+          return project.client?.name ?? ''
+        }
 
-      if (valueA < valueB) return order === 'asc' ? -1 : 1
-      if (valueA > valueB) return order === 'asc' ? 1 : -1
-      return 0
+        if (sort === 'createdAt') {
+          return new Date(project.createdAt).getTime()
+        }
+
+        return project[sort]
+      }
+
+      const valueA = getValue(a)
+      const valueB = getValue(b)
+
+      if (valueA === valueB) return 0
+
+      const comparison = valueA > valueB ? 1 : -1
+      return order === 'asc' ? comparison : -comparison
     })
   }
 
@@ -191,7 +211,7 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
                 </Link>
               </th>
               <th className="!px-6 !py-4 text-bold text-[1.2rem]">
-                <Link href={createSortLink('client')} className='!text-slate-500'>
+                <Link href={createSortLink('clientName')} className='!text-slate-500'>
                   Cliente
                 </Link>
               </th>
