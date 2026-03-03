@@ -14,14 +14,14 @@ function LoginForm() {
   const error = searchParams.get('error')
 
   // Estados
-  const[email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const[showPassword, setShowPassword] = useState(false)
+  const [email, setEmail] = useState('')
+  const[password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [rememberMe, setRememberMe] = useState(false)
 
   // Validaciones
-  const [emailError, setEmailError] = useState('')
-  const[passwordError, setPasswordError] = useState('')
+  const[emailError, setEmailError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [loginError, setLoginError] = useState<string | null>(
     error === 'CredentialsSignin' ? 'Credenciales inválidas' : null
@@ -39,14 +39,17 @@ function LoginForm() {
     return ''
   }
 
+  // Validación en tiempo real mientras el usuario escribe
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value)
-    if (emailError) setEmailError(validateEmail(e.target.value))
+    const newValue = e.target.value
+    setEmail(newValue)
+    setEmailError(validateEmail(newValue))
   }
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value)
-    if (passwordError) setPasswordError(validatePassword(e.target.value))
+    const newValue = e.target.value
+    setPassword(newValue)
+    setPasswordError(validatePassword(newValue))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -116,11 +119,10 @@ function LoginForm() {
           </h1>
           <p className="text-gray-500 text-xs sm:text-sm px-4">Ingresa tus credenciales para continuar</p>
         </div>
-
+        
         {/* Tarjeta de Formulario Principal - Glassmorphism */}
         <div className="bg-[#0f1520]/60 backdrop-blur-xl rounded-2xl sm:rounded-3xl border border-white/10 shadow-2xl p-5 sm:p-8 w-full relative overflow-hidden">
           
-          {/* Luz superior decorativa */}
           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
 
           {loginError && (
@@ -145,7 +147,7 @@ function LoginForm() {
                 <div className="flex items-center justify-center pl-4 pr-3 sm:px-4 bg-transparent">
                   <FiMail className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors duration-300 ${
                     emailError ? 'text-red-400' : 'text-gray-500 group-focus-within:text-[#86A869]'
-                  }`} />
+                  }`} aria-hidden="true" />
                 </div>
                 {/* Nota: text-base en móviles previene el zoom automático en iOS */}
                 <input
@@ -164,8 +166,8 @@ function LoginForm() {
                 />
               </div>
               {emailError && (
-                <p className="text-red-400 text-xs flex items-center gap-1.5 font-medium ml-1 animate-in slide-in-from-left-1">
-                  <FiAlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
+                <p className="text-red-400 text-xs flex items-center gap-1.5 font-medium ml-1 animate-in slide-in-from-left-1" role="alert">
+                  <FiAlertCircle className="w-3.5 h-3.5 flex-shrink-0" aria-hidden="true" />
                   <span>{emailError}</span>
                 </p>
               )}
@@ -209,7 +211,7 @@ function LoginForm() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  disabled={isLoading || !password} // Opcional: deshabilitar si no hay texto
+                  disabled={isLoading || !password}
                   className="flex items-center justify-center px-4 bg-transparent text-gray-500 hover:text-white transition-colors focus:outline-none focus-visible:text-[#86A869] disabled:opacity-50"
                   aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                   aria-pressed={showPassword}
@@ -256,10 +258,10 @@ function LoginForm() {
               </button>
             </div>
 
-            {/* Botón Iniciar Sesión */}
+            {/* Botón Iniciar Sesión (Deshabilitado si hay errores o vacío) */}
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || !!emailError || !!passwordError || !email || !password}
               className="w-full h-[50px] sm:h-[56px] mt-2 bg-gradient-to-r from-[#86A869] to-[#3383B7] hover:opacity-90 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm sm:text-base font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-[#86A869]/20 hover:shadow-[#86A869]/30"
             >
               {isLoading ? (
