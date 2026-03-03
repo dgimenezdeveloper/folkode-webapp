@@ -184,11 +184,14 @@ function LoginForm() {
                   : 'border-white/5 focus-within:border-[#86A869] focus-within:shadow-[0_0_15px_rgba(134,168,105,0.15)] hover:border-white/10'
               }`}>
                 <div className="flex items-center justify-center pl-4 pr-3 sm:px-4 bg-transparent">
-                  <FiLock className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors duration-300 ${
-                    passwordError ? 'text-red-400' : 'text-gray-500 group-focus-within:text-[#86A869]'
-                  }`} aria-hidden="true" />
+                  <FiLock 
+                    className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors duration-300 ${
+                      passwordError ? 'text-red-400' : 'text-gray-500 group-focus-within:text-[#86A869]'
+                    }`} 
+                    aria-hidden="true" 
+                  />
                 </div>
-                {/* Nota: text-base en móviles previene el zoom automático en iOS */}
+                
                 <input
                   type={showPassword ? 'text' : 'password'}
                   id="password"
@@ -203,6 +206,8 @@ function LoginForm() {
                     WebkitTextFillColor: '#ffffff'
                   }}
                 />
+                
+                {/* Botón de alternar visibilidad (Accesible) */}
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
