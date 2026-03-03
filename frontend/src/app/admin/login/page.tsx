@@ -182,11 +182,14 @@ function LoginForm() {
                   : 'border-white/5 focus-within:border-[#86A869] focus-within:shadow-[0_0_15px_rgba(134,168,105,0.15)] hover:border-white/10'
               }`}>
                 <div className="flex items-center justify-center pl-4 pr-3 sm:px-4 bg-transparent">
-                  <FiLock className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors duration-300 ${
-                    passwordError ? 'text-red-400' : 'text-gray-500 group-focus-within:text-[#86A869]'
-                  }`} />
+                  <FiLock 
+                    className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors duration-300 ${
+                      passwordError ? 'text-red-400' : 'text-gray-500 group-focus-within:text-[#86A869]'
+                    }`} 
+                    aria-hidden="true" 
+                  />
                 </div>
-                {/* Nota: text-base en móviles previene el zoom automático en iOS */}
+                
                 <input
                   type={showPassword ? 'text' : 'password'}
                   id="password"
@@ -201,19 +204,28 @@ function LoginForm() {
                     WebkitTextFillColor: '#ffffff'
                   }}
                 />
+                
+                {/* Botón de alternar visibilidad (Accesible) */}
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  disabled={isLoading}
-                  className="flex items-center justify-center px-4 bg-transparent text-gray-500 hover:text-white transition-colors focus:outline-none disabled:opacity-50"
+                  disabled={isLoading || !password} // Opcional: deshabilitar si no hay texto
+                  className="flex items-center justify-center px-4 bg-transparent text-gray-500 hover:text-white transition-colors focus:outline-none focus-visible:text-[#86A869] disabled:opacity-50"
                   aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                  aria-pressed={showPassword}
+                  aria-controls="password"
+                  title={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                 >
-                  {showPassword ? <FiEyeOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <FiEye className="w-4 h-4 sm:w-5 sm:h-5" />}
+                  {showPassword ? (
+                    <FiEyeOff className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" />
+                  ) : (
+                    <FiEye className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" />
+                  )}
                 </button>
               </div>
               {passwordError && (
-                <p className="text-red-400 text-xs flex items-center gap-1.5 font-medium ml-1 animate-in slide-in-from-left-1">
-                  <FiAlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
+                <p className="text-red-400 text-xs flex items-center gap-1.5 font-medium ml-1 animate-in slide-in-from-left-1" role="alert">
+                  <FiAlertCircle className="w-3.5 h-3.5 flex-shrink-0" aria-hidden="true" />
                   <span>{passwordError}</span>
                 </p>
               )}
