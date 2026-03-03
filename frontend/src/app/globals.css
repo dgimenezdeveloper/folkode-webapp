@@ -641,6 +641,14 @@ a:hover {
   box-shadow: 0 0 0 3px rgba(134, 168, 105, 0.1);
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
 /* Team section specific overrides to ensure vertical spacing */
 .team-grid {
   margin-bottom: 2.5rem !important;

@@ -36,7 +36,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           }
 
           const data = await response.json()
-
           if (!data.user) return null
 
           return {

@@ -36,7 +36,10 @@ export interface ProjectCardData {
   liveUrl?: string
   technologies: string[]
   images: { url: string; alt?: string }[]
-  client?: string
+  client?: {
+    id: string
+    name: string
+  }
   createdAt: string
 }
 
@@ -95,6 +98,13 @@ export interface Project {
   githubUrl?: string | null
   technologies: string // Guardado como JSON en DB "['react', 'node']"
   clientId?: string | null
+  client?: {
+    id: string
+    name: string
+    email?: string | null
+    company?: string | null
+    avatar?: string | null
+  } | null
   createdAt: Date | string
   updatedAt: Date | string
   images?: ProjectImage[]
