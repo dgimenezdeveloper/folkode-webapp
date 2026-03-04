@@ -44,7 +44,7 @@ export default function DeleteProjectButton({ projectId, projectTitle, text, sty
         className={`!p-2 hover:!text-red-600 cursor-pointer hover:!bg-red-500/30 ${styles || "text-gray-500 text-sm"} flex gap-2 items-center rounded-lg transition-colors`}
         title="Eliminar"
       >
-        <FiTrash2 className="w-4 h-4" />
+        <FiTrash2 className="w-4 h-4" aria-label="Eliminar proyecto" />
         {text && <p className="!w-fit !text-[inherit] !m-0">{text}</p>}
       </button>
 
