@@ -192,7 +192,11 @@ app.get("/api/projects", requireAdmin, async (req, res) => {
     });
   } catch (error) {
     console.error("Error al obtener proyectos:", error);
-    return res.status(500).json({ error: "Error al obtener proyectos" });
+    return res.status(500).json({
+      error: "Error interno al obtener proyectos",
+      code: "PROJECT_FETCH_ERROR",
+      status: 500
+    });
   }
 });
 // GET /api/projects/:id - Obtener un proyecto por ID (detalle)
