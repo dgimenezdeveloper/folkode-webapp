@@ -9,7 +9,7 @@ import { projectService } from '@/services/project.service'
 import ProjectsFilters from './ProjectsFilters'
 import { auth } from '@/lib/auth/auth'
 import type { Project } from '@/types'
-
+import ProjectsLoading from './loading'
 type SortableProjectFields =
   | 'title'
   | 'category'
@@ -71,8 +71,7 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
   const token = (session as { accessToken?: string })?.accessToken
 
   let projects: Project[] = []
-  console.log('SESSION:', session)
-  console.log('TOKEN:', token)
+
   try {
     const response = await projectService.getProjects(parsedParams, token)
     projects = 'data' in response ? response.data : response
@@ -178,7 +177,7 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
 
   const paginatedProjects = projects.slice(start, end)
 
-  if (projects.length === 0) {
+  if (paginatedProjects.length === 0) {
     return (
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
         <FiFolder className="w-16 h-16 mx-auto mb-4 text-gray-300" />
@@ -541,6 +540,7 @@ export default async function ProjectsPage({
           </button>
         </form>
       </div>
+
 
       <ProjectsTable searchParams={params} />
     </section>
