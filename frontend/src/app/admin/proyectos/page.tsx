@@ -47,10 +47,10 @@ const categoryLabels: Record<ProjectCategory, string> = {
 }
 
 const statusColors: Record<ProjectStatus, string> = {
-  IN_DEVELOPMENT: 'bg-blue-100 text-blue-700',
-  COMPLETED: 'bg-green-100 text-green-700',
-  MAINTENANCE: 'bg-yellow-100 text-yellow-700',
-  PAUSED: 'bg-gray-100 text-gray-700'
+  IN_DEVELOPMENT: 'bg-blue-900 text-blue-100',
+  COMPLETED: 'bg-green-900 text-green-100',
+  MAINTENANCE: 'bg-yellow-900 text-yellow-100',
+  PAUSED: 'bg-gray-800 text-gray-100'
 }
 
 
@@ -78,7 +78,15 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
     projects = 'data' in response ? response.data : response
   } catch (error) {
     console.error('Error fetching projects:', error)
-    throw new Error('No se pudieron cargar los proyectos. Por favor, intenta nuevamente.')
+    return (
+      <div
+        role="alert"
+        aria-live="assertive"
+        className="bg-red-900 text-red-100 p-4 rounded-lg"
+      >
+        No se pudieron cargar los proyectos.
+      </div>
+    )
   }
 
   const {
@@ -202,30 +210,67 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
   return (
     <div className="bg-[#0d1421] rounded-xl shadow-sm border border-white/5 overflow-hidden">
       <div className="overflow-x-auto ">
-        <table className="w-full hidden md:block">
+        <table
+          className="w-full hidden md:table"
+          aria-describedby="projects-table-description">
+          <caption className="sr-only">
+            Lista de proyectos con opciones de ordenamiento y acciones
+          </caption>
           <thead className="border-b border-gray-100 text-left">
             <tr className="border-b border-white/5 bg-white/2">
-              <th className="flex-1 !px-6 !py-4 text-bold text-[1.2rem]">
-                <Link href={createSortLink('title')} className='!text-slate-500'>
+              <th className="flex-1 !px-6 !py-4 text-bold text-[1.2rem]"
+                scope="col"
+                aria-sort={
+                  searchParams.sort === 'title'
+                    ? searchParams.order === 'asc'
+                      ? 'ascending'
+                      : 'descending'
+                    : 'none'
+                }>
+                <Link href={createSortLink('title')} className='!text-slate-300'>
                   Proyecto
                 </Link>
               </th>
-              <th className="!px-6 !py-4 text-bold text-[1.2rem]">
-                <Link href={createSortLink('clientName')} className='!text-slate-500'>
+              <th className="!px-6 !py-4 text-bold text-[1.2rem]"
+                scope="col"
+                aria-sort={
+                  searchParams.sort === 'clientName'
+                    ? searchParams.order === 'asc'
+                      ? 'ascending'
+                      : 'descending'
+                    : 'none'
+                }>
+                <Link href={createSortLink('clientName')} className='!text-slate-300'>
                   Cliente
                 </Link>
               </th>
-              <th className="!px-6 !py-4 text-bold text-[1.2rem] md:hidden lg:table-cell">
-                <Link href={createSortLink('category')} className='!text-slate-500'>
+              <th className="!px-6 !py-4 text-bold text-[1.2rem] md:hidden lg:table-cell"
+                scope="col"
+                aria-sort={
+                  searchParams.sort === 'category'
+                    ? searchParams.order === 'asc'
+                      ? 'ascending'
+                      : 'descending'
+                    : 'none'
+                }>
+                <Link href={createSortLink('category')} className='!text-slate-300'>
                   Categoría
                 </Link>
               </th>
-              <th className="!px-6 !py-4 text-bold text-[1.2rem]">
-                <Link href={createSortLink('status')} className='!text-slate-500'>
+              <th className="!px-6 !py-4 text-bold text-[1.2rem]"
+                scope="col"
+                aria-sort={
+                  searchParams.sort === 'status'
+                    ? searchParams.order === 'asc'
+                      ? 'ascending'
+                      : 'descending'
+                    : 'none'
+                }>
+                <Link href={createSortLink('status')} className='!text-slate-300'>
                   Estado
                 </Link>
               </th>
-              <th className="text-center !px-6 !py-4 text-sm font-bold text-slate-500 text-[1.2rem]">Acciones</th>
+              <th className="text-center !px-6 !py-4 text-sm font-bold text-slate-300 text-[1.2rem]">Acciones</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
@@ -276,7 +321,7 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
                         className="!p-2 !text-gray-500 hover:text-primary hover:!bg-green-600/20 hover:!text-green-600 rounded-lg transition-colors"
                         title="Ver sitio"
                       >
-                        <FiExternalLink className="w-4 h-4" />
+                        <FiExternalLink className="w-4 h-4" aria-label="Ver sitio del proyecto" />
                       </a>
                     )}
                     <Link
@@ -284,19 +329,21 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
                       className="!p-2 !text-gray-500 hover:text-primary hover:!bg-blue-600/20 hover:!text-blue-600 rounded-lg transition-colors"
                       title="Ver detalles"
                     >
-                      <FiEye className="w-4 h-4" />
+                      <FiEye className="w-4 h-4" aria-label="Ver detalles del proyecto" />
                     </Link>
                     <Link
                       href={`/admin/proyectos/${project.id}/editar`}
                       className="!p-2 !text-gray-500 hover:text-blue-600 hover:!bg-orange-500/20 hover:!text-orange-600 rounded-lg transition-colors"
                       title="Editar"
                     >
-                      <FiEdit2 className="w-4 h-4" />
+                      <FiEdit2 className="w-4 h-4" aria-label="Editar proyecto" />
                     </Link>
                     <DeleteProjectButton projectId={project.id} projectTitle={project.title} styles='hover:!bg-red !text-gray-500' />
                   </div>
                   <details className="relative lg:hidden flex items-center justify-center">
-                    <summary className="list-none cursor-pointer p-2">
+                    <summary
+                      className="list-none cursor-pointer p-2"
+                      aria-label={`Abrir acciones para ${project.title}`}>
                       <FiMoreVertical className="w-6 h-6 text-gray-500" />
                     </summary>
 
@@ -372,7 +419,9 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
                   </div>
                   <div className="flex flex-col items-center !mt-[1rem] gap-2">
                     <details className="relative">
-                      <summary className="list-none cursor-pointer p-2">
+                      <summary
+                        className="list-none cursor-pointer p-2"
+                        aria-label={`Abrir acciones para ${project.title}`}>
                         <FiMoreVertical className="w-6 h-6 text-gray-500" />
                       </summary>
 
@@ -428,6 +477,7 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
                   query: { ...searchParams, page: currentPage - 1 }
                 }}
                 className="!px-3 !py-1.5 text-sm rounded-lg transition-colors"
+                aria-label="Página anterior"
               >
                 Anterior
               </Link>
@@ -446,6 +496,7 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
                     ? 'bg-[#a3b18a] !text-white'
                     : 'bg-[#161f30] hover:bg-[#a3b18a]/20 hover:!text-[#a3b18a]'
                     }`}
+                  aria-current={pageNumber === currentPage ? 'page' : undefined}
                 >
                   {pageNumber}
                 </Link>
@@ -458,6 +509,7 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
                   query: { ...searchParams, page: currentPage + 1 }
                 }}
                 className="!px-3 !py-1.5 text-sm rounded-lg  transition-colors"
+                aria-label="Página siguiente"
               >
                 Siguiente
               </Link>
@@ -496,53 +548,56 @@ export default async function ProjectsPage({
       {/* Filters */}
       <div className="bg-[#0d1421]  rounded-xl shadow-sm border border-white/5 !p-4 !mb-6">
         <form className="flex flex-col md:flex-row justify-around flex-wrap gap-4">
-          <ProjectsFilters />
-          <input
-            type="text"
-            name="client"
-            defaultValue={params.client}
-            placeholder="Cliente..."
-            className="!px-2 !py-2.5 border bg-[#161f30] !text-white border-white/5 rounded-lg"
-          />
-          <select
-            name="category"
-            defaultValue={params.category}
-            className="!px-2 !py-2.5 border bg-[#161f30] text-white border-white/5 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
-          >
-            <option value="">Todas las categorías</option>
-            {Object.entries(categoryLabels).map(([value, label]) => (
-              <option key={value} value={value}>{label}</option>
-            ))}
-          </select>
-          <select
-            name="status"
-            defaultValue={params.status}
-            className="!px-2 !py-2.5 border bg-[#161f30] text-white border-white/5 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
-          >
-            <option value="">Todos los estados</option>
-            {Object.entries(statusLabels).map(([value, label]) => (
-              <option key={value} value={value}>{label}</option>
-            ))}
-          </select>
-
-
-          <input
-            type="date"
-            name="from"
-            defaultValue={params.from}
-            className="!px-2 !py-2.5 border bg-[#161f30] date-input !text-white border-white/5 rounded-lg"
-          />
+          <div className="w-[25%] flex flex-col items-start flex-1 md:flex-initial">
+            <span className='!w-fit !h-7 !text-slate-500'>Buscar proyectos / clientes:</span>
+            <ProjectsFilters />
+          </div>
+          <div className='flex flex-col'>
+            <span className='!w-fit !h-7 !text-slate-500'>Filtrar por categoría:</span>
+            <select
+              name="category"
+              defaultValue={params.category}
+              className="!px-2 !py-2.5 border bg-[#161f30] text-white border-white/5 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+            >
+              <option value="">Todas las categorías</option>
+              {Object.entries(categoryLabels).map(([value, label]) => (
+                <option key={value} value={value}>{label}</option>
+              ))}
+            </select>
+          </div>
+          <div className='flex flex-col'>
+            <span className='!w-fit !h-7 !text-slate-500'>Filtrar por estado:</span>
+            <select
+              name="status"
+              defaultValue={params.status}
+              className="!px-2 !py-2.5 border bg-[#161f30] text-white border-white/5 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+            >
+              <option value="">Todos los estados</option>
+              {Object.entries(statusLabels).map(([value, label]) => (
+                <option key={value} value={value}>{label}</option>
+              ))}
+            </select>
+          </div>
+          <div className='flex flex-col'>
+            <span className='!w-fit !h-7 !text-slate-500'>Fecha desde:</span>
+            <input
+              type="date"
+              name="from"
+              defaultValue={params.from}
+              className="!px-2 !py-2.5 border bg-[#161f30] date-input !text-white border-white/5 rounded-lg"
+            />
+          </div>
 
           <button
             type="submit"
-            className="!px-4 !py-2.5 bg-[#161f30] cursor-pointer text-white rounded-lg hover:bg-[#a3b18a]/20 transition-colors font-medium"
+            className=" self-end !px-4 !py-2.5 bg-[#161f30] cursor-pointer text-white rounded-lg hover:bg-[#a3b18a]/20 transition-colors font-medium"
           >
             Filtrar
           </button>
         </form>
-      </div>
+      </div >
 
       <ProjectsTable searchParams={params} />
-    </section>
+    </section >
   )
 }
