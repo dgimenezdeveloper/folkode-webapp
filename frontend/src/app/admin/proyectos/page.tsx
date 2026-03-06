@@ -1,7 +1,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { FiPlus, FiMoreVertical, FiSearch, FiEdit2, FiExternalLink, FiEye, FiFolder } from 'react-icons/fi'
+import { FiPlus, FiMoreVertical, FiEdit2, FiExternalLink, FiEye, FiFolder } from 'react-icons/fi'
 import { ProjectCategory, ProjectStatus } from '@/lib/db/types'
 import DeleteProjectButton from './DeleteProjectButton'
 import type { ProjectCardData } from '@/types'
@@ -89,10 +89,6 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
   }
 
   const {
-    search,
-    category,
-    status,
-    client,
     from,
     to,
     sort,

@@ -25,17 +25,11 @@ export default function ProjectsFilters() {
     const router = useRouter()
     const searchParams = useSearchParams()
 
-    const [category, setCategory] = useState('')
-    const [status, setStatus] = useState('')
-    const [from, setFrom] = useState('')
+    const category = searchParams.get('category') || ''
+    const status = searchParams.get('status') || ''
+    const from = searchParams.get('from') || ''
     const [search, setSearch] = useState('')
 
-    // sincroniza estado con URL
-    useEffect(() => {
-        setCategory(searchParams.get('category') || '')
-        setStatus(searchParams.get('status') || '')
-        setFrom(searchParams.get('from') || '')
-    }, [searchParams])
 
     const updateParams = useCallback((values: {
         search?: string
@@ -80,7 +74,7 @@ export default function ProjectsFilters() {
 
         return () => clearTimeout(timeout)
 
-    }, [search])
+    }, [search, updateParams, searchParams])
 
 
     return (
@@ -109,8 +103,6 @@ export default function ProjectsFilters() {
                     value={category}
                     onChange={(e) => {
                         const value = e.target.value
-                        setCategory(value)
-
                         updateParams({
                             category: value,
                             status: status // mantiene el estado actual
@@ -135,7 +127,6 @@ export default function ProjectsFilters() {
                     value={status}
                     onChange={(e) => {
                         const value = e.target.value
-                        setStatus(value)
                         updateParams({ status: value })
                     }}
                     className="!px-2 !py-2.5 border bg-[#161f30] text-white border-white/5 rounded-lg"
@@ -158,7 +149,6 @@ export default function ProjectsFilters() {
                     value={from}
                     onChange={(e) => {
                         const value = e.target.value
-                        setFrom(value)
                         updateParams({ from: value })
                     }}
                     className="!px-2 !py-2.5 border bg-[#161f30] text-white border-white/5 rounded-lg"
