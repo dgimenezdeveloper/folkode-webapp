@@ -99,29 +99,7 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
     order = 'asc'
   } = searchParams
 
-  // 🔎 Filtro por nombre
-  if (search) {
-    projects = projects.filter(p =>
-      p.title.toLowerCase().includes(search.toLowerCase())
-    )
-  }
 
-  // 📂 Filtro por categoría
-  if (category) {
-    projects = projects.filter(p => p.category === category)
-  }
-
-  // 🚦 Filtro por estado
-  if (status) {
-    projects = projects.filter(p => p.status === status)
-  }
-
-  // 👤 Filtro por cliente
-  if (client) {
-    projects = projects.filter(p =>
-      p.clientId?.toLowerCase().includes(client.toLowerCase())
-    )
-  }
 
   // 📅 Filtro por fecha
   if (from) {
@@ -545,55 +523,8 @@ export default async function ProjectsPage({
       </div>
 
       {/* Filters */}
-      <div className="bg-[#0d1421]  rounded-xl shadow-sm border border-white/5 !p-4 !mb-6">
-        <form className="flex flex-col md:flex-row justify-around flex-wrap gap-4">
-          <div className="w-[25%] flex flex-col items-start flex-1 md:flex-initial">
-            <span className='!w-fit !h-7 !text-slate-500'>Buscar proyectos / clientes:</span>
-            <ProjectsFilters />
-          </div>
-          <div className='flex flex-col'>
-            <span className='!w-fit !h-7 !text-slate-500'>Filtrar por categoría:</span>
-            <select
-              name="category"
-              defaultValue={params.category}
-              className="!px-2 !py-2.5 border bg-[#161f30] text-white border-white/5 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
-            >
-              <option value="">Todas las categorías</option>
-              {Object.entries(categoryLabels).map(([value, label]) => (
-                <option key={value} value={value}>{label}</option>
-              ))}
-            </select>
-          </div>
-          <div className='flex flex-col'>
-            <span className='!w-fit !h-7 !text-slate-500'>Filtrar por estado:</span>
-            <select
-              name="status"
-              defaultValue={params.status}
-              className="!px-2 !py-2.5 border bg-[#161f30] text-white border-white/5 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
-            >
-              <option value="">Todos los estados</option>
-              {Object.entries(statusLabels).map(([value, label]) => (
-                <option key={value} value={value}>{label}</option>
-              ))}
-            </select>
-          </div>
-          <div className='flex flex-col'>
-            <span className='!w-fit !h-7 !text-slate-500'>Fecha desde:</span>
-            <input
-              type="date"
-              name="from"
-              defaultValue={params.from}
-              className="!px-2 !py-2.5 border bg-[#161f30] date-input !text-white border-white/5 rounded-lg"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className=" self-end !px-4 !py-2.5 bg-[#161f30] cursor-pointer text-white rounded-lg hover:bg-[#a3b18a]/20 transition-colors font-medium"
-          >
-            Filtrar
-          </button>
-        </form>
+      <div className="bg-[#0d1421]  rounded-xl shadow-sm border border-white/5 !p-4 !mb-6 flex flex-col md:flex-row justify-around flex-wrap gap-4">
+        <ProjectsFilters />
       </div >
 
 
