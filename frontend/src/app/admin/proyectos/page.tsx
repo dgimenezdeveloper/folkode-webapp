@@ -1,7 +1,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { FiPlus, FiMoreVertical, FiSearch, FiEdit2, FiExternalLink, FiEye, FiFolder } from 'react-icons/fi'
+import { FiPlus, FiMoreVertical, FiEdit2, FiExternalLink, FiEye, FiFolder } from 'react-icons/fi'
 import { ProjectCategory, ProjectStatus } from '@/lib/db/types'
 import DeleteProjectButton from './DeleteProjectButton'
 import type { ProjectCardData } from '@/types'
@@ -89,39 +89,13 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
   }
 
   const {
-    search,
-    category,
-    status,
-    client,
     from,
     to,
     sort,
     order = 'asc'
   } = searchParams
 
-  // 🔎 Filtro por nombre
-  if (search) {
-    projects = projects.filter(p =>
-      p.title.toLowerCase().includes(search.toLowerCase())
-    )
-  }
 
-  // 📂 Filtro por categoría
-  if (category) {
-    projects = projects.filter(p => p.category === category)
-  }
-
-  // 🚦 Filtro por estado
-  if (status) {
-    projects = projects.filter(p => p.status === status)
-  }
-
-  // 👤 Filtro por cliente
-  if (client) {
-    projects = projects.filter(p =>
-      p.clientId?.toLowerCase().includes(client.toLowerCase())
-    )
-  }
 
   // 📅 Filtro por fecha
   if (from) {

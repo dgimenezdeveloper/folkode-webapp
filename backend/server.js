@@ -163,14 +163,44 @@ app.get("/api/projects", requireAdmin,validate(projectsQuerySchema, (req) => req
     // filtros opcionales
     const status = req.query.status ? String(req.query.status) : undefined;
     const search = req.query.search ? String(req.query.search) : undefined;
+    const category = req.query.category ? String(req.query.category) : undefined;
 
     const where = {};
 
     if (status) where.status = status;
+    if (category) where.category = category;
 
     if (search) {
+      // Buscamos por título del proyecto o por nombre del cliente
       // asume que existe Project.title (si no existe, lo ajustamos)
-      where.title = { contains: search, mode: "insensitive" };
+      where.OR = [
+        {
+          title: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+        {
+          client: {
+            is: {
+              OR: [
+                {
+                  name: {
+                    contains: search,
+                    mode: "insensitive",
+                  },
+                },
+                {
+                  email: {
+                    contains: search,
+                    mode: "insensitive",
+                  },
+                },
+              ],
+            },
+          },
+        },
+      ];
     }
 
     const [total, projects] = await Promise.all([
@@ -205,6 +235,7 @@ app.get("/api/projects", requireAdmin,validate(projectsQuerySchema, (req) => req
     });
   }
 });
+
 // GET /api/projects/:id - Obtener un proyecto por ID (detalle)
 app.get("/api/projects/:id", requireAdmin, validate(projectIdParamSchema, (req) => req.params),async (req, res) => {
   try {
