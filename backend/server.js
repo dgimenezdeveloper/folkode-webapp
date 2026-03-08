@@ -4,7 +4,13 @@ import express from "express";
 import cors from "cors";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
-
+import { validate } from "./middlewares/validate.js";
+import {
+  projectIdParamSchema,
+  projectsQuerySchema,
+  projectCreateSchema,
+  projectUpdateSchema,
+} from "./validations/project.validation.js";
 
 
 const app = express();
@@ -145,7 +151,7 @@ app.get("/api/stats", async (req, res) => {
 });
 
 // Ejemplo de endpoint: obtener proyectos
-app.get("/api/projects", requireAdmin, async (req, res) => {
+app.get("/api/projects", requireAdmin,validate(projectsQuerySchema, (req) => req.query), async (req, res) => {
   try {
     const page = Number.parseInt(req.query.page, 10) || 1;
     const limit = Number.parseInt(req.query.limit, 10) || 10;
@@ -231,7 +237,7 @@ app.get("/api/projects", requireAdmin, async (req, res) => {
 });
 
 // GET /api/projects/:id - Obtener un proyecto por ID (detalle)
-app.get("/api/projects/:id", requireAdmin, async (req, res) => {
+app.get("/api/projects/:id", requireAdmin, validate(projectIdParamSchema, (req) => req.params),async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -250,9 +256,7 @@ app.get("/api/projects/:id", requireAdmin, async (req, res) => {
       },
     });
 
-    if (!project) {
-      return res.status(404).json({ error: "Proyecto no encontrado" });
-    }
+
 
     return res.json(project);
   } catch (error) {
@@ -330,7 +334,7 @@ app.post("/api/clients", requireAdmin, async (req, res) => {
 });
 
 // PUT /api/clients/:id - Actualizar un cliente
-app.put("/api/clients/:id", requireAdmin, async (req, res) => {
+app.put("/api/clients/:id",  validate(projectIdParamSchema, (req) => req.params), requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const { name, email, phone, company, website, avatar, notes } = req.body;
@@ -351,7 +355,7 @@ app.put("/api/clients/:id", requireAdmin, async (req, res) => {
 });
 
 // DELETE /api/clients/:id - Eliminar un cliente
-app.delete("/api/clients/:id", requireAdmin, async (req, res) => {
+app.delete("/api/clients/:id", requireAdmin,validate(projectIdParamSchema, (req) => req.params), async (req, res) => {
   try {
     const { id } = req.params;
     // Comprobar si existe
@@ -503,7 +507,8 @@ app.get("/api/health", (req, res) => {
 
 
 // PUT /api/projects/:id - Actualizar proyecto
-app.put("/api/projects/:id", requireAdmin, async (req, res) => {
+app.put("/api/projects/:id", requireAdmin,  validate(projectIdParamSchema, (req) => req.params),
+  validate(projectUpdateSchema, (req) => req.body), async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -612,7 +617,7 @@ app.put("/api/projects/:id", requireAdmin, async (req, res) => {
   }
 });
 // POST /api/projects - Crear nuevo proyecto
-app.post("/api/projects", requireAdmin, async (req, res) => {
+app.post("/api/projects", requireAdmin, validate(projectCreateSchema, (req) => req.body), async (req, res) => {
   try {
     const {
       title,
@@ -631,11 +636,7 @@ app.post("/api/projects", requireAdmin, async (req, res) => {
       sections,
     } = req.body;
 
-    if (!title || !slug || !description || !category || !status) {
-      return res.status(400).json({
-        error: "Campos requeridos: title, slug, description, category, status",
-      });
-    }
+
 
     const allowedCategories = [
       "ECOMMERCE",
@@ -704,7 +705,7 @@ app.post("/api/projects", requireAdmin, async (req, res) => {
   }
 });
 // DELETE /api/projects/:id - Eliminar proyecto
-app.delete("/api/projects/:id", requireAdmin, async (req, res) => {
+app.delete("/api/projects/:id", requireAdmin, validate(projectIdParamSchema, (req) => req.params), async (req, res) => {
   try {
     const { id } = req.params;
 
