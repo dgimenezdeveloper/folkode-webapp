@@ -103,7 +103,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
         <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />
       )}
 
-      {/* Sidebar */}
+      {/* Sidebar con ancho optimizado */}
       <aside className={`
         fixed top-0 left-0 z-40 h-full w-72 bg-[#0d121f]/98 border-r border-white/5 transform transition-all duration-500 ease-out flex flex-col backdrop-blur-2xl
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}

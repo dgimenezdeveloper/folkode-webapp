@@ -1,7 +1,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { FiPlus, FiMoreVertical, FiSearch, FiEdit2, FiExternalLink, FiEye, FiFolder } from 'react-icons/fi'
+import { FiPlus, FiMoreVertical, FiEdit2, FiExternalLink, FiEye, FiFolder } from 'react-icons/fi'
 import { ProjectCategory, ProjectStatus } from '@/lib/db/types'
 import DeleteProjectButton from './DeleteProjectButton'
 import type { ProjectCardData } from '@/types'
@@ -89,39 +89,13 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
   }
 
   const {
-    search,
-    category,
-    status,
-    client,
     from,
     to,
     sort,
     order = 'asc'
   } = searchParams
 
-  // 🔎 Filtro por nombre
-  if (search) {
-    projects = projects.filter(p =>
-      p.title.toLowerCase().includes(search.toLowerCase())
-    )
-  }
 
-  // 📂 Filtro por categoría
-  if (category) {
-    projects = projects.filter(p => p.category === category)
-  }
-
-  // 🚦 Filtro por estado
-  if (status) {
-    projects = projects.filter(p => p.status === status)
-  }
-
-  // 👤 Filtro por cliente
-  if (client) {
-    projects = projects.filter(p =>
-      p.clientId?.toLowerCase().includes(client.toLowerCase())
-    )
-  }
 
   // 📅 Filtro por fecha
   if (from) {
@@ -187,7 +161,7 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
 
   if (paginatedProjects.length === 0) {
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
+      <div className="bg-[#0d1421] rounded-xl shadow-sm border border-gray-100 p-12 text-center">
         <FiFolder className="w-16 h-16 mx-auto mb-4 text-gray-300" />
         <h3 className="text-lg font-medium text-gray-900 mb-2">No hay proyectos</h3>
         <p className="text-gray-500 mb-4">
@@ -207,7 +181,7 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
   }
 
   return (
-    <div className="bg-[#0d1421] rounded-xl shadow-sm border border-white/5 overflow-hidden">
+    <div className="bg-[#0d1421] rounded-xl shadow-sm sm:border border-white/5">
       <div className="overflow-x-auto ">
         <table
           className="w-full hidden md:table"
@@ -275,8 +249,8 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
           <tbody className="divide-y divide-gray-100">
             {paginatedProjects.map((project) => (
               <tr key={project.id} className="hover:bg-[rgba(255,255,255,0.02)] transition-colors border-white/5 flex flex-wrap sm:table-row">
-                <td className="!px-2.5 md:!px-3 lg:!px-6 !py-8 w-full sm:w-auto ">
-                  <div className="flex items-center gap-3 ">
+                <td className="!px-2.5 md:!px-3 lg:!px-6 !py-8 w-full sm:w-auto lg:!w-fit ">
+                  <div className="flex items-center gap-3 w-fit ">
                     <div className="w-12 h-12 bg-[#161f30] border-white/5 rounded-lg overflow-hidden flex-shrink-0">
                       {project.images && project.images[0] ? (
                         <Image
@@ -298,20 +272,20 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
                     </div>
                   </div>
                 </td>
-                <td className="!px-2.5 md:!px-3 lg:!px-6 !py-1 md:!py-4 !w-full">
+                <td className="!px-2.5 md:!px-3 lg:!px-6 !py-1 md:!py-4 !w-full lg:!w-fit">
                   <span className="text-slate-300 !w-fit">{project.client?.name}</span>
                 </td>
-                <td className="!px-2.5 md:!px-3 lg:!px-6 !py-1 md:!py-4 !w-full">
+                <td className="!px-2.5 md:!px-3 lg:!px-6 !py-1 md:!py-4 !w-full lg:!w-fit">
                   <span className="text-slate-400 !w-fit">{categoryLabels[project.category]}</span>
                 </td>
-                <td className="!px-2.5 md:!px-3 lg:!px-6 !py-1 md:!py-4 !w-full">
+                <td className="!px-2.5 md:!px-3 lg:!px-6 !py-1 md:!py-4 !w-full lg:!w-fit">
                   <span className={`inline-flex justify-center items-center gap-2 !px-2.5 !py-1 text-xs font-medium rounded-full ${statusColors[project.status]}`}>
                     <div className={`w-2 h-2 rounded-full ${statusColors[project.status].includes('bg-green') ? 'bg-green-500' : statusColors[project.status].includes('bg-yellow') ? 'bg-yellow-500' : 'bg-blue-500'}`}></div>
                     {statusLabels[project.status]}
                   </span>
                 </td>
-                <td className="!px-2.5 md:!px-3 lg:!px-6 !py-4 !w-full">
-                  <div className="hidden lg:flex items-center justify-center lg:justify-end gap-2">
+                <td className="!px-2.5 md:!px-3 lg:!px-6 !py-4 !w-full lg:!w-fit">
+                  <div className="hidden xl:flex items-center justify-center lg:justify-end gap-2 w-full">
                     {project.liveUrl && (
                       <a
                         href={project.liveUrl}
@@ -339,7 +313,7 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
                     </Link>
                     <DeleteProjectButton projectId={project.id} projectTitle={project.title} styles='hover:!bg-red !text-gray-500' />
                   </div>
-                  <details className="relative lg:hidden flex items-center justify-center">
+                  <details className="relative xl:hidden flex items-center justify-center">
                     <summary
                       className="list-none cursor-pointer p-2"
                       aria-label={`Abrir acciones para ${project.title}`}>
@@ -389,9 +363,9 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
         {/* Mobile cards */}
         <div className="flex flex-col gap-5 md:hidden p-4 space-y-4">
           {paginatedProjects.map((project) => (
-            <div key={project.id} className="bg-gray-50 rounded-lg !py-4 !px-2">
-              <div className="flex gap-3 mb-2">
-                <div className="w-12 h-12 bg-gray-100 rounded-lg self-start !mt-[2rem] overflow-hidden flex-shrink-0">
+            <div key={project.id} className="bg-[#161b22] rounded-lg !py-4 !px-2 !pt-[2rem]">
+              <div className="flex gap-3 !mb-0">
+                <div className="w-12 h-12  rounded-lg !mt-[0rem] overflow-hidden flex-shrink-0">
                   {project.images && project.images[0] ? (
                     <Image
                       src={project.images[0].url}
@@ -401,14 +375,14 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                    <div className="w-full h-full bg-[#161f30] flex items-center justify-center">
                       <FiFolder className="w-6 h-6 text-gray-400" />
                     </div>
                   )}
                 </div>
                 <div className="flex-1 flex">
                   <div className='min-w-0 w-full'>
-                    <h3 className="font-medium !text-black !m-0 !mt-4 !mb-2 flex-1 w-full ">{project.title}</h3>
+                    <h3 className="font-medium !text-white !m-0 !mt-0 !mb-2 flex-1 w-full ">{project.title}</h3>
                     <p className="text-sm text-gray-600">{project.client?.name}</p>
                     <p className="text-sm text-gray-600">{project.shortDesc ?? ''}</p>
                     <span className={`inline-flex justify-center items-center gap-2 !px-2.5 !py-1 text-xs font-medium rounded-full ${statusColors[project.status]}`}>
@@ -416,7 +390,7 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
                       {statusLabels[project.status]}
                     </span>
                   </div>
-                  <div className="flex flex-col items-center !mt-[1rem] gap-2">
+                  <div className="flex flex-col items-center !mt-[0rem] gap-2">
                     <details className="relative">
                       <summary
                         className="list-none cursor-pointer p-2"
@@ -454,7 +428,7 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
                           projectId={project.id}
                           projectTitle={project.title}
                           text="Eliminar"
-                          styles="text-[#a3b18a] text-base"
+                          styles="text-[#a3b18a] text-base !px-0 !py-0"
                         />
                       </div>
                     </details>
@@ -546,8 +520,8 @@ export default async function ProjectsPage({
 
       {/* Filters */}
       <div className="bg-[#0d1421]  rounded-xl shadow-sm border border-white/5 !p-4 !mb-6">
-        <form className="flex flex-col md:flex-row justify-around flex-wrap gap-4">
-          <div className="w-[25%] flex flex-col items-start flex-1 md:flex-initial">
+        <form className="flex flex-col md:flex-row flex-wrap gap-4">
+          <div className="min-w-[250px] flex flex-col flex-1 md:max-w-xs">
             <span className='!w-fit !h-7 !text-slate-500'>Buscar proyectos / clientes:</span>
             <ProjectsFilters />
           </div>
@@ -587,12 +561,14 @@ export default async function ProjectsPage({
             />
           </div>
 
-          <button
-            type="submit"
-            className=" self-end !px-4 !py-2.5 bg-[#161f30] cursor-pointer text-white rounded-lg hover:bg-[#a3b18a]/20 transition-colors font-medium"
-          >
-            Filtrar
-          </button>
+          <div className="self-end">
+            <button
+              type="submit"
+              className=" self-end !px-4 !py-2.5 bg-[#161f30] cursor-pointer text-white rounded-lg hover:bg-[#a3b18a]/20 transition-colors font-medium"
+            >
+              Filtrar
+            </button>
+          </div>
         </form>
       </div >
 
