@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams, } from 'next/navigation'
 import { ProjectCategory, ProjectStatus } from '@/lib/db/types'
 import { useCallback, useEffect, useState } from 'react'
-import { FiSearch } from 'react-icons/fi'
+import { FiSearch, FiX } from 'react-icons/fi'
 
 const categoryLabels: Record<ProjectCategory, string> = {
     ECOMMERCE: 'E-commerce',
@@ -79,7 +79,7 @@ export default function ProjectsFilters() {
 
     return (
         <>
-            <div className="w-[25%] flex flex-col items-start flex-1 md:flex-initial">
+            <div className="w-full lg:w-[25%] flex flex-col items-start flex-1 md:flex-initial">
                 <span className='!w-fit !h-7 !text-slate-500'>
                     Buscar proyectos / clientes:
                 </span>
@@ -90,8 +90,20 @@ export default function ProjectsFilters() {
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         placeholder="Buscar proyectos o clientes..."
-                        className="!w-full bg-[#161f30] rounded border border-white/5 !pl-10 !pr-4 !py-2.5 text-white rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors placeholder:text-slate-600"
+                        className="!w-full bg-[#161f30] rounded border border-white/5 !pl-10 !pr-10 !py-2.5 text-white rounded-lg focus:outline-none transition-colors placeholder:text-slate-600"
                     />
+                    {search && (
+                        <button
+                            onClick={() => {
+                                setSearch('')
+                                updateParams({ search: '' })
+                            }}
+                            className="absolute right-3 cursor-pointer top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition"
+                            type="button"
+                        >
+                            <FiX className="w-5 h-5" />
+                        </button>
+                    )}
                 </div>
             </div>
             <div className='flex flex-col'>
@@ -108,7 +120,7 @@ export default function ProjectsFilters() {
                             status: status // mantiene el estado actual
                         })
                     }}
-                    className="!px-2 !py-2.5 border bg-[#161f30] text-white border-white/5 rounded-lg"
+                    className="!px-2 !py-2.5 border active:!outline-none bg-[#161f30] text-white border-white/5 rounded-lg"
                 >
                     <option value="">Todas las categorías</option>
 
@@ -129,7 +141,7 @@ export default function ProjectsFilters() {
                         const value = e.target.value
                         updateParams({ status: value })
                     }}
-                    className="!px-2 !py-2.5 border bg-[#161f30] text-white border-white/5 rounded-lg"
+                    className="!px-2 !py-2.5 border active:!outline-none bg-[#161f30] text-white border-white/5 rounded-lg"
                 >
                     <option value="">Todos los estados</option>
 
@@ -151,7 +163,7 @@ export default function ProjectsFilters() {
                         const value = e.target.value
                         updateParams({ from: value })
                     }}
-                    className="!px-2 !py-2.5 border bg-[#161f30] text-white border-white/5 rounded-lg"
+                    className="!px-2 !py-2.5 border active:!outline-none bg-[#161f30] text-white border-white/5 rounded-lg"
                 />
             </div>
         </>
