@@ -102,9 +102,11 @@ export default function NewProjectPage() {
   }
 
   const updateSection = (index: number, field: 'title' | 'description', value: string) => {
-    const newSections = [...sections]
-    newSections[index][field] = value
-    setSections(newSections)
+    setSections(prev =>
+      prev.map((s, i) =>
+        i === index ? { ...s, [field]: value } : s
+      )
+    )
   }
 
   const addSectionImage = (sectionIndex: number) => {
@@ -150,16 +152,15 @@ export default function NewProjectPage() {
 
       const firstError = Object.keys(newErrors)[0]
 
-      document.getElementById(firstError)?.scrollIntoView({
+      const field = document.getElementById(firstError)
+
+      field?.scrollIntoView({
         behavior: 'smooth',
         block: 'center'
       })
 
-      return
-    }
+        ; (field as HTMLElement)?.focus()
 
-    if (Object.keys(newErrors).length > 0) {
-      setIsLoading(false)
       return
     }
 
@@ -293,13 +294,16 @@ export default function NewProjectPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="title" className="block text-sm font-medium text-gray-700 !mb-2">
-                  Título del proyecto *
+                  Título del proyecto <span aria-hidden="true">*</span>
                 </label>
                 <input
                   type="text"
                   id="title"
                   name="title"
                   required
+                  aria-required="true"
+                  aria-invalid={!!errors.title}
+                  aria-describedby={errors.title ? "title-error" : undefined}
                   className="input w-full !px-4 !py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   placeholder="Mi proyecto increíble"
                   onChange={(e) => {
@@ -312,7 +316,12 @@ export default function NewProjectPage() {
                   }}
                 />
                 {errors.title && (
-                  <p className="text-sm text-red-500 mt-1">{errors.title}</p>
+                  <p
+                    id="title-error"
+                    role="alert"
+                    className="text-sm text-red-500 mt-1">
+                    {errors.title}
+                  </p>
                 )}
               </div>
               <div>
@@ -521,6 +530,10 @@ export default function NewProjectPage() {
               <input
                 type="text"
                 value={newTech}
+                aria-autocomplete="list"
+                aria-controls="tech-suggestions"
+                aria-expanded={techSuggestions.length > 0}
+                aria-haspopup="listbox"
                 onChange={(e) => setNewTech(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
@@ -540,10 +553,14 @@ export default function NewProjectPage() {
                 <FiPlus className="w-5 h-5" />
               </button>
               {newTech && techSuggestions.length > 0 && (
-                <div className="absolute border border-gray-700 rounded-lg bg-[#0d1421] !mt-12 max-h-40 overflow-y-auto">
+                <div
+                  id="tech-suggestions"
+                  role="listbox"
+                  className="absolute border border-gray-700 rounded-lg bg-[#0d1421] !mt-12 max-h-40 overflow-y-auto">
                   {
                     techSuggestions.map(tech => (
                       <button
+                        role="option"
                         key={tech}
                         type="button"
                         onClick={() => addTechnology(tech)}
@@ -717,17 +734,19 @@ export default function NewProjectPage() {
           <button
             type="submit"
             disabled={isLoading}
+            aria-busy={isLoading}
+            aria-live="polite"
             className="!px-6 !py-2.5 btn-secondary cursor-pointer rounded-lg !bg-[#a3b18a] md:!bg-[#21262d] hover:bg-primary-600 disabled:bg-primary/50 transition-colors font-medium flex items-center justify-center gap-2"
           >
             {isLoading ? (
               <>
-                <FiLoader className="w-5 h-5 animate-spin" />
-                Guardando...
+                <FiLoader className="w-5 h-5 animate-spin" aria-hidden="true" />
+                <span>Guardando proyecto...</span>
               </>
             ) : (
               <>
                 <FiSave className="w-5 h-5" />
-                Crear Proyecto
+                <span className="!font-medium !mb-0 !w-fit !h-fit">Crear Proyecto</span>
               </>
             )}
           </button>
@@ -735,7 +754,10 @@ export default function NewProjectPage() {
       </form>
       {
         submitError && (
-          <div className="p-4 bg-red-500/10 border border-red-500 text-red-400 rounded-lg">
+          <div
+            role="alert"
+            aria-live="assertive"
+            className="p-4 bg-red-500/10 border border-red-500 text-red-400 rounded-lg">
             {submitError}
           </div>
         )
