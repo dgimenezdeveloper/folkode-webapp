@@ -161,7 +161,7 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
 
   if (paginatedProjects.length === 0) {
     return (
-      <div className="bg-[#0d1421] rounded-xl shadow-sm border border-gray-100 p-12 text-center">
+      <div className="bg-[#0d1421] rounded-xl shadow-sm border border-white/10 !p-12 flex flex-col items-center text-center">
         <FiFolder className="w-16 h-16 mx-auto mb-4 text-gray-300" />
         <h3 className="text-lg font-medium text-gray-900 mb-2">No hay proyectos</h3>
         <p className="text-gray-500 mb-4">
@@ -190,7 +190,7 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
             Lista de proyectos con opciones de ordenamiento y acciones
           </caption>
           <thead className="border-b border-gray-100 text-left">
-            <tr className="border-b border-white/5 bg-white/2">
+            <tr className="border-b border-white/5 bg-[#161f30]">
               <th className="flex-1 !px-6 !py-4 text-bold text-[1.2rem]"
                 scope="col"
                 aria-sort={
@@ -320,7 +320,7 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
                       <FiMoreVertical className="w-6 h-6 text-gray-500" />
                     </summary>
 
-                    <div className="absolute right-0 gap-2 !p-2 !w-40 text-left bg-white shadow-lg rounded-lg border flex flex-col z-10">
+                    <div className="absolute right-0 gap-2 !p-2 !w-40 text-left bg-[#161b22] shadow-lg rounded-lg border border-white/10 flex flex-col z-10 !mt-[1rem]">
                       {project.liveUrl && (
                         <a
                           href={project.liveUrl}
@@ -334,14 +334,14 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
 
                       <Link
                         href={`/admin/proyectos/${project.id}`}
-                        className="p-2 flex items-center gap-2 hover:bg-gray-100"
+                        className="!p-2 flex items-center gap-2 hover:bg-gray-100"
                       >
                         <FiEye className="w-4 h-4" />Ver detalles
                       </Link>
 
                       <Link
                         href={`/admin/proyectos/${project.id}/editar`}
-                        className="p-2 flex items-center gap-2 hover:bg-gray-100"
+                        className="!p-2 flex items-center gap-2 hover:bg-gray-100"
                       >
                         <FiEdit2 className="w-4 h-4" />Editar
                       </Link>
@@ -398,13 +398,13 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
                         <FiMoreVertical className="w-6 h-6 text-gray-500" />
                       </summary>
 
-                      <div className="absolute right-0 gap-2 !p-2 w-40 text-left bg-white shadow-lg rounded-lg border flex flex-col z-10">
+                      <div className="absolute right-0 gap-2 !p-2 w-40 text-left !bg-[#161b22] border-white/10 shadow-lg rounded-lg border flex flex-col z-10">
                         {project.liveUrl && (
                           <a
                             href={project.liveUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-2 flex items-center gap-2 hover:bg-gray-100"
+                            className="!p-2 flex items-center gap-2 hover:bg-gray-100"
                           >
                             <FiExternalLink className="w-4 h-4" />Ver sitio
                           </a>
@@ -412,14 +412,14 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
 
                         <Link
                           href={`/admin/proyectos/${project.id}`}
-                          className="p-2 flex items-center gap-2 hover:bg-gray-100"
+                          className="!p-2 flex items-center gap-2 hover:bg-gray-100"
                         >
                           <FiEye className="w-4 h-4" />Ver detalles
                         </Link>
 
                         <Link
                           href={`/admin/proyectos/${project.id}/editar`}
-                          className="p-2 flex items-center gap-2 hover:bg-gray-100"
+                          className="!p-2 flex items-center gap-2 hover:bg-gray-100"
                         >
                           <FiEdit2 className="w-4 h-4" />Editar
                         </Link>
@@ -428,7 +428,7 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
                           projectId={project.id}
                           projectTitle={project.title}
                           text="Eliminar"
-                          styles="text-[#a3b18a] text-base !px-0 !py-0"
+                          styles="text-[#a3b18a] text-base !px-2 !py-2"
                         />
                       </div>
                     </details>
@@ -466,7 +466,7 @@ async function ProjectsTable({ searchParams }: { searchParams: SearchParams }) {
                     query: { ...searchParams, page: pageNumber }
                   }}
                   className={`!px-3 !py-1.5 text-sm rounded-lg transition-colors ${pageNumber === currentPage
-                    ? 'bg-[#a3b18a] !text-white'
+                    ? 'bg-[#003d5b] hover:bg-[#a3b18a] !text-white'
                     : 'bg-[#161f30] hover:bg-[#a3b18a]/20 hover:!text-[#a3b18a]'
                     }`}
                   aria-current={pageNumber === currentPage ? 'page' : undefined}
@@ -507,11 +507,11 @@ export default async function ProjectsPage({
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
           <h1 className="!text-5xl font-bold text-white">Proyectos</h1>
-          <p className="text-slate-500 mt-1">Gestiona todos los proyectos de Folkode</p>
+          <p className="text-slate-500 !mt-1">Gestiona todos los proyectos de Folkode</p>
         </div>
         <Link
           href="/admin/proyectos/nuevo"
-          className="inline-flex items-center border !mb-2 gap-2 !px-4 !py-2.5 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors font-medium"
+          className="inline-flex items-center border !mb-5 lg:!mb-2 gap-2 !px-4 !py-2.5 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors font-medium"
         >
           <FiPlus className="w-5 h-5" />
           Nuevo Proyecto
@@ -519,57 +519,8 @@ export default async function ProjectsPage({
       </div>
 
       {/* Filters */}
-      <div className="bg-[#0d1421]  rounded-xl shadow-sm border border-white/5 !p-4 !mb-6">
-        <form className="flex flex-col md:flex-row flex-wrap gap-4">
-          <div className="min-w-[250px] flex flex-col flex-1 md:max-w-xs">
-            <span className='!w-fit !h-7 !text-slate-500'>Buscar proyectos / clientes:</span>
-            <ProjectsFilters />
-          </div>
-          <div className='flex flex-col'>
-            <span className='!w-fit !h-7 !text-slate-500'>Filtrar por categoría:</span>
-            <select
-              name="category"
-              defaultValue={params.category}
-              className="!px-2 !py-2.5 border bg-[#161f30] text-white border-white/5 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
-            >
-              <option value="">Todas las categorías</option>
-              {Object.entries(categoryLabels).map(([value, label]) => (
-                <option key={value} value={value}>{label}</option>
-              ))}
-            </select>
-          </div>
-          <div className='flex flex-col'>
-            <span className='!w-fit !h-7 !text-slate-500'>Filtrar por estado:</span>
-            <select
-              name="status"
-              defaultValue={params.status}
-              className="!px-2 !py-2.5 border bg-[#161f30] text-white border-white/5 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
-            >
-              <option value="">Todos los estados</option>
-              {Object.entries(statusLabels).map(([value, label]) => (
-                <option key={value} value={value}>{label}</option>
-              ))}
-            </select>
-          </div>
-          <div className='flex flex-col'>
-            <span className='!w-fit !h-7 !text-slate-500'>Fecha desde:</span>
-            <input
-              type="date"
-              name="from"
-              defaultValue={params.from}
-              className="!px-2 !py-2.5 border bg-[#161f30] date-input !text-white border-white/5 rounded-lg"
-            />
-          </div>
-
-          <div className="self-end">
-            <button
-              type="submit"
-              className=" self-end !px-4 !py-2.5 bg-[#161f30] cursor-pointer text-white rounded-lg hover:bg-[#a3b18a]/20 transition-colors font-medium"
-            >
-              Filtrar
-            </button>
-          </div>
-        </form>
+      <div className="bg-[#0d1421]  rounded-xl shadow-sm border border-white/5 !p-4 !mb-6 flex flex-col md:flex-row flex-wrap gap-5 2xl:gap-20">
+        <ProjectsFilters />
       </div >
 
 
