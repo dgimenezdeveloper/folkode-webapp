@@ -86,40 +86,40 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   }
 
   return (
-    <div>
+    <section className="!p-5">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
-        <div className="flex items-start gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 !mb-6">
+        <div className="flex items-center gap-4 !mb-6">
           <Link
             href="/admin/proyectos"
-            className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors mt-1"
+            className="!p-2 text-gray-600 hover:text-gray-900 hover:bg-[#0d1421] rounded-lg transition-colors inline-flex items-center border !mb-0 gap-2 font-medium"
           >
             <FiArrowLeft className="w-5 h-5" />
           </Link>
           <div>
             <div className="flex items-center gap-3 flex-wrap">
-              <h1 className="text-2xl font-bold text-gray-900">{project.title}</h1>
-              <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${statusColors[project.status as ProjectStatus]}`}>
+              <h1 className="!text-7xl !font-bold text-gray-900">{project.title}</h1>
+              <span className={`!px-2.5 !py-1 text-xs font-medium rounded-full flex justify-center items-center ${statusColors[project.status as ProjectStatus]}`}>
                 {statusLabels[project.status as ProjectStatus]}
               </span>
               {project.featured && (
-                <span className="px-2.5 py-1 text-xs font-medium rounded-full bg-amber-100 text-amber-700">
+                <span className="!px-2.5 !py-1 text-xs font-medium rounded-full bg-amber-100 text-amber-700">
                   ⭐ Destacado
                 </span>
               )}
             </div>
-            <p className="text-gray-600 mt-1">{project.shortDesc || project.description.substring(0, 100)}...</p>
+            <p className="text-gray-600 !mt-1">{project.shortDesc || project.description.substring(0, 100)}...</p>
           </div>
         </div>
-        <div className="flex gap-2 ml-auto sm:ml-0">
+        <div className="flex gap-2 !ml-auto sm:!ml-0">
           <Link
             href={`/admin/proyectos/${project.id}/editar`}
-            className="inline-flex items-center gap-2 px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+            className="inline-flex items-center border gap-2 !px-4 !py-2 text-gray-700 bg-[#0d1421] rounded-lg hover:bg-[#1a202c] transition-colors font-medium"
           >
             <FiEdit2 className="w-4 h-4" />
             Editar
           </Link>
-          <DeleteProjectButton projectId={project.id} projectTitle={project.title} />
+          <DeleteProjectButton projectId={project.id} projectTitle={project.title} styles='!px-4 border border-gray-700' />
         </div>
       </div>
 
@@ -128,7 +128,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         <div className="lg:col-span-2 space-y-6">
           {/* Images Gallery */}
           {project.images.length > 0 && (
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="bg-[#0d1421] rounded-xl shadow-sm border border-gray-100 overflow-hidden">
               <div className="aspect-video relative">
                 <Image
                   src={project.images[0].url}
@@ -138,8 +138,8 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 />
               </div>
               {project.images.length > 1 && (
-                <div className="p-5 border-t border-gray-100">
-                  <p className="text-sm font-medium text-gray-600 mb-3">Más imágenes</p>
+                <div className="!p-5 border-t border-gray-100">
+                  <p className="text-sm font-medium text-gray-600 !mb-3">Más imágenes</p>
                   <div className="grid grid-cols-4 gap-3">
                     {project.images.slice(1).map((image: { id: string; url: string; alt?: string }, index: number) => (
                       <div key={image.id} className="aspect-video rounded-lg overflow-hidden border border-gray-200 relative">
@@ -158,11 +158,11 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           )}
 
           {/* Description */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-            <div className="px-6 py-5 border-b border-gray-100">
-              <h2 className="text-lg font-semibold text-gray-900">Descripción</h2>
+          <div className="bg-[#0d1421] rounded-xl shadow-sm border border-gray-700">
+            <div className="!px-6 !py-5 border-b border-gray-700">
+              <h2 className="!text-lg font-semibold text-gray-900">Descripción</h2>
             </div>
-            <div className="px-6 py-5">
+            <div className="!px-6 !py-5">
               <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">{project.description}</p>
             </div>
           </div>
@@ -170,15 +170,15 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           {/* Technologies */}
           {technologies.length > 0 && (
             <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-              <div className="px-6 py-5 border-b border-gray-100">
+              <div className="!px-6 !py-5 border-b border-gray-100">
                 <h2 className="text-lg font-semibold text-gray-900">Tecnologías</h2>
               </div>
-              <div className="px-6 py-5">
+              <div className="!px-6 !py-5">
                 <div className="flex flex-wrap gap-2">
                   {technologies.map((tech: string) => (
                     <span
                       key={tech}
-                      className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium"
+                      className="!px-4 !py-2 bg-primary/10 text-primary rounded-full text-sm font-medium"
                     >
                       {tech}
                     </span>
@@ -191,21 +191,21 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           {/* Sections */}
           {project.sections.length > 0 && (
             <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-              <div className="px-6 py-5 border-b border-gray-100">
+              <div className="!px-6 !py-5 border-b border-gray-100">
                 <h2 className="text-lg font-semibold text-gray-900">Secciones del proyecto</h2>
               </div>
-              <div className="p-6 space-y-6">
+              <div className="!p-6 space-y-6">
                 {project.sections.map((section: { key?: string, title: string, description: string, images?: string }, idx: number) => {
                   const hasImages = section.images && section.images !== '[]'
                   const parsedImages = hasImages ? JSON.parse(section.images as string) : []
                   return (
-                    <div key={section.key || idx} className="border border-gray-200 rounded-lg p-5">
+                    <div key={section.key || idx} className="border border-gray-200 rounded-lg !p-5">
                       <h3 className="font-medium text-gray-900">{section.title}</h3>
-                      <p className="text-gray-700 mt-2 whitespace-pre-wrap leading-relaxed">{section.description}</p>
+                      <p className="text-gray-700 !mt-2 whitespace-pre-wrap leading-relaxed">{section.description}</p>
 
                       {/* Section Images Gallery */}
                       {parsedImages.length > 0 && (
-                        <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-3">
+                        <div className="!mt-4 grid grid-cols-2 md:grid-cols-3 gap-3">
                           {parsedImages.map((imgUrl: string, imgIdx: number) => (
                             <div key={imgIdx} className="aspect-video rounded-lg overflow-hidden border border-gray-200 relative">
                               <Image
@@ -229,31 +229,31 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         {/* Sidebar */}
         <div className="space-y-6">
           {/* Project Info */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-            <div className="p-5 border-b border-gray-100">
-              <h2 className="text-lg font-semibold text-gray-900">Información</h2>
+          <div className="bg-[#0d1421] rounded-xl shadow-sm border border-gray-700">
+            <div className="!p-5 border-b border-gray-700">
+              <h2 className="!text-lg font-semibold text-gray-900">Información</h2>
             </div>
-            <div className="p-5 space-y-5">
+            <div className="!p-5 !space-y-8">
               <div className="flex items-center gap-4">
-                <div className="p-2.5 bg-gray-100 rounded-lg">
+                <div className="!p-2.5 bg-gray-100 rounded-lg">
                   <FiFolder className="w-5 h-5 text-gray-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Categoría</p>
-                  <p className="font-medium text-gray-900 mt-0.5">{categoryLabels[project.category as ProjectCategory]}</p>
+                  <p className="text-sm !mb-0 text-gray-500">Categoría</p>
+                  <p className="font-medium text-gray-900 !mt-0.5">{categoryLabels[project.category as ProjectCategory]}</p>
                 </div>
               </div>
 
               {project.client && (
                 <div className="flex items-center gap-4">
-                  <div className="p-2.5 bg-gray-100 rounded-lg">
+                  <div className="!p-2.5 bg-gray-100 rounded-lg">
                     <FiUser className="w-5 h-5 text-gray-600" />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Cliente</p>
+                    <p className="text-sm !mb-0 text-gray-500">Cliente</p>
                     <Link
                       href={`/admin/clientes/${project.client.id}`}
-                      className="font-medium text-primary hover:underline mt-0.5 block"
+                      className="font-medium text-primary hover:underline !mt-0.5 block"
                     >
                       {project.client.name}
                     </Link>
@@ -262,22 +262,22 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               )}
 
               <div className="flex items-center gap-4">
-                <div className="p-2.5 bg-gray-100 rounded-lg">
+                <div className="!p-2.5 bg-gray-100 rounded-lg">
                   <FiCalendar className="w-5 h-5 text-gray-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Creado</p>
-                  <p className="font-medium text-gray-900 mt-0.5">{formatDate(project.createdAt)}</p>
+                  <p className="text-sm !mb-0 text-gray-500">Creado</p>
+                  <p className="font-medium text-gray-900 !mt-0.5">{formatDate(project.createdAt)}</p>
                 </div>
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="p-2.5 bg-gray-100 rounded-lg">
+                <div className="!p-2.5 bg-gray-100 rounded-lg">
                   <FiCalendar className="w-5 h-5 text-gray-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Actualizado</p>
-                  <p className="font-medium text-gray-900 mt-0.5">{formatDate(project.updatedAt)}</p>
+                  <p className="text-sm !mb-0 text-gray-500">Actualizado</p>
+                  <p className="font-medium text-gray-900 !mt-0.5">{formatDate(project.updatedAt)}</p>
                 </div>
               </div>
             </div>
@@ -286,16 +286,16 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           {/* Links */}
           {(project.liveUrl || project.demoUrl || project.githubUrl) && (
             <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-              <div className="p-5 border-b border-gray-100">
+              <div className="!p-5 border-b border-gray-100">
                 <h2 className="text-lg font-semibold text-gray-900">Enlaces</h2>
               </div>
-              <div className="p-5 space-y-3">
+              <div className="!p-5 space-y-3">
                 {project.liveUrl && (
                   <a
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 px-4 py-3 rounded-lg border border-gray-200 hover:border-primary hover:bg-primary/5 transition-colors"
+                    className="flex items-center gap-3 !px-4 !py-3 rounded-lg border border-gray-200 hover:border-primary hover:bg-primary/5 transition-colors"
                   >
                     <FiGlobe className="w-5 h-5 text-primary" />
                     <span className="text-gray-700 font-medium">Sitio en vivo</span>
@@ -307,11 +307,11 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                     href={project.demoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 px-4 py-3 rounded-lg border border-gray-200 hover:border-primary hover:bg-primary/5 transition-colors"
+                    className="flex items-center gap-3 !px-4 !py-3 rounded-lg border border-gray-200 hover:border-primary hover:bg-primary/5 transition-colors"
                   >
                     <FiExternalLink className="w-5 h-5 text-primary" />
                     <span className="text-gray-700 font-medium">Demo</span>
-                    <FiExternalLink className="w-4 h-4 text-gray-400 ml-auto" />
+                    <FiExternalLink className="w-4 h-4 text-gray-400 !ml-auto" />
                   </a>
                 )}
                 {project.githubUrl && (
@@ -319,11 +319,11 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 px-4 py-3 rounded-lg border border-gray-200 hover:border-primary hover:bg-primary/5 transition-colors"
+                    className="flex items-center gap-3 !px-4 !py-3 rounded-lg border border-gray-200 hover:border-primary hover:bg-primary/5 transition-colors"
                   >
                     <FiGithub className="w-5 h-5 text-primary" />
                     <span className="text-gray-700 font-medium">Repositorio</span>
-                    <FiExternalLink className="w-4 h-4 text-gray-400 ml-auto" />
+                    <FiExternalLink className="w-4 h-4 text-gray-400 !ml-auto" />
                   </a>
                 )}
               </div>
@@ -333,15 +333,15 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           {/* Transactions */}
           {project.transactions.length > 0 && (
             <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-              <div className="p-5 border-b border-gray-100">
+              <div className="!p-5 border-b border-gray-100">
                 <h2 className="text-lg font-semibold text-gray-900">Transacciones</h2>
               </div>
               <div className="divide-y divide-gray-100">
                 {project.transactions.map((transaction: import('@/types').TransactionData) => (
-                  <div key={transaction.id} className="flex items-center justify-between px-5 py-4">
+                  <div key={transaction.id} className="flex items-center justify-between !px-5 !py-4">
                     <div>
                       <p className="text-sm font-medium text-gray-900">{transaction.description}</p>
-                      <p className="text-xs text-gray-500 mt-1">{formatDate(transaction.date)}</p>
+                      <p className="text-xs text-gray-500 !mt-1">{formatDate(transaction.date)}</p>
                     </div>
                     <span className={`font-semibold ${transaction.type === 'INCOME' ? 'text-green-600' : 'text-red-600'
                       }`}>
@@ -350,7 +350,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                   </div>
                 ))}
               </div>
-              <div className="p-4 border-t border-gray-100">
+              <div className="!p-4 border-t border-gray-100">
                 <Link
                   href={`/admin/finanzas?projectId=${project.id}`}
                   className="block text-center text-sm text-primary hover:underline"
@@ -362,6 +362,6 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           )}
         </div>
       </div>
-    </div>
+    </section >
   )
 }
