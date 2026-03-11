@@ -54,6 +54,9 @@ export default function NewProjectPage() {
   const [sections, setSections] = useState([{ title: '', description: '', images: [''] }])
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const submitErrorRef = useRef<HTMLDivElement | null>(null)
+  const [activeTechIndex, setActiveTechIndex] = useState(-1)
+
   const { data: session } = useSession()
   const token = (session as { accessToken?: string })?.accessToken
 
@@ -198,11 +201,19 @@ export default function NewProjectPage() {
 
     try {
       const project = await projectService.createProject(data as unknown as Parameters<typeof projectService.createProject>[0], token)
+
       router.push(`/admin/proyectos/${project.id}`)
     } catch (error) {
+
       console.error('Error creating project:', error)
+
       const message = error instanceof Error ? error.message : 'Error al crear el proyecto'
+
       setSubmitError(message)
+
+      setTimeout(() => {
+        submitErrorRef.current?.focus()
+      }, 0)
     } finally {
       setIsLoading(false)
     }
@@ -268,22 +279,52 @@ export default function NewProjectPage() {
     }
   }, [])
 
+  const handleTechKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      setActiveTechIndex(prev =>
+        prev < techSuggestions.length - 1 ? prev + 1 : prev
+      )
+    }
+
+    if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setActiveTechIndex(prev =>
+        prev > 0 ? prev - 1 : prev
+      )
+    }
+
+    if (e.key === 'Enter') {
+      e.preventDefault()
+
+      if (activeTechIndex >= 0) {
+        addTechnology(techSuggestions[activeTechIndex])
+      } else {
+        addTechnology(newTech)
+      }
+    }
+
+    if (e.key === 'Escape') {
+      setNewTech('')
+    }
+  }
+
   return (
     <section className="!p-5">
       <div className="flex items-center gap-4 !mb-6">
         <Link
           href="/admin/proyectos"
-          className="!p-2 text-gray-600 hover:text-gray-900 hover:bg-[#0d1421] rounded-lg transition-colors inline-flex items-center border !mb-2 gap-2 font-medium"
+          className="!p-2 text-gray-300 hover:text-gray-900 hover:bg-[#0d1421] rounded-lg transition-colors inline-flex items-center border !mb-2 gap-2 font-medium"
         >
           <FiArrowLeft className="w-5 h-5" />
         </Link>
         <div>
           <h1 className="!text-5xl font-bold text-gray-900">Nuevo Proyecto</h1>
-          <p className="text-gray-600 !mt-1">Completa la información del proyecto</p>
+          <p className="text-gray-300 !mt-1">Completa la información del proyecto</p>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="!space-y-6">
+      <form onSubmit={handleSubmit} className="!space-y-6" aria-busy={isLoading}>
         <fieldset
           disabled={isLoading}
           className={`${isLoading ? "opacity-70 pointer-events-none" : "flex flex-col gap-4"}`}
@@ -293,7 +334,7 @@ export default function NewProjectPage() {
             <h2 className="!text-3xl font-semibold text-gray-900 !mb-4">Información básica</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="title" className="block text-sm font-medium text-gray-700 !mb-2">
+                <label htmlFor="title" className="block text-sm font-medium text-gray-600 !mb-2">
                   Título del proyecto <span aria-hidden="true">*</span>
                 </label>
                 <input
@@ -325,14 +366,16 @@ export default function NewProjectPage() {
                 )}
               </div>
               <div>
-                <label htmlFor="slug" className="block text-sm font-medium text-gray-700 !mb-2">
+                <label htmlFor="slug" className="block text-sm font-medium text-gray-600 !mb-2">
                   Slug (URL) *
                 </label>
                 <input
                   type="text"
                   id="slug"
                   name="slug"
-                  required
+                  aria-required="true"
+                  aria-invalid={!!errors.slug}
+                  aria-describedby={errors.slug ? "slug-error" : undefined}
                   className="input w-full !px-4 !py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   placeholder="mi-proyecto-increible"
                   onChange={(e) => {
@@ -342,11 +385,11 @@ export default function NewProjectPage() {
                   }}
                 />
                 {errors.slug && (
-                  <p className="text-sm text-red-500 mt-1">{errors.slug}</p>
+                  <p id="slug-error" role="alert" className="text-sm text-red-500 mt-1">{errors.slug}</p>
                 )}
               </div>
               <div className="md:col-span-2">
-                <label htmlFor="shortDesc" className="block text-sm font-medium text-gray-700 !mb-2">
+                <label htmlFor="shortDesc" className="block text-sm font-medium text-gray-600 !mb-2">
                   Descripción corta
                 </label>
                 <input
@@ -359,7 +402,7 @@ export default function NewProjectPage() {
                 />
               </div>
               <div className="md:col-span-2">
-                <label htmlFor="description" className="block text-sm font-medium text-gray-700 !mb-2">
+                <label htmlFor="description" className="block text-sm font-medium text-gray-600 !mb-2">
                   Descripción completa *
                 </label>
                 <textarea
@@ -383,7 +426,7 @@ export default function NewProjectPage() {
             <h2 className="!text-3xl font-semibold text-gray-900 !mb-4">Clasificación</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div>
-                <label htmlFor="category" className="block text-sm font-medium text-gray-700 !mb-2">
+                <label htmlFor="category" className="block text-sm font-medium text-gray-600 !mb-2">
                   Categoría *
                 </label>
                 <select
@@ -404,7 +447,7 @@ export default function NewProjectPage() {
                 )}
               </div>
               <div>
-                <label htmlFor="status" className="block text-sm font-medium text-gray-700 !mb-2">
+                <label htmlFor="status" className="block text-sm font-medium text-gray-600 !mb-2">
                   Estado *
                 </label>
                 <select
@@ -425,7 +468,7 @@ export default function NewProjectPage() {
                 )}
               </div>
               <div>
-                <label htmlFor="clientId" className="block text-sm font-medium text-gray-700 !mb-2">
+                <label htmlFor="clientId" className="block text-sm font-medium text-gray-600 !mb-2">
                   Cliente
                 </label>
                 <select
@@ -450,7 +493,7 @@ export default function NewProjectPage() {
                   name="featured"
                   className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
                 />
-                <label htmlFor="featured" className="!ml-2 text-sm font-medium text-gray-700">
+                <label htmlFor="featured" className="!ml-2 text-sm font-medium text-gray-600">
                   Proyecto destacado
                 </label>
               </div>
@@ -462,7 +505,7 @@ export default function NewProjectPage() {
             <h2 className="!text-3xl font-semibold text-gray-900 !mb-4">Enlaces</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div>
-                <label htmlFor="liveUrl" className="block text-sm font-medium text-gray-700 !mb-2">
+                <label htmlFor="liveUrl" className="block text-sm font-medium text-gray-600 !mb-2">
                   URL del sitio
                 </label>
                 <input
@@ -474,7 +517,7 @@ export default function NewProjectPage() {
                 />
               </div>
               <div>
-                <label htmlFor="demoUrl" className="block text-sm font-medium text-gray-700 !mb-2">
+                <label htmlFor="demoUrl" className="block text-sm font-medium text-gray-600 !mb-2">
                   URL de demo
                 </label>
                 <input
@@ -486,7 +529,7 @@ export default function NewProjectPage() {
                 />
               </div>
               <div>
-                <label htmlFor="githubUrl" className="block text-sm font-medium text-gray-700 !mb-2">
+                <label htmlFor="githubUrl" className="block text-sm font-medium text-gray-600 !mb-2">
                   URL de GitHub
                 </label>
                 <input
@@ -535,12 +578,7 @@ export default function NewProjectPage() {
                 aria-expanded={techSuggestions.length > 0}
                 aria-haspopup="listbox"
                 onChange={(e) => setNewTech(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault()
-                    addTechnology(newTech)
-                  }
-                }}
+                onKeyDown={(e) => { handleTechKeyDown(e) }}
                 className="input flex-1 !px-4 !py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                 placeholder="Agregar tecnología..."
               />
@@ -564,7 +602,8 @@ export default function NewProjectPage() {
                         key={tech}
                         type="button"
                         onClick={() => addTechnology(tech)}
-                        className="block w-full text-left !px-4 !py-2 hover:bg-gray-800"
+                        className={`block w-full text-left px-4 py-2 ${activeTechIndex === techSuggestions.indexOf(tech) ? "bg-gray-800" : ""
+                          }`}
                       >
                         {tech}
                       </button>
@@ -581,7 +620,7 @@ export default function NewProjectPage() {
                   key={tech}
                   type="button"
                   onClick={() => addTechnology(tech)}
-                  className="!px-3 !py-1.5 bg-gray-100 cursor-pointer text-gray-600 rounded-full text-sm hover:bg-gray-300 transition-colors"
+                  className="!px-3 !py-1.5 bg-gray-800 cursor-pointer text-gray-300 rounded-full text-sm hover:bg-gray-900 transition-colors"
                 >
                   + {tech}
                 </button>
@@ -619,7 +658,7 @@ export default function NewProjectPage() {
               <button
                 type="button"
                 onClick={addImageUrl}
-                className="w-full !py-2.5 cursor-pointer hover:bg-gray-800 border-2 border-dashed border-gray-300 text-gray-600 rounded-lg hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2"
+                className="w-full !py-2.5 cursor-pointer hover:bg-gray-800 border-2 border-dashed border-gray-300 text-gray-300 rounded-lg hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2"
               >
                 <FiPlus className="w-5 h-5" />
                 Agregar otra imagen
@@ -651,7 +690,7 @@ export default function NewProjectPage() {
 
                   <div className="grid grid-cols-1 gap-4">
                     <div>
-                      <label className="block !text-sm font-medium text-gray-700 !mb-2">
+                      <label className="block !text-sm font-medium text-gray-600 !mb-2">
                         Título de la sección
                       </label>
                       <input
@@ -663,7 +702,7 @@ export default function NewProjectPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 !mb-2">
+                      <label className="block text-sm font-medium text-gray-600 !mb-2">
                         Descripción
                       </label>
                       <textarea
@@ -677,7 +716,7 @@ export default function NewProjectPage() {
 
                     {/* Section Images */}
                     <div className="!mt-2">
-                      <label className="block text-sm font-medium text-gray-700 !mb-2 text-primary">
+                      <label className="block text-sm font-medium text-gray-600 !mb-2 text-primary">
                         Imágenes de esta sección
                       </label>
                       <div className="space-y-2">
@@ -756,6 +795,8 @@ export default function NewProjectPage() {
         submitError && (
           <div
             role="alert"
+            ref={submitErrorRef}
+            tabIndex={-1}
             aria-live="assertive"
             className="p-4 bg-red-500/10 border border-red-500 text-red-400 rounded-lg">
             {submitError}
