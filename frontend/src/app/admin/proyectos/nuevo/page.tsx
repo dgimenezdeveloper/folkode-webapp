@@ -167,6 +167,7 @@ export default function NewProjectPage() {
       return
     }
 
+    setSubmitError(null)
     setIsLoading(true)
 
     const data = {
