@@ -53,6 +53,7 @@ export default function NewProjectPage() {
   const [imageUrls, setImageUrls] = useState<string[]>([''])
   const [sections, setSections] = useState([{ title: '', description: '', images: [''] }])
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const hasErrors = Object.keys(errors).length > 0
   const [submitError, setSubmitError] = useState<string | null>(null)
   const { data: session } = useSession()
   const token = (session as { accessToken?: string })?.accessToken
@@ -227,8 +228,13 @@ export default function NewProjectPage() {
         break
 
       case 'slug':
-        if (!value.trim()) newErrors.slug = 'El slug es obligatorio'
-        else delete newErrors.slug
+        if (!value.trim()) {
+          newErrors.slug = 'El slug es obligatorio'
+        } else if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value)) {
+          newErrors.slug = 'El slug solo puede contener letras minúsculas, números y guiones'
+        } else {
+          delete newErrors.slug
+        }
         break
 
       case 'description':
@@ -244,6 +250,18 @@ export default function NewProjectPage() {
       case 'status':
         if (!value) newErrors.status = 'Debes seleccionar un estado'
         else delete newErrors.status
+        break
+
+      case 'liveUrl':
+      case 'demoUrl':
+      case 'githubUrl':
+
+        if (value && !/^https?:\/\/.+\..+/.test(value)) {
+          newErrors[name] = 'Debe ser una URL válida'
+        } else {
+          delete newErrors[name]
+        }
+
         break
     }
 
@@ -469,6 +487,7 @@ export default function NewProjectPage() {
                   type="url"
                   id="liveUrl"
                   name="liveUrl"
+                  onChange={(e) => validateField('liveUrl', e.target.value)}
                   className="input w-full !px-4 !py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   placeholder="https://ejemplo.com"
                 />
@@ -481,6 +500,7 @@ export default function NewProjectPage() {
                   type="url"
                   id="demoUrl"
                   name="demoUrl"
+                  onChange={(e) => validateField('demoUrl', e.target.value)}
                   className="input w-full !px-4 !py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   placeholder="https://demo.ejemplo.com"
                 />
@@ -493,6 +513,7 @@ export default function NewProjectPage() {
                   type="url"
                   id="githubUrl"
                   name="githubUrl"
+                  onChange={(e) => validateField('githubUrl', e.target.value)}
                   className="input w-full !px-4 !py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   placeholder="https://github.com/user/repo"
                 />
@@ -733,7 +754,7 @@ export default function NewProjectPage() {
           </Link>
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={isLoading || hasErrors}
             aria-busy={isLoading}
             aria-live="polite"
             className="!px-6 !py-2.5 btn-secondary cursor-pointer rounded-lg !bg-[#a3b18a] md:!bg-[#21262d] hover:!bg-[--petrol-blue] disabled:bg-primary/50 transition-colors font-medium flex items-center justify-center gap-2"
