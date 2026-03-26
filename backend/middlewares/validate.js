@@ -1,3 +1,5 @@
+import { AppError } from "../utils/AppError.js";
+
 export function validate(schema, pick) {
   return (req, res, next) => {
     const parsed = schema.safeParse(pick(req));
@@ -8,10 +10,14 @@ export function validate(schema, pick) {
         message: i.message,
       }));
 
-      return res.status(400).json({
-        error: "Error de validación",
-        details,
-      });
+      return next(
+        new AppError(
+          "Error de validación",
+          400,
+          "VALIDATION_ERROR",
+          details
+        )
+      );
     }
 
     req.validated = { ...(req.validated || {}), ...parsed.data };
