@@ -13,6 +13,8 @@ import {
 } from "./validations/project.validation.js";
 import { AppError } from "./utils/AppError.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
+import { authMiddleware } from "./middlewares/authMiddleware.js";
+import { requireRole } from "./middlewares/roleMiddleware.js";
 
 
 const app = express();
@@ -20,36 +22,7 @@ const prisma = new PrismaClient();
 
 app.use(cors());
 app.use(express.json());
-async function requireAdmin(req, res, next) {
-  try {
-    const header = req.headers.authorization || "";
-    const [type, token] = header.split(" ");
 
-    if (type !== "Bearer" || !token) {
-      return next(new AppError("No autorizado", 401, "UNAUTHORIZED"));
-    }
-
-    const payload = jwt.verify(token, process.env.AUTH_SECRET);
-
-    const user = await prisma.user.findUnique({
-      where: { id: payload.userId },
-      select: { id: true, email: true, role: true },
-    });
-
-    if (!user) {
-      return next(new AppError("No autorizado", 401, "UNAUTHORIZED"));
-    }
-
-    if (user.role !== "ADMIN") {
-      return next(new AppError("Solo ADMIN", 403, "FORBIDDEN"));
-    }
-
-    req.user = user;
-    next();
-  } catch (err) {
-    return next(new AppError("Token inválido o expirado", 401, "INVALID_TOKEN"));
-  }
-}
 // Endpoint de login
 app.post("/api/auth/login", async (req, res) => {
   try {
@@ -155,7 +128,8 @@ app.get("/api/stats", async (req, res) => {
 // Ejemplo de endpoint: obtener proyectos
 app.get(
   "/api/projects",
-  requireAdmin,
+  authMiddleware,
+requireRole("ADMIN"),
   validate(projectsQuerySchema, (req) => req.query),
   async (req, res, next) => {
     try {
@@ -243,7 +217,8 @@ app.get(
 // POST /api/projects - Crear nuevo proyecto
 app.post(
   "/api/projects",
-  requireAdmin,
+  authMiddleware,
+requireRole("ADMIN"),
   validate(projectCreateSchema, (req) => req.body),
   async (req, res, next) => {
     try {
@@ -326,7 +301,8 @@ app.post(
 // DELETE /api/projects/:id - Eliminar proyecto
 app.delete(
   "/api/projects/:id",
-  requireAdmin,
+  authMiddleware,
+requireRole("ADMIN"),
   validate(projectIdParamSchema, (req) => req.params),
   async (req, res, next) => {
     try {
@@ -358,7 +334,8 @@ app.delete(
 // GET /api/projects/:id - Obtener un proyecto por ID (detalle)
 app.get(
   "/api/projects/:id",
-  requireAdmin,
+  authMiddleware,
+requireRole("ADMIN"),
   validate(projectIdParamSchema, (req) => req.params),
   async (req, res, next) => {
     try {
@@ -396,7 +373,8 @@ app.get(
 // PUT /api/projects/:id - Actualizar proyecto
 app.put(
   "/api/projects/:id",
-  requireAdmin,
+  authMiddleware,
+requireRole("ADMIN"),
   validate(projectIdParamSchema, (req) => req.params),
   validate(projectUpdateSchema, (req) => req.body),
   async (req, res, next) => {
@@ -492,7 +470,8 @@ app.put(
   }
 );
 // GET /api/clients - Obtener lista de clientes
-app.get("/api/clients", requireAdmin, async (req, res) => {
+app.get("/api/clients", authMiddleware,
+requireRole("ADMIN"), async (req, res) => {
   try {
     const search = req.query.search ? String(req.query.search) : undefined;
     const where = {};
@@ -519,7 +498,8 @@ app.get("/api/clients", requireAdmin, async (req, res) => {
 });
 
 // GET /api/clients/:id - Obtener un cliente por ID
-app.get("/api/clients/:id", requireAdmin, async (req, res) => {
+app.get("/api/clients/:id", authMiddleware,
+requireRole("ADMIN"), async (req, res) => {
   try {
     const { id } = req.params;
     const client = await prisma.client.findUnique({
@@ -541,7 +521,8 @@ app.get("/api/clients/:id", requireAdmin, async (req, res) => {
 });
 
 // POST /api/clients - Crear un nuevo cliente
-app.post("/api/clients", requireAdmin, async (req, res) => {
+app.post("/api/clients", authMiddleware,
+requireRole("ADMIN"), async (req, res) => {
   try {
     const { name, email, phone, company, website, avatar, notes } = req.body;
     if (!name) {
@@ -559,7 +540,8 @@ app.post("/api/clients", requireAdmin, async (req, res) => {
 });
 
 // PUT /api/clients/:id - Actualizar un cliente
-app.put("/api/clients/:id",requireAdmin, validate(projectIdParamSchema, (req) => req.params), async (req, res) => {
+app.put("/api/clients/:id", authMiddleware,
+requireRole("ADMIN"), validate(projectIdParamSchema, (req) => req.params), async (req, res) => {
   try {
     const { id } = req.params;
     const { name, email, phone, company, website, avatar, notes } = req.body;
@@ -580,7 +562,8 @@ app.put("/api/clients/:id",requireAdmin, validate(projectIdParamSchema, (req) =>
 });
 
 // DELETE /api/clients/:id - Eliminar un cliente
-app.delete("/api/clients/:id", requireAdmin,validate(projectIdParamSchema, (req) => req.params), async (req, res) => {
+app.delete("/api/clients/:id", authMiddleware,
+requireRole("ADMIN"), validate(projectIdParamSchema, (req) => req.params), async (req, res) => {
   try {
     const { id } = req.params;
     // Comprobar si existe
@@ -602,7 +585,8 @@ app.delete("/api/clients/:id", requireAdmin,validate(projectIdParamSchema, (req)
 // ============================================================================
 
 // GET /api/transactions - Obtener lista de transacciones
-app.get("/api/transactions", requireAdmin, async (req, res) => {
+app.get("/api/transactions", authMiddleware,
+requireRole("ADMIN"), async (req, res) => {
   try {
     const clientId = req.query.clientId ? String(req.query.clientId) : undefined;
     const projectId = req.query.projectId ? String(req.query.projectId) : undefined;
@@ -628,7 +612,8 @@ app.get("/api/transactions", requireAdmin, async (req, res) => {
 });
 
 // GET /api/transactions/:id - Obtener una transacción por ID
-app.get("/api/transactions/:id", requireAdmin, async (req, res) => {
+app.get("/api/transactions/:id", authMiddleware,
+requireRole("ADMIN"), async (req, res) => {
   try {
     const { id } = req.params;
     const transaction = await prisma.transaction.findUnique({
@@ -650,7 +635,8 @@ app.get("/api/transactions/:id", requireAdmin, async (req, res) => {
 });
 
 // POST /api/transactions - Crear una nueva transacción
-app.post("/api/transactions", requireAdmin, async (req, res) => {
+app.post("/api/transactions", authMiddleware,
+requireRole("ADMIN"), async (req, res) => {
   try {
     const { type, amount, description, date, category, projectId, clientId } = req.body;
 
@@ -678,7 +664,8 @@ app.post("/api/transactions", requireAdmin, async (req, res) => {
 });
 
 // PUT /api/transactions/:id - Actualizar una transacción
-app.put("/api/transactions/:id", requireAdmin, async (req, res) => {
+app.put("/api/transactions/:id", authMiddleware,
+requireRole("ADMIN"), async (req, res) => {
   try {
     const { id } = req.params;
     const { type, amount, description, date, category, projectId, clientId } = req.body;
@@ -708,7 +695,8 @@ app.put("/api/transactions/:id", requireAdmin, async (req, res) => {
 });
 
 // DELETE /api/transactions/:id - Eliminar una transacción
-app.delete("/api/transactions/:id", requireAdmin, async (req, res) => {
+app.delete("/api/transactions/:id", authMiddleware,
+requireRole("ADMIN"), async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -730,7 +718,7 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
-
+app.use(errorHandler);
 
 
 
