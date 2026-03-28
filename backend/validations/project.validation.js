@@ -23,7 +23,8 @@ export const projectIdParamSchema = z.object({
 export const projectsQuerySchema = z.object({
   page: z.coerce.number().int().positive().optional(),
   limit: z.coerce.number().int().positive().max(100).optional(),
-  status: z.string().optional(),
+  status: z.enum(allowedStatuses).optional(),
+  category: z.enum(allowedCategories).optional(),
   search: z.string().trim().min(1).optional(),
 });
 

@@ -11,6 +11,8 @@ import {
   projectCreateSchema,
   projectUpdateSchema,
 } from "./validations/project.validation.js";
+import { AppError } from "./utils/AppError.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 
 const app = express();
@@ -24,7 +26,7 @@ async function requireAdmin(req, res, next) {
     const [type, token] = header.split(" ");
 
     if (type !== "Bearer" || !token) {
-      return res.status(401).json({ error: "No autorizado" });
+      return next(new AppError("No autorizado", 401, "UNAUTHORIZED"));
     }
 
     const payload = jwt.verify(token, process.env.AUTH_SECRET);
@@ -34,20 +36,20 @@ async function requireAdmin(req, res, next) {
       select: { id: true, email: true, role: true },
     });
 
-    if (!user) return res.status(401).json({ error: "No autorizado" });
+    if (!user) {
+      return next(new AppError("No autorizado", 401, "UNAUTHORIZED"));
+    }
 
     if (user.role !== "ADMIN") {
-      return res.status(403).json({ error: "Solo ADMIN" });
+      return next(new AppError("Solo ADMIN", 403, "FORBIDDEN"));
     }
 
     req.user = user;
     next();
   } catch (err) {
-    return res.status(401).json({ error: "Token inválido o expirado" });
+    return next(new AppError("Token inválido o expirado", 401, "INVALID_TOKEN"));
   }
 }
-
-
 // Endpoint de login
 app.post("/api/auth/login", async (req, res) => {
   try {
@@ -151,121 +153,344 @@ app.get("/api/stats", async (req, res) => {
 });
 
 // Ejemplo de endpoint: obtener proyectos
-app.get("/api/projects", requireAdmin,validate(projectsQuerySchema, (req) => req.query), async (req, res) => {
-  try {
-    const page = Number.parseInt(req.query.page, 10) || 1;
-    const limit = Number.parseInt(req.query.limit, 10) || 10;
+app.get(
+  "/api/projects",
+  requireAdmin,
+  validate(projectsQuerySchema, (req) => req.query),
+  async (req, res, next) => {
+    try {
+      const page = Number.parseInt(req.query.page, 10) || 1;
+      const limit = Number.parseInt(req.query.limit, 10) || 10;
 
-    const safePage = page < 1 ? 1 : page;
-    const safeLimit = limit < 1 ? 10 : Math.min(limit, 100);
-    const skip = (safePage - 1) * safeLimit;
+      const safePage = page < 1 ? 1 : page;
+      const safeLimit = limit < 1 ? 10 : Math.min(limit, 100);
+      const skip = (safePage - 1) * safeLimit;
 
-    // filtros opcionales
-    const status = req.query.status ? String(req.query.status) : undefined;
-    const search = req.query.search ? String(req.query.search) : undefined;
-    const category = req.query.category ? String(req.query.category) : undefined;
+      const status = req.query.status ? String(req.query.status) : undefined;
+      const search = req.query.search ? String(req.query.search) : undefined;
+      const category = req.query.category ? String(req.query.category) : undefined;
 
-    const where = {};
+      const where = {};
 
-    if (status) where.status = status;
-    if (category) where.category = category;
+      if (status) where.status = status;
+      if (category) where.category = category;
 
-    if (search) {
-      // Buscamos por título del proyecto o por nombre del cliente
-      // asume que existe Project.title (si no existe, lo ajustamos)
-      where.OR = [
-        {
-          title: {
-            contains: search,
-            mode: "insensitive",
-          },
-        },
-        {
-          client: {
-            is: {
-              OR: [
-                {
-                  name: {
-                    contains: search,
-                    mode: "insensitive",
-                  },
-                },
-                {
-                  email: {
-                    contains: search,
-                    mode: "insensitive",
-                  },
-                },
-              ],
+      if (search) {
+        where.OR = [
+          {
+            title: {
+              contains: search,
+              mode: "insensitive",
             },
           },
-        },
-      ];
-    }
+          {
+            client: {
+              is: {
+                OR: [
+                  {
+                    name: {
+                      contains: search,
+                      mode: "insensitive",
+                    },
+                  },
+                  {
+                    email: {
+                      contains: search,
+                      mode: "insensitive",
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        ];
+      }
 
-    const [total, projects] = await Promise.all([
-      prisma.project.count({ where }),
-      prisma.project.findMany({
-        where,
-        skip,
-        take: safeLimit,
+      const [total, projects] = await Promise.all([
+        prisma.project.count({ where }),
+        prisma.project.findMany({
+          where,
+          skip,
+          take: safeLimit,
+          include: {
+            client: true,
+            images: { orderBy: { order: "asc" } },
+          },
+          orderBy: { updatedAt: "desc" },
+        }),
+      ]);
+
+      return res.json({
+        data: projects,
+        pagination: {
+          total,
+          page: safePage,
+          limit: safeLimit,
+          totalPages: Math.ceil(total / safeLimit),
+        },
+      });
+    } catch (error) {
+      return next(
+        new AppError(
+          "Error interno al obtener proyectos",
+          500,
+          "PROJECT_FETCH_ERROR"
+        )
+      );
+    }
+  }
+);
+// POST /api/projects - Crear nuevo proyecto
+app.post(
+  "/api/projects",
+  requireAdmin,
+  validate(projectCreateSchema, (req) => req.body),
+  async (req, res, next) => {
+    try {
+      const {
+        title,
+        slug,
+        description,
+        shortDesc,
+        category,
+        status,
+        featured,
+        clientId,
+        demoUrl,
+        liveUrl,
+        githubUrl,
+        technologies,
+        images,
+        sections,
+      } = req.body;
+
+      const existing = await prisma.project.findUnique({ where: { slug } });
+      if (existing) {
+        return next(new AppError("El slug ya existe", 409, "PROJECT_SLUG_EXISTS"));
+      }
+
+      const created = await prisma.project.create({
+        data: {
+          title,
+          slug,
+          description,
+          shortDesc: shortDesc ?? null,
+          category,
+          status,
+          featured: featured ?? false,
+          clientId: clientId ?? null,
+          demoUrl: demoUrl ?? null,
+          liveUrl: liveUrl ?? null,
+          githubUrl: githubUrl ?? null,
+          technologies: Array.isArray(technologies)
+            ? JSON.stringify(technologies)
+            : (technologies ?? "[]"),
+          images: Array.isArray(images) && images.length > 0
+            ? {
+                create: images.map((img) => ({
+                  url: img.url,
+                  alt: img.alt || title,
+                  order: img.order || 0,
+                })),
+              }
+            : undefined,
+          sections: Array.isArray(sections) && sections.length > 0
+            ? {
+                create: sections.map((sec, idx) => ({
+                  key: sec.key || `sec_${idx}`,
+                  title: sec.title,
+                  description: sec.description,
+                  order: sec.order || idx,
+                  images: Array.isArray(sec.images)
+                    ? JSON.stringify(sec.images)
+                    : (sec.images || "[]"),
+                })),
+              }
+            : undefined,
+        },
         include: {
           client: true,
           images: { orderBy: { order: "asc" } },
+          sections: { orderBy: { order: "asc" } },
         },
-        orderBy: { updatedAt: "desc" },
-      }),
-    ]);
+      });
 
-    return res.json({
-      data: projects,
-      pagination: {
-        total,
-        page: safePage,
-        limit: safeLimit,
-        totalPages: Math.ceil(total / safeLimit),
-      },
-    });
-  } catch (error) {
-    console.error("Error al obtener proyectos:", error);
-    return res.status(500).json({
-      error: "Error interno al obtener proyectos",
-      code: "PROJECT_FETCH_ERROR",
-      status: 500
-    });
+      return res.status(201).json(created);
+    } catch (error) {
+      return next(
+        new AppError("Error al crear el proyecto", 500, "PROJECT_CREATE_ERROR")
+      );
+    }
   }
-});
+);
+// DELETE /api/projects/:id - Eliminar proyecto
+app.delete(
+  "/api/projects/:id",
+  requireAdmin,
+  validate(projectIdParamSchema, (req) => req.params),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
 
+      const existingProject = await prisma.project.findUnique({
+        where: { id },
+      });
+
+      if (!existingProject) {
+        return next(new AppError("Proyecto no encontrado", 404, "PROJECT_NOT_FOUND"));
+      }
+
+      await prisma.project.delete({
+        where: { id },
+      });
+
+      return res.json({
+        message: "Proyecto eliminado correctamente",
+        id,
+      });
+    } catch (error) {
+      return next(
+        new AppError("Error al eliminar el proyecto", 500, "PROJECT_DELETE_ERROR")
+      );
+    }
+  }
+);
 // GET /api/projects/:id - Obtener un proyecto por ID (detalle)
-app.get("/api/projects/:id", requireAdmin, validate(projectIdParamSchema, (req) => req.params),async (req, res) => {
-  try {
-    const { id } = req.params;
+app.get(
+  "/api/projects/:id",
+  requireAdmin,
+  validate(projectIdParamSchema, (req) => req.params),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
 
-    const project = await prisma.project.findUnique({
-      where: { id },
-      include: {
-        client: true,
-        images: { orderBy: { order: "asc" } },
-        sections: {
-          orderBy: { order: "asc" },
-          include: {
-            subsections: { orderBy: { order: "asc" } },
+      const project = await prisma.project.findUnique({
+        where: { id },
+        include: {
+          client: true,
+          images: { orderBy: { order: "asc" } },
+          sections: {
+            orderBy: { order: "asc" },
+            include: {
+              subsections: { orderBy: { order: "asc" } },
+            },
           },
+          transactions: { orderBy: { date: "desc" } },
         },
-        transactions: { orderBy: { date: "desc" } },
-      },
-    });
+      });
 
+      if (!project) {
+        return next(
+          new AppError("Proyecto no encontrado", 404, "PROJECT_NOT_FOUND")
+        );
+      }
 
-
-    return res.json(project);
-  } catch (error) {
-    console.error("Error al obtener proyecto por ID:", error);
-    return res.status(500).json({ error: "Error al obtener el proyecto" });
+      return res.json(project);
+    } catch (error) {
+      return next(
+        new AppError("Error al obtener el proyecto", 500, "PROJECT_GET_ERROR")
+      );
+    }
   }
-});
+);
+// PUT /api/projects/:id - Actualizar proyecto
+app.put(
+  "/api/projects/:id",
+  requireAdmin,
+  validate(projectIdParamSchema, (req) => req.params),
+  validate(projectUpdateSchema, (req) => req.body),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
 
+      const {
+        title,
+        slug,
+        description,
+        shortDesc,
+        category,
+        status,
+        featured,
+        clientId,
+        demoUrl,
+        liveUrl,
+        githubUrl,
+        technologies,
+        images,
+        sections,
+      } = req.body;
 
+      const existingProject = await prisma.project.findUnique({ where: { id } });
+
+      if (!existingProject) {
+        return next(new AppError("Proyecto no encontrado", 404, "PROJECT_NOT_FOUND"));
+      }
+
+      if (slug !== existingProject.slug) {
+        const slugExists = await prisma.project.findUnique({ where: { slug } });
+
+        if (slugExists) {
+          return next(new AppError("El slug ya existe", 409, "PROJECT_SLUG_EXISTS"));
+        }
+      }
+
+      const updated = await prisma.project.update({
+        where: { id },
+        data: {
+          title,
+          slug,
+          description,
+          shortDesc: shortDesc ?? null,
+          category,
+          status,
+          featured: featured ?? false,
+          clientId: clientId ?? null,
+          demoUrl: demoUrl ?? null,
+          liveUrl: liveUrl ?? null,
+          githubUrl: githubUrl ?? null,
+          technologies: Array.isArray(technologies)
+            ? JSON.stringify(technologies)
+            : (technologies ?? "[]"),
+          images: Array.isArray(images)
+            ? {
+                deleteMany: {},
+                create: images.map((img) => ({
+                  url: img.url,
+                  alt: img.alt || title,
+                  order: img.order || 0,
+                })),
+              }
+            : undefined,
+          sections: Array.isArray(sections)
+            ? {
+                deleteMany: {},
+                create: sections.map((sec, idx) => ({
+                  key: sec.key || `sec_${idx}`,
+                  title: sec.title,
+                  description: sec.description,
+                  order: sec.order || idx,
+                  images: Array.isArray(sec.images)
+                    ? JSON.stringify(sec.images)
+                    : (sec.images || "[]"),
+                })),
+              }
+            : undefined,
+        },
+        include: {
+          client: true,
+          images: { orderBy: { order: "asc" } },
+          sections: { orderBy: { order: "asc" } },
+        },
+      });
+
+      return res.json(updated);
+    } catch (error) {
+      return next(
+        new AppError("Error al actualizar el proyecto", 500, "PROJECT_UPDATE_ERROR")
+      );
+    }
+  }
+);
 // GET /api/clients - Obtener lista de clientes
 app.get("/api/clients", requireAdmin, async (req, res) => {
   try {
@@ -334,7 +559,7 @@ app.post("/api/clients", requireAdmin, async (req, res) => {
 });
 
 // PUT /api/clients/:id - Actualizar un cliente
-app.put("/api/clients/:id",  validate(projectIdParamSchema, (req) => req.params), requireAdmin, async (req, res) => {
+app.put("/api/clients/:id",requireAdmin, validate(projectIdParamSchema, (req) => req.params), async (req, res) => {
   try {
     const { id } = req.params;
     const { name, email, phone, company, website, avatar, notes } = req.body;
@@ -506,233 +731,8 @@ app.get("/api/health", (req, res) => {
 });
 
 
-// PUT /api/projects/:id - Actualizar proyecto
-app.put("/api/projects/:id", requireAdmin,  validate(projectIdParamSchema, (req) => req.params),
-  validate(projectUpdateSchema, (req) => req.body), async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const {
-      title,
-      slug,
-      description,
-      shortDesc,
-      category,
-      status,
-      featured,
-      clientId,
-      demoUrl,
-      liveUrl,
-      githubUrl,
-      technologies,
-      images,
-      sections,
-    } = req.body;
-
-    //  Verificar existencia
-    const existingProject = await prisma.project.findUnique({ where: { id } });
-    if (!existingProject) {
-      return res.status(404).json({ error: "Proyecto no encontrado" });
-    }
-
-    //  Validaciones básicas
-    if (!title || !slug || !description || !category || !status) {
-      return res.status(400).json({
-        error: "Campos requeridos: title, slug, description, category, status",
-      });
-    }
-
-    const allowedCategories = [
-      "ECOMMERCE",
-      "LANDING_PAGE",
-      "CORPORATIVO",
-      "MULTIMEDIA",
-      "WEB",
-      "SOFTWARE",
-    ];
-    const allowedStatuses = ["IN_DEVELOPMENT", "COMPLETED", "MAINTENANCE", "PAUSED"];
-
-    if (!allowedCategories.includes(category)) {
-      return res.status(400).json({ error: "category inválido", allowed: allowedCategories });
-    }
-
-    if (!allowedStatuses.includes(status)) {
-      return res.status(400).json({ error: "status inválido", allowed: allowedStatuses });
-    }
-
-    // Validar slug único (si cambia)
-    if (slug !== existingProject.slug) {
-      const slugExists = await prisma.project.findUnique({ where: { slug } });
-      if (slugExists) {
-        return res.status(409).json({ error: "El slug ya existe" });
-      }
-    }
-
-    // Actualizar
-    const updated = await prisma.project.update({
-      where: { id },
-      data: {
-        title,
-        slug,
-        description,
-        shortDesc: shortDesc ?? null,
-        category,
-        status,
-        featured: featured ?? false,
-        clientId: clientId ?? null,
-        demoUrl: demoUrl ?? null,
-        liveUrl: liveUrl ?? null,
-        githubUrl: githubUrl ?? null,
-        technologies: Array.isArray(technologies) ? JSON.stringify(technologies) : (technologies ?? "[]"),
-        images: Array.isArray(images) ? {
-          deleteMany: {},
-          create: images.map((img) => ({
-            url: img.url,
-            alt: img.alt || title,
-            order: img.order || 0
-          }))
-        } : undefined,
-        sections: Array.isArray(sections) ? {
-          deleteMany: {},
-          create: sections.map((sec, idx) => ({
-            key: sec.key || `sec_${idx}`,
-            title: sec.title,
-            description: sec.description,
-            order: sec.order || idx,
-            images: Array.isArray(sec.images) ? JSON.stringify(sec.images) : (sec.images || "[]")
-          }))
-        } : undefined,
-      },
-      include: {
-        client: true,
-        images: { orderBy: { order: "asc" } },
-        sections: { orderBy: { order: "asc" } },
-      },
-    });
-
-    return res.json(updated);
-  } catch (error) {
-    console.error("Error al actualizar proyecto:", error);
-    return res.status(500).json({ error: "Error al actualizar el proyecto" });
-  }
-});
-// POST /api/projects - Crear nuevo proyecto
-app.post("/api/projects", requireAdmin, validate(projectCreateSchema, (req) => req.body), async (req, res) => {
-  try {
-    const {
-      title,
-      slug,
-      description,
-      shortDesc,
-      category,
-      status,
-      featured,
-      clientId,
-      demoUrl,
-      liveUrl,
-      githubUrl,
-      technologies,
-      images,
-      sections,
-    } = req.body;
 
 
-
-    const allowedCategories = [
-      "ECOMMERCE",
-      "LANDING_PAGE",
-      "CORPORATIVO",
-      "MULTIMEDIA",
-      "WEB",
-      "SOFTWARE",
-    ];
-    const allowedStatuses = ["IN_DEVELOPMENT", "COMPLETED", "MAINTENANCE", "PAUSED"];
-
-    if (!allowedCategories.includes(category)) {
-      return res.status(400).json({ error: "category inválido", allowed: allowedCategories });
-    }
-    if (!allowedStatuses.includes(status)) {
-      return res.status(400).json({ error: "status inválido", allowed: allowedStatuses });
-    }
-
-    const existing = await prisma.project.findUnique({ where: { slug } });
-    if (existing) {
-      return res.status(409).json({ error: "El slug ya existe" });
-    }
-
-    const created = await prisma.project.create({
-      data: {
-        title,
-        slug,
-        description,
-        shortDesc: shortDesc ?? null,
-        category,
-        status,
-        featured: featured ?? false,
-        clientId: clientId ?? null,
-        demoUrl: demoUrl ?? null,
-        liveUrl: liveUrl ?? null,
-        githubUrl: githubUrl ?? null,
-        technologies: Array.isArray(technologies) ? JSON.stringify(technologies) : (technologies ?? "[]"),
-        images: Array.isArray(images) && images.length > 0 ? {
-          create: images.map((img) => ({
-            url: img.url,
-            alt: img.alt || title,
-            order: img.order || 0
-          }))
-        } : undefined,
-        sections: Array.isArray(sections) && sections.length > 0 ? {
-          create: sections.map((sec, idx) => ({
-            key: sec.key || `sec_${idx}`,
-            title: sec.title,
-            description: sec.description,
-            order: sec.order || idx,
-            images: Array.isArray(sec.images) ? JSON.stringify(sec.images) : (sec.images || "[]")
-          }))
-        } : undefined
-      },
-      include: {
-        client: true,
-        images: { orderBy: { order: "asc" } },
-        sections: { orderBy: { order: "asc" } },
-      },
-    });
-
-    return res.status(201).json(created);
-  } catch (error) {
-    console.error("Error al crear proyecto:", error);
-    return res.status(500).json({ error: "Error al crear el proyecto" });
-  }
-});
-// DELETE /api/projects/:id - Eliminar proyecto
-app.delete("/api/projects/:id", requireAdmin, validate(projectIdParamSchema, (req) => req.params), async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    // Verificar existencia
-    const existingProject = await prisma.project.findUnique({
-      where: { id },
-    });
-
-    if (!existingProject) {
-      return res.status(404).json({ error: "Proyecto no encontrado" });
-    }
-
-    // Eliminar
-    await prisma.project.delete({
-      where: { id },
-    });
-
-    // Confirmación
-    return res.json({
-      message: "Proyecto eliminado correctamente",
-      id,
-    });
-  } catch (error) {
-    console.error("Error al eliminar proyecto:", error);
-    return res.status(500).json({ error: "Error al eliminar el proyecto" });
-  }
-});
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
