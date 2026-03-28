@@ -53,6 +53,7 @@ export default function NewProjectPage() {
   const [imageUrls, setImageUrls] = useState<string[]>([''])
   const [sections, setSections] = useState([{ title: '', description: '', images: [''] }])
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const hasErrors = Object.keys(errors).length > 0
   const [submitError, setSubmitError] = useState<string | null>(null)
   const submitErrorRef = useRef<HTMLDivElement | null>(null)
   const [activeTechIndex, setActiveTechIndex] = useState(-1)
@@ -238,8 +239,13 @@ export default function NewProjectPage() {
         break
 
       case 'slug':
-        if (!value.trim()) newErrors.slug = 'El slug es obligatorio'
-        else delete newErrors.slug
+        if (!value.trim()) {
+          newErrors.slug = 'El slug es obligatorio'
+        } else if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value)) {
+          newErrors.slug = 'El slug solo puede contener letras minúsculas, números y guiones'
+        } else {
+          delete newErrors.slug
+        }
         break
 
       case 'description':
@@ -255,6 +261,18 @@ export default function NewProjectPage() {
       case 'status':
         if (!value) newErrors.status = 'Debes seleccionar un estado'
         else delete newErrors.status
+        break
+
+      case 'liveUrl':
+      case 'demoUrl':
+      case 'githubUrl':
+
+        if (value && !/^https?:\/\/.+\..+/.test(value)) {
+          newErrors[name] = 'Debe ser una URL válida'
+        } else {
+          delete newErrors[name]
+        }
+
         break
     }
 
@@ -433,17 +451,17 @@ export default function NewProjectPage() {
                   id="category"
                   name="category"
                   required
-                  className="w-full !px-4 !py-2.5 input border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                  className="w-full !px-4 !py-3 input border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   onChange={(e) => validateField('category', e.target.value)}
                 >
-                  <option value="">Selecciona una categoría</option>
+                  <option value="" className='!text-xl md:!text-lg'>Selecciona una categoría</option>
 
                   {categoryOptions.map(option => (
-                    <option key={option.value} value={option.value}>{option.label}</option>
+                    <option key={option.value} value={option.value} className='!text-xl md:!text-lg'>{option.label}</option>
                   ))}
                 </select>
                 {errors.category && (
-                  <p className="text-sm text-red-500 mt-1">{errors.category}</p>
+                  <p className="text-sm !text-red-400 !mt-1 !mb-0">{errors.category}</p>
                 )}
               </div>
               <div>
@@ -457,14 +475,14 @@ export default function NewProjectPage() {
                   className="w-full !px-4 !py-2.5 input border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   onChange={(e) => validateField('status', e.target.value)}
                 >
-                  <option value="">Selecciona un estado</option>
+                  <option value="" className='!text-xl md:!text-lg'>Selecciona un estado</option>
 
                   {statusOptions.map(option => (
-                    <option key={option.value} value={option.value}>{option.label}</option>
+                    <option key={option.value} value={option.value} className='!text-xl md:!text-lg'>{option.label}</option>
                   ))}
                 </select>
                 {errors.status && (
-                  <p className="text-sm text-red-500 mt-1">{errors.status}</p>
+                  <p className="text-sm !text-red-400 !mt-1 !mb-0">{errors.status}</p>
                 )}
               </div>
               <div>
@@ -477,13 +495,13 @@ export default function NewProjectPage() {
                   className="w-full !px-4 !py-2.5 input border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   onChange={(e) => validateField('clientId', e.target.value)}
                 >
-                  <option value="">Sin cliente asignado</option>
+                  <option value="" className='!text-xl md:!text-lg'>Sin cliente asignado</option>
                   {clients.map(client => (
-                    <option key={client.id} value={client.id}>{client.name}</option>
+                    <option key={client.id} value={client.id} className='!text-xl md:!text-lg'>{client.name}</option>
                   ))}
                 </select>
                 {errors.clientId && (
-                  <p className="text-sm text-red-500 mt-1">{errors.clientId}</p>
+                  <p className="text-sm !text-red-400 !mt-1 !mb-0">{errors.clientId}</p>
                 )}
               </div>
               <div className="flex items-center">
@@ -491,7 +509,7 @@ export default function NewProjectPage() {
                   type="checkbox"
                   id="featured"
                   name="featured"
-                  className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
+                  className="w-5 h-5 text-primary border-gray-300 rounded focus:ring-primary"
                 />
                 <label htmlFor="featured" className="!ml-2 text-sm font-medium text-gray-600">
                   Proyecto destacado
@@ -512,6 +530,7 @@ export default function NewProjectPage() {
                   type="url"
                   id="liveUrl"
                   name="liveUrl"
+                  onChange={(e) => validateField('liveUrl', e.target.value)}
                   className="input w-full !px-4 !py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   placeholder="https://ejemplo.com"
                 />
@@ -524,6 +543,7 @@ export default function NewProjectPage() {
                   type="url"
                   id="demoUrl"
                   name="demoUrl"
+                  onChange={(e) => validateField('demoUrl', e.target.value)}
                   className="input w-full !px-4 !py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   placeholder="https://demo.ejemplo.com"
                 />
@@ -536,6 +556,7 @@ export default function NewProjectPage() {
                   type="url"
                   id="githubUrl"
                   name="githubUrl"
+                  onChange={(e) => validateField('githubUrl', e.target.value)}
                   className="input w-full !px-4 !py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   placeholder="https://github.com/user/repo"
                 />
@@ -683,7 +704,7 @@ export default function NewProjectPage() {
                     </button>
                   )}
 
-                  <h3 className="!font-medium !text-gray-300 !mb-4 !mx-0 flex items-center gap-2">
+                  <h3 className="!font-medium !text-2xl !text-gray-300 !mt-0 !mb-4 !mx-0 flex items-center gap-2">
                     <FiAlignLeft className="w-10 h-10" />
                     Sección {sIndex + 1}
                   </h3>
@@ -697,7 +718,7 @@ export default function NewProjectPage() {
                         type="text"
                         value={section.title}
                         onChange={(e) => updateSection(sIndex, 'title', e.target.value)}
-                        className="input w-full !px-4 !py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors bg-white"
+                        className="input w-full !px-4 !py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                         placeholder="Ej. El Desafío Principal"
                       />
                     </div>
@@ -709,7 +730,7 @@ export default function NewProjectPage() {
                         rows={3}
                         value={section.description}
                         onChange={(e) => updateSection(sIndex, 'description', e.target.value)}
-                        className="w-full !px-4 !py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors resize-none bg-[#0d1421] text-white"
+                        className="w-full !px-4 !py-2 border input rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors resize-none bg-[#0d1421] text-white"
                         placeholder="Explica este apartado del proyecto..."
                       />
                     </div>
@@ -741,7 +762,7 @@ export default function NewProjectPage() {
                         <button
                           type="button"
                           onClick={() => addSectionImage(sIndex)}
-                          className="text-sm border border-gray-700 rounded font-medium text-primary !mt-3 cursor-pointer hover:text-gray-300 transition-colors flex items-center text-left !p-2 gap-2"
+                          className="text-sm border-2 border-dashed border-gray-700 rounded font-medium text-primary !mt-3 cursor-pointer hover:text-gray-300 transition-colors flex items-center text-left !p-2 gap-2"
                         >
                           <FiPlus className="w-4 h-4" /> Agregar imagen a la sección
                         </button>
@@ -757,7 +778,7 @@ export default function NewProjectPage() {
                 className="w-full !py-3 !mt-4 cursor-pointer hover:bg-gray-800 border-2 border-dashed border-primary/30 text-primary bg-primary/5 rounded-lg hover:border-primary hover:bg-primary/10 transition-all flex items-center justify-center gap-2 font-medium"
               >
                 <FiPlus className="w-5 h-5" />
-                Añadir bloque de sección
+                Añadir sección
               </button>
             </div>
           </div>
@@ -772,10 +793,10 @@ export default function NewProjectPage() {
           </Link>
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={isLoading || hasErrors}
             aria-busy={isLoading}
             aria-live="polite"
-            className="!px-6 !py-2.5 btn-secondary cursor-pointer rounded-lg !bg-[#a3b18a] md:!bg-[#21262d] hover:bg-primary-600 disabled:bg-primary/50 transition-colors font-medium flex items-center justify-center gap-2"
+            className="!px-6 !py-2.5 btn-secondary cursor-pointer rounded-lg !bg-[#a3b18a] md:!bg-[#21262d] hover:!bg-[--petrol-blue] disabled:bg-primary/50 transition-colors font-medium flex items-center justify-center gap-2"
           >
             {isLoading ? (
               <>
