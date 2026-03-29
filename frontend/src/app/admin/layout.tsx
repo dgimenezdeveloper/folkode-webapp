@@ -119,7 +119,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
 
           <button
             onClick={closeSidebar}
-            className="lg:hidden p-2 text-gray-400 hover:text-white bg-white/5 rounded-xl transition-colors"
+            className="lg:hidden p-2 text-gray-300 hover:text-white bg-white/5 rounded-xl transition-colors"
             aria-label="Cerrar navegación lateral"
           >
             <FiX size={18} />
@@ -144,7 +144,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
                           w-full flex items-center justify-between px-3 md:px-4 lg:px-5 py-2.5 md:py-3 lg:py-4 rounded-xl lg:rounded-2xl transition-all duration-300
                           ${active 
                             ? 'bg-white/5 text-white ring-1 ring-white/10' 
-                            : 'text-gray-500 hover:text-white hover:bg-white/5'}
+                            : 'text-gray-300 hover:text-white hover:bg-white/5'}
                         `}
                       >
                         <div className="flex items-center gap-3 md:gap-4 lg:gap-5">
@@ -167,7 +167,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
                                     flex items-center gap-2.5 lg:gap-3 px-3 md:px-4 lg:px-5 py-2 md:py-2.5 lg:py-3 ml-2 md:ml-3 rounded-lg lg:rounded-xl text-[12px] lg:text-[13px] transition-all duration-300
                                     ${childActive 
                                       ? 'text-[#86A869] font-bold bg-[#86A869]/10' 
-                                      : 'text-gray-500 hover:text-white hover:bg-white/5 hover:translate-x-1'}
+                                      : 'text-gray-300 hover:text-white hover:bg-white/5 hover:translate-x-1'}
                                   `}
                                 >
                                   <div className={`w-1.5 h-1.5 rounded-full shrink-0 transition-all ${
@@ -189,7 +189,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
                         flex items-center gap-3 md:gap-4 lg:gap-5 px-3 md:px-4 lg:px-5 py-2.5 md:py-3 lg:py-4 rounded-xl lg:rounded-2xl transition-all duration-300
                         ${active 
                           ? 'bg-white/5 text-white ring-1 ring-white/10' 
-                          : 'text-gray-400 hover:text-white hover:bg-white/5'}
+                          : 'text-gray-300 hover:text-white hover:bg-white/5'}
                       `}
                     >
                       <item.icon className={`w-4 h-4 lg:w-5 lg:h-5 transition-all ${active ? 'text-[#86A869] scale-110' : ''}`} />
@@ -211,12 +211,12 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-white text-[12px] md:text-[13px] lg:text-[14px] font-bold truncate leading-none mb-1">{session?.user?.name || 'Administrador'}</p>
-                <p className="text-gray-400 text-[11px] truncate">{session?.user?.email || 'admin@folkode.com.ar'}</p>
+                <p className="text-gray-300 text-[11px] truncate">{session?.user?.email || 'admin@folkode.com.ar'}</p>
               </div>
             </div>
             <button
               onClick={() => signOut({ callbackUrl: '/admin/login' })}
-              className="flex items-center justify-center gap-2.5 lg:gap-3 w-full py-2.5 lg:py-3 rounded-xl lg:rounded-2xl bg-white/5 hover:bg-red-500/10 border border-white/5 hover:border-red-500/20 text-gray-400 hover:text-red-400 transition-all duration-300 font-bold text-[10px] lg:text-[11px]"
+              className="flex items-center justify-center gap-2.5 lg:gap-3 w-full py-2.5 lg:py-3 rounded-xl lg:rounded-2xl bg-white/5 hover:bg-red-500/10 border border-white/5 hover:border-red-500/20 text-gray-300 hover:text-red-400 transition-all duration-300 font-bold text-[10px] lg:text-[11px]"
             >
               <FiLogOut size={14} />
               Cerrar sesión
@@ -229,16 +229,16 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
       <div className="flex-1 flex flex-col min-w-0">
         <header className="h-16 md:h-18 lg:h-20 px-4 md:px-6 lg:px-8 flex items-center justify-between bg-[#0f1520]/90 backdrop-blur-2xl border-b border-[#1e2a3a] sticky top-0 z-30">
           <div className="flex items-center gap-3 md:gap-4 lg:gap-6">
-            <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2.5 md:p-3 text-gray-400 hover:text-white bg-white/5 rounded-xl md:rounded-2xl transition-colors" aria-label="Abrir navegación lateral">
+            <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2.5 md:p-3 text-gray-300 hover:text-white bg-white/5 rounded-xl md:rounded-2xl transition-colors" aria-label="Abrir navegación lateral">
               <FiMenu size={20} />
             </button>
             
             <nav className="hidden sm:flex items-center gap-2 md:gap-3 text-xs md:text-sm">
-              <span className="text-gray-500 font-medium">Panel</span>
+              <span className="text-gray-300 font-medium">Panel</span>
               {pathSegments.slice(1).map((segment, i) => (
                 <div key={segment} className="flex items-center gap-2 md:gap-3">
-                  <FiChevronRight className="text-gray-700" size={14} />
-                  <span className={`capitalize font-bold tracking-tight ${i === pathSegments.length - 2 ? 'text-[#86A869]' : 'text-gray-400'}`}>
+                  <FiChevronRight className="text-gray-400" size={14} />
+                  <span className={`capitalize font-bold tracking-tight ${i === pathSegments.length - 2 ? 'text-[#86A869]' : 'text-gray-300'}`}>
                     {segment.replace(/-/g, ' ')}
                   </span>
                 </div>
