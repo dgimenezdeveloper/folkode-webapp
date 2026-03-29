@@ -56,24 +56,24 @@ function StatCard({
   href?: string
 }) {
   const content = (
-    <div className="bg-[#0f1520] rounded-2xl !p-6 !pb-0 border-2 border-[#1e2a3a] h-full hover:border-[#86A869]/30 transition-all duration-300 group">
-      <div className="flex items-start md:items-start lg:items-end justify-between lg:flex-wrap-reverse ">
-        <div className='!w-full lg:!w-auto'>
-          <p className="text-sm font-medium text-gray-500">{title}</p>
-          <p className="text-2xl font-bold text-white mt-2">{value}</p>
+    <div className="bg-[#0f1520] rounded-2xl !p-4 sm:!p-5 md:!p-6 !pb-0 border-2 border-[#1e2a3a] h-full hover:border-[#86A869]/30 transition-all duration-300 group">
+      <div className="flex flex-col sm:flex-row items-start sm:items-end sm:justify-between gap-3 sm:gap-0">
+        <div className='!w-full sm:flex-1'>
+          <p className="text-xs sm:text-sm md:text-sm font-medium text-gray-500 truncate">{title}</p>
+          <p className="text-xl sm:text-2xl md:text-3xl font-bold text-white mt-1 sm:mt-2 break-words">{value}</p>
           {change && (
-            <div className={`flex items-center gap-1.5 mt-3 text-sm font-medium ${changeType === 'positive' ? 'text-green-400' :
+            <div className={`flex items-center gap-1 sm:gap-1.5 mt-2 sm:mt-3 text-xs sm:text-sm font-medium ${changeType === 'positive' ? 'text-green-400' :
               changeType === 'negative' ? 'text-red-400' :
                 'text-gray-400'
               }`}>
-              {changeType === 'positive' && <FiTrendingUp className="w-4 h-4 !mt-1" />}
-              {changeType === 'negative' && <FiTrendingDown className="w-4 h-4 !mt-1" />}
-              <span className='!w-full flex items-center'>{change}</span>
+              {changeType === 'positive' && <FiTrendingUp className="w-3 h-3 sm:w-4 sm:h-4 !mt-0.5 flex-shrink-0" />}
+              {changeType === 'negative' && <FiTrendingDown className="w-3 h-3 sm:w-4 sm:h-4 !mt-0.5 flex-shrink-0" />}
+              <span className='flex items-center line-clamp-2'>{change}</span>
             </div>
           )}
         </div>
-        <div className="!p-4 bg-gradient-to-br from-[#86A869]/20 to-[#3383B7]/20 rounded-xl group-hover:scale-110 transition-transform duration-300">
-          <Icon className="w-6 h-6 text-[#86A869]" />
+        <div className="!p-2.5 sm:!p-3 md:!p-4 bg-gradient-to-br from-[#86A869]/20 to-[#3383B7]/20 rounded-xl group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+          <Icon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-[#86A869]" />
         </div>
       </div>
     </div>
@@ -109,7 +109,7 @@ async function DashboardContent() {
   return (
     <div className="space-y-12">
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 !py-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 !py-4">
         <StatCard
           title="Proyectos Totales"
           value={stats.totalProjects}
@@ -143,12 +143,12 @@ async function DashboardContent() {
       </div>
 
       {/* Recent Activity */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-10">
         {/* Recent Projects */}
         <div className="bg-[#10182a] rounded-3xl border-2 border-[#1e2a3a] shadow-xl overflow-hidden ">
-          <div className="!px-4 !py-2 border-b border-[#1e2a3a] flex flex-wrap lg:flex-nowrap items-center justify-between">
-            <h3 className="font-bold !text-2xl md:!text-4xl md:!mb-auto md:!mt-[2rem] !my-4  md:!my-[2rem] text-start !mx-4  text-white">Proyectos Recientes</h3>
-            <Link href="/admin/proyectos" className="min-w-fit text-sm !px-4 !py-2 rounded-xl border border-[--color-border-subtle] !m-4 text-[#86A869] hover:text-[#9BC277] font-medium transition-colors">
+          <div className="!px-4 sm:!px-6 md:!px-8 !py-3 sm:!py-4 border-b border-[#1e2a3a] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <h3 className="font-bold !text-lg sm:!text-2xl md:!text-3xl text-start text-white">Proyectos Recientes</h3>
+            <Link href="/admin/proyectos" className="min-w-fit text-xs sm:text-sm !px-3 sm:!px-4 !py-1.5 sm:!py-2 rounded-xl border border-[--color-border-subtle] text-[#86A869] hover:text-[#9BC277] font-medium transition-colors">
               Ver todos
             </Link>
           </div>
@@ -164,29 +164,29 @@ async function DashboardContent() {
                 <Link
                   key={project.id}
                   href={`/admin/proyectos/${project.id}`}
-                  className="!w-full flex items-start flex-wrap md:items-center gap-y-2 gap-x-5 lg:gap-4 !px-8 !py-8 hover:bg-[#1e2a3a]/60 transition-colors"
+                  className="!w-full flex items-start flex-wrap md:items-center gap-y-2 gap-x-3 sm:gap-x-5 lg:gap-4 !px-4 sm:!px-6 md:!px-8 !py-6 sm:!py-8 hover:bg-[#1e2a3a]/60 transition-colors"
                 >
-                  <div className={`!p-3 rounded-full ${project.status === 'COMPLETED' ? 'bg-green-500/15' :
+                  <div className={`!p-2 sm:!p-3 rounded-full flex-shrink-0 ${project.status === 'COMPLETED' ? 'bg-green-500/15' :
                     project.status === 'IN_DEVELOPMENT' ? 'bg-blue-500/15' :
                       project.status === 'MAINTENANCE' ? 'bg-yellow-500/15' :
                         'bg-gray-500/15'
                     }`}>
                     {project.status === 'COMPLETED' ? (
-                      <FiCheckCircle className={`w-6 h-6 ${project.status === 'COMPLETED' ? 'text-green-400' :
+                      <FiCheckCircle className={`w-4 h-4 sm:w-6 sm:h-6 ${project.status === 'COMPLETED' ? 'text-green-400' :
                         project.status === 'IN_DEVELOPMENT' ? 'text-blue-400' :
                           project.status === 'MAINTENANCE' ? 'text-yellow-500' :
                             'text-gray-400'
                         }`} />
-                    ) : (<FiClock className={`w-6 h-6 ${project.status === 'MAINTENANCE' ? 'text-yellow-500' : 'text-blue-400'}`} />)
+                    ) : (<FiClock className={`w-4 h-4 sm:w-6 sm:h-6 ${project.status === 'MAINTENANCE' ? 'text-yellow-500' : 'text-blue-400'}`} />)
                     }
                   </div>
-                  <div className="flex-1 min-w-50 !w-full">
-                    <p className="font-semibold !text-white truncate !mb-1 !text-lg !w-full">{project.title}</p>
-                    <p className="!text-sm text-gray-400 w-fit">
+                  <div className="flex-1 min-w-0 !w-full">
+                    <p className="font-semibold !text-white truncate !mb-1 !text-sm sm:!text-lg !w-full">{project.title}</p>
+                    <p className="!text-xs sm:!text-sm text-gray-400 w-fit truncate">
                       {project.client?.name || 'Sin cliente'} • {formatDate(typeof project.updatedAt === 'string' ? new Date(project.updatedAt) : project.updatedAt)}
                     </p>
                   </div>
-                  <span className={`!text-xs font-semibold border-1  !px-3 !py-1.5 flex items-center justify-center rounded-lg ${project.status === 'COMPLETED' ? 'bg-green-500/15 text-green-400 border-green-400/15' :
+                  <span className={`!text-xs font-semibold border-1  !px-2 sm:!px-3 !py-1 sm:!py-1.5 flex items-center justify-center rounded-lg flex-shrink-0 ${project.status === 'COMPLETED' ? 'bg-green-500/15 text-green-400 border-green-400/15' :
                     project.status === 'IN_DEVELOPMENT' ? 'bg-blue-500/15 text-blue-400 border-blue-400/15' :
                       project.status === 'MAINTENANCE' ? 'bg-yellow-500/15 text-yellow-400 border-yellow-500/15' :
                         'bg-gray-500/15 text-gray-400 border-gray-400/15'
@@ -214,9 +214,9 @@ async function DashboardContent() {
 
         {/* Recent Transactions */}
         <div className="bg-[#10182a] rounded-3xl border-2 border-[#1e2a3a] shadow-xl overflow-hidden">
-          <div className="!px-4 !py-2 border-b border-[#1e2a3a] flex flex-wrap xl:flex-nowrap items-center justify-between">
-            <h3 className="font-bold !text-2xl md:!text-4xl md:!mb-auto md:!mt-[2rem] !my-4  md:!my-[2rem] text-start !mx-4  text-white">Transacciones Recientes</h3>
-            <Link href="/admin/finanzas" className="min-w-fit text-sm !px-4 !py-2 rounded-xl border border-[--color-border-subtle] !m-4 text-[#86A869] hover:text-[#9BC277] font-medium transition-colors">
+          <div className="!px-4 sm:!px-6 md:!px-8 !py-3 sm:!py-4 border-b border-[#1e2a3a] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <h3 className="font-bold !text-lg sm:!text-2xl md:!text-3xl text-start text-white">Transacciones Recientes</h3>
+            <Link href="/admin/finanzas" className="min-w-fit text-xs sm:text-sm !px-3 sm:!px-4 !py-1.5 sm:!py-2 rounded-xl border border-[--color-border-subtle] text-[#86A869] hover:text-[#9BC277] font-medium transition-colors">
               Ver todas
             </Link>
           </div>
@@ -233,23 +233,23 @@ async function DashboardContent() {
               }) => (
                 <div
                   key={transaction.id}
-                  className="w-full flex items-start flex-wrap md:items-center gap-y-2 md:flex-row gap-x-5 lg:gap-4 !px-8 !py-8"
+                  className="w-full flex items-start flex-wrap md:items-center gap-y-2 md:flex-row gap-x-3 sm:gap-x-5 lg:gap-4 !px-4 sm:!px-6 md:!px-8 !py-6 sm:!py-8"
                 >
-                  <div className={`!p-3 rounded-xl ${transaction.type === 'INCOME' ? 'bg-green-500/15' : 'bg-red-500/15'
+                  <div className={`!p-2 sm:!p-3 rounded-xl flex-shrink-0 ${transaction.type === 'INCOME' ? 'bg-green-500/15' : 'bg-red-500/15'
                     }`}>
                     {transaction.type === 'INCOME' ? (
-                      <FiTrendingUp className="w-5 h-5 text-green-400" />
+                      <FiTrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" />
                     ) : (
-                      <FiTrendingDown className="w-5 h-5 text-red-400" />
+                      <FiTrendingDown className="w-4 h-4 sm:w-5 sm:h-5 text-red-400" />
                     )}
                   </div>
-                  <div className="flex-1 min-w-10 !w-full">
-                    <p className="font-semibold text-white truncate !text-lg !mb-1 !w-full">{transaction.description}</p>
-                    <p className="!text-sm text-gray-400 !w-fit">
+                  <div className="flex-1 min-w-0 !w-full">
+                    <p className="font-semibold text-white truncate !text-sm sm:!text-lg !mb-1 !w-full">{transaction.description}</p>
+                    <p className="!text-xs sm:!text-sm text-gray-400 !w-fit truncate">
                       {transaction.client?.name || transaction.project?.title || 'General'} • {formatDate(typeof transaction.date === 'string' ? new Date(transaction.date) : transaction.date)}
                     </p>
                   </div>
-                  <span className={`font-bold !w-fit self-end md:self-auto ${transaction.type === 'INCOME' ? 'text-green-400' : 'text-red-400'
+                  <span className={`font-bold !w-fit self-end md:self-auto text-sm sm:text-base flex-shrink-0 ${transaction.type === 'INCOME' ? 'text-green-400' : 'text-red-400'
                     }`}>
                     {transaction.type === 'INCOME' ? '+' : '-'}{formatCurrency(transaction.amount)}
                   </span>
@@ -271,44 +271,44 @@ async function DashboardContent() {
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-[#10182a] rounded-3xl border-2 border-[#1e2a3a] shadow-xl p-6">
-        <h3 className="font-bold text-lg text-white mb-6">Acciones Rápidas</h3>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+      <div className="bg-[#10182a] rounded-3xl border-2 border-[#1e2a3a] shadow-xl p-4 sm:p-6">
+        <h3 className="font-bold text-base sm:text-lg text-white mb-4 sm:mb-6">Acciones Rápidas</h3>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
           <Link
             href="/admin/proyectos/nuevo"
-            className="flex flex-col items-center gap-3 p-6 rounded-xl border-2 border-[#1e2a3a] hover:border-[#86A869]/50 hover:bg-[#86A869]/10 transition-all duration-300 group"
+            className="flex flex-col items-center gap-2 sm:gap-3 p-3 sm:p-6 rounded-xl border-2 border-[#1e2a3a] hover:border-[#86A869]/50 hover:bg-[#86A869]/10 transition-all duration-300 group"
           >
-            <div className="p-4 rounded-xl bg-[#1e2a3a] group-hover:bg-[#86A869]/20 transition-colors">
-              <FiFolder className="w-7 h-7 text-[#86A869]" />
+            <div className="p-2 sm:p-4 rounded-xl bg-[#1e2a3a] group-hover:bg-[#86A869]/20 transition-colors">
+              <FiFolder className="w-5 h-5 sm:w-7 sm:h-7 text-[#86A869]" />
             </div>
-            <span className="text-sm font-semibold text-gray-300 group-hover:text-white transition-colors">Nuevo Proyecto</span>
+            <span className="text-xs sm:text-sm font-semibold text-gray-300 group-hover:text-white transition-colors text-center">Nuevo Proyecto</span>
           </Link>
           <Link
             href="/admin/clientes/nuevo"
-            className="flex flex-col items-center gap-3 p-6 rounded-xl border-2 border-[#1e2a3a] hover:border-[#3383B7]/50 hover:bg-[#3383B7]/10 transition-all duration-300 group"
+            className="flex flex-col items-center gap-2 sm:gap-3 p-3 sm:p-6 rounded-xl border-2 border-[#1e2a3a] hover:border-[#3383B7]/50 hover:bg-[#3383B7]/10 transition-all duration-300 group"
           >
-            <div className="p-4 rounded-xl bg-[#1e2a3a] group-hover:bg-[#3383B7]/20 transition-colors">
-              <FiUsers className="w-7 h-7 text-[#3383B7]" />
+            <div className="p-2 sm:p-4 rounded-xl bg-[#1e2a3a] group-hover:bg-[#3383B7]/20 transition-colors">
+              <FiUsers className="w-5 h-5 sm:w-7 sm:h-7 text-[#3383B7]" />
             </div>
-            <span className="text-sm font-semibold text-gray-300 group-hover:text-white transition-colors">Nuevo Cliente</span>
+            <span className="text-xs sm:text-sm font-semibold text-gray-300 group-hover:text-white transition-colors text-center">Nuevo Cliente</span>
           </Link>
           <Link
             href="/admin/finanzas/nueva"
-            className="flex flex-col items-center gap-3 p-6 rounded-xl border-2 border-[#1e2a3a] hover:border-green-500/50 hover:bg-green-500/10 transition-all duration-300 group"
+            className="flex flex-col items-center gap-2 sm:gap-3 p-3 sm:p-6 rounded-xl border-2 border-[#1e2a3a] hover:border-green-500/50 hover:bg-green-500/10 transition-all duration-300 group"
           >
-            <div className="p-4 rounded-xl bg-[#1e2a3a] group-hover:bg-green-500/20 transition-colors">
-              <FiDollarSign className="w-7 h-7 text-green-400" />
+            <div className="p-2 sm:p-4 rounded-xl bg-[#1e2a3a] group-hover:bg-green-500/20 transition-colors">
+              <FiDollarSign className="w-5 h-5 sm:w-7 sm:h-7 text-green-400" />
             </div>
-            <span className="text-sm font-semibold text-gray-300 group-hover:text-white transition-colors">Nueva Transacción</span>
+            <span className="text-xs sm:text-sm font-semibold text-gray-300 group-hover:text-white transition-colors text-center">Nueva Transacción</span>
           </Link>
           <Link
             href="/admin/mensajes"
-            className="flex flex-col items-center gap-3 p-6 rounded-xl border-2 border-[#1e2a3a] hover:border-purple-500/50 hover:bg-purple-500/10 transition-all duration-300 group"
+            className="flex flex-col items-center gap-2 sm:gap-3 p-3 sm:p-6 rounded-xl border-2 border-[#1e2a3a] hover:border-purple-500/50 hover:bg-purple-500/10 transition-all duration-300 group"
           >
-            <div className="p-4 rounded-xl bg-[#1e2a3a] group-hover:bg-purple-500/20 transition-colors">
-              <FiMessageSquare className="w-7 h-7 text-purple-400" />
+            <div className="p-2 sm:p-4 rounded-xl bg-[#1e2a3a] group-hover:bg-purple-500/20 transition-colors">
+              <FiMessageSquare className="w-5 h-5 sm:w-7 sm:h-7 text-purple-400" />
             </div>
-            <span className="text-sm font-semibold text-gray-300 group-hover:text-white transition-colors">Ver Mensajes</span>
+            <span className="text-xs sm:text-sm font-semibold text-gray-300 group-hover:text-white transition-colors text-center">Ver Mensajes</span>
           </Link>
         </div>
       </div>
