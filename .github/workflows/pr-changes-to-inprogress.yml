@@ -22,6 +22,8 @@ jobs:
             const issueMatch = prBody.match(/#(\d+)/);
             if (!issueMatch) return;
             const issueNumber = parseInt(issueMatch[1], 10);
+            // Validar que sea un número de issue válido (> 0)
+            if (issueNumber <= 0) return;
             // Buscar el item en el proyecto
             const { repository } = await github.graphql(`
               query($owner: String!, $repo: String!, $issue: Int!) {
