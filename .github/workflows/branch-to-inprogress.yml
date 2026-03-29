@@ -18,10 +18,13 @@ jobs:
             const statusFieldId = "PVTSSF_lAHOBz_BNM4BNyNizg8rc0M";
             const inProgressOptionId = "47fc9ee4";
             const branchName = context.payload.ref.replace('refs/heads/', '');
-            // Buscar número de issue en el nombre de la rama (ej: issue-5, feature/5-nombre, etc)
-            const match = branchName.match(/(?:issue[-_]?|feature[-_]?|hotfix[-_]?|bugfix[-_]?|)(\d+)/i);
+            // Buscar número de issue en el nombre de la rama (ej: 5-nombre, issue-5, feature-5, etc)
+            // Prioridad: número al inicio, o después de prefijo issue|feature|hotfix|bugfix
+            const match = branchName.match(/^(\d+)/) || branchName.match(/(?:issue|feature|hotfix|bugfix)[-_](\d+)/i);
             if (!match) return;
-            const issueNumber = parseInt(match[1], 10);
+            const issueNumber = parseInt(match[match.length - 1], 10);
+            // Validar que sea un número de issue válido (> 0)
+            if (issueNumber <= 0) return;
             // Buscar el item en el proyecto
             const { repository } = await github.graphql(`
               query($owner: String!, $repo: String!, $issue: Int!) {
